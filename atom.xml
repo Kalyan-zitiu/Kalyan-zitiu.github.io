@@ -3,11 +3,11 @@
   <title>Kalyan的小书房</title>
   <icon>https://www.gravatar.com/avatar/26add54e467101c6779c59a0ed4ee504</icon>
   <subtitle>Kalyan is working hard</subtitle>
-  <link href="https://kalyan-zitiu.github.io/atom.xml" rel="self"/>
+  <link href="https://kalyan-zitiu.github.io/project/atom.xml" rel="self"/>
   
-  <link href="https://kalyan-zitiu.github.io/"/>
+  <link href="https://kalyan-zitiu.github.io/project/"/>
   <updated>1985-10-26T08:15:00.000Z</updated>
-  <id>https://kalyan-zitiu.github.io/</id>
+  <id>https://kalyan-zitiu.github.io/project/</id>
   
   <author>
     <name>Kalyan</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://kalyan-zitiu.github.io/2022/10/06/hello-world/"/>
-    <id>https://kalyan-zitiu.github.io/2022/10/06/hello-world/</id>
+    <link href="https://kalyan-zitiu.github.io/project/2022/10/06/hello-world/"/>
+    <id>https://kalyan-zitiu.github.io/project/2022/10/06/hello-world/</id>
     <published>2022-10-06T12:50:43.205Z</published>
     <updated>1985-10-26T08:15:00.000Z</updated>
     
