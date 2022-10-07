@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/project/categories/index.html</loc>
+    <loc>https://kalyan-zitiu.github.io/categories/index.html</loc>
     
     <lastmod>2022-10-07</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/project/tags/index.html</loc>
+    <loc>https://kalyan-zitiu.github.io/tags/index.html</loc>
     
     <lastmod>2022-10-07</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/project/2022/10/06/hello-world/</loc>
+    <loc>https://kalyan-zitiu.github.io/2022/10/06/hello-world/</loc>
     
     <lastmod>1985-10-26</lastmod>
     
@@ -30,7 +30,7 @@
   
 
   <url>
-    <loc>https://kalyan-zitiu.github.io/project</loc>
+    <loc>https://kalyan-zitiu.github.io/</loc>
     <lastmod>2022-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
