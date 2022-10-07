@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/project/manifest.json</loc>
+    
+    <lastmod>2022-10-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/project/2022/10/06/hello-world/</loc>
     
     <lastmod>1985-10-26</lastmod>
