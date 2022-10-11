@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/2022/10/10/Grammarly/</loc>
-    
-    <lastmod>2022-10-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://kalyan-zitiu.github.io/2022/10/09/Englishwork%20(2)/</loc>
     
     <lastmod>2022-10-09</lastmod>
@@ -67,7 +58,7 @@
 
   <url>
     <loc>https://kalyan-zitiu.github.io/</loc>
-    <lastmod>2022-10-10</lastmod>
+    <lastmod>2022-10-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -75,28 +66,21 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/English/</loc>
-    <lastmod>2022-10-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kalyan-zitiu.github.io/tags/tools/</loc>
-    <lastmod>2022-10-10</lastmod>
+    <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2022-10-10</lastmod>
+    <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/Linux/</loc>
-    <lastmod>2022-10-10</lastmod>
+    <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -105,28 +89,21 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%B0%88/</loc>
-    <lastmod>2022-10-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kalyan-zitiu.github.io/categories/%E5%88%86%E4%BA%AB/</loc>
-    <lastmod>2022-10-10</lastmod>
+    <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2022-10-10</lastmod>
+    <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/knowledge/</loc>
-    <lastmod>2022-10-10</lastmod>
+    <lastmod>2022-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
