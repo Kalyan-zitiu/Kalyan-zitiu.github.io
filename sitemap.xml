@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/2022/10/26/Englishwork(3)/</loc>
+    
+    <lastmod>2022-10-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/2022/10/24/Morris%20%E9%81%8D%E5%8E%86/</loc>
     
     <lastmod>2022-10-25</lastmod>
@@ -115,14 +124,14 @@
   </url>
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/tags/Linux/</loc>
+    <loc>https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2022-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95%E7%9F%A5%E8%AF%86/</loc>
+    <loc>https://kalyan-zitiu.github.io/tags/Linux/</loc>
     <lastmod>2022-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -152,14 +161,14 @@
   </url>
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/categories/knowledge/</loc>
+    <loc>https://kalyan-zitiu.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2022-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
+    <loc>https://kalyan-zitiu.github.io/categories/knowledge/</loc>
     <lastmod>2022-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
