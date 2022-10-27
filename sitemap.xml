@@ -117,13 +117,6 @@
   </url>
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/tags/tools/</loc>
-    <lastmod>2022-10-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95%E7%9F%A5%E8%AF%86/</loc>
     <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -132,6 +125,13 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/Linux/</loc>
+    <lastmod>2022-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/tags/tools/</loc>
     <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -154,13 +154,6 @@
   </url>
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/categories/%E5%88%86%E4%BA%AB/</loc>
-    <lastmod>2022-10-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -169,6 +162,13 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/knowledge/</loc>
+    <lastmod>2022-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/%E5%88%86%E4%BA%AB/</loc>
     <lastmod>2022-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
