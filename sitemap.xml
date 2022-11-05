@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/2022/11/05/KALI%E4%B9%8Barp%E6%AC%BA%E9%AA%97/</loc>
+    
+    <lastmod>2022-11-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/2022/11/05/%E9%93%BE%E8%B7%AF%E5%B1%82/</loc>
     
     <lastmod>2022-11-05</lastmod>
@@ -153,6 +162,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://kalyan-zitiu.github.io/tags/Kali-linux/</loc>
+    <lastmod>2022-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -185,6 +201,13 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2022-11-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/KALI/</loc>
     <lastmod>2022-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

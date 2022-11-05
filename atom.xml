@@ -6,7 +6,7 @@
   <link href="https://kalyan-zitiu.github.io/atom.xml" rel="self"/>
   
   <link href="https://kalyan-zitiu.github.io/"/>
-  <updated>2022-11-05T11:32:54.635Z</updated>
+  <updated>2022-11-05T12:03:56.156Z</updated>
   <id>https://kalyan-zitiu.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>KALI之arp欺骗</title>
+    <link href="https://kalyan-zitiu.github.io/2022/11/05/KALI%E4%B9%8Barp%E6%AC%BA%E9%AA%97/"/>
+    <id>https://kalyan-zitiu.github.io/2022/11/05/KALI%E4%B9%8Barp%E6%AC%BA%E9%AA%97/</id>
+    <published>2022-11-05T12:01:04.000Z</published>
+    <updated>2022-11-05T12:03:56.156Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="KALI-arp欺骗"><a href="#KALI-arp欺骗" class="headerlink" title="KALI -arp欺骗"></a>KALI -arp欺骗</h1><h2 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h2><ul><li>kali linux</li><li>nmap</li><li>arpspoof</li><li>ettercap</li><li>driftnet</li></ul><h2 id="欺骗原理"><a href="#欺骗原理" class="headerlink" title="欺骗原理"></a>欺骗原理</h2><ol><li><p>ARP的全称是Address Resolution Protocol，翻译而成就是地址解析，需要注意的是这是针对以太网地址解析协议的一种攻击技术，通过欺骗局域网内访问者的PC的网关MAC地址，使访问者PC错以为攻击者的MAC地址才是网关的地址，导致被攻击者的网络不同。甚至可以修改被攻击者的数据报。</p></li><li><p>总的来说改攻击手法并不是让局域网的网络瘫痪而是直接切断所有主机的所有请求和所有该收取的响应。</p></li></ol><h2 id="个人步骤"><a href="#个人步骤" class="headerlink" title="个人步骤"></a>个人步骤</h2><ol><li>用netdiscover -p嗅探局域网内的存活的主机</li><li>一般第一步是很难达到你想要的目标，那么可以改用mrt工具，它可以直接检测目标地址的路由设备。</li><li>那么既然已经找到了路由，就可以通过路由fping自己的ip，这是用自己的ip地址来发出请求嗅探报文，如果有响应的话那么能知道局域网里面哪些ip是存活的，当然也会存在自己无法嗅探到的主机</li><li>既然确定了目标的ip就可以用arpspoof工具进行攻击</li></ol><h2 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h2><ol><li>目标主机：<br><img src="https://cdn.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211051959229.png" alt="image-20221105195940111"></li><li>他急了<br><img src="https://cdn.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211052000198.png" alt="image-20221105200011172"></li></ol>]]></content>
+    
+    
+    <summary type="html">Leisure articles about work and life</summary>
+    
+    
+    
+    <category term="KALI" scheme="https://kalyan-zitiu.github.io/categories/KALI/"/>
+    
+    
+    <category term="Kali linux" scheme="https://kalyan-zitiu.github.io/tags/Kali-linux/"/>
+    
+  </entry>
   
   <entry>
     <title>计算机网络学习笔记-链路层</title>
