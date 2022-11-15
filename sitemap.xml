@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/2022/11/15/Http/</loc>
+    
+    <lastmod>2022-11-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/2022/11/15/%E5%9B%BE%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</loc>
     
     <lastmod>2022-11-15</lastmod>
@@ -205,6 +214,13 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2022-11-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/tags/%E5%8D%8F%E8%AE%AE/</loc>
     <lastmod>2022-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
