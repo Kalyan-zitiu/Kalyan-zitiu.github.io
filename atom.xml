@@ -381,4 +381,29 @@
     
   </entry>
   
+  <entry>
+    <title>进程耗时计算</title>
+    <link href="https://kalyan-zitiu.github.io/2022/01/01/%E8%A1%8C%E7%A8%8B%E8%80%97%E6%97%B6%E8%AE%A1%E6%97%B6/"/>
+    <id>https://kalyan-zitiu.github.io/2022/01/01/%E8%A1%8C%E7%A8%8B%E8%80%97%E6%97%B6%E8%AE%A1%E6%97%B6/</id>
+    <published>2022-01-01T08:45:04.000Z</published>
+    <updated>2023-01-01T09:00:20.550Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="进程耗时计算"><a href="#进程耗时计算" class="headerlink" title="进程耗时计算"></a>进程耗时计算</h1><p>这是一个能够计算运行进程的包。</p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TimeTool</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">SimpleDateFormat</span> <span class="variable">fmt</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>(<span class="string">&quot;HH:mm:ss.SSS&quot;</span>);</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Task</span>&#123;</span><br><span class="line">        <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">()</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">check</span><span class="params">(String title,Task task)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (title==<span class="literal">null</span>)<span class="keyword">return</span>;</span><br><span class="line">        title = (title==<span class="literal">null</span>)?<span class="string">&quot;&quot;</span>:(<span class="string">&quot;【&quot;</span>+title+<span class="string">&quot;】&quot;</span>);</span><br><span class="line">        System.out.println(title);</span><br><span class="line">        System.out.println(<span class="string">&quot;开始:&quot;</span>+fmt.format(<span class="keyword">new</span> <span class="title class_">Date</span>()));</span><br><span class="line">        <span class="type">long</span> <span class="variable">begin</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        task.execute();</span><br><span class="line">        <span class="type">long</span> <span class="variable">end</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">&quot;结束:&quot;</span>+fmt.format(<span class="keyword">new</span> <span class="title class_">Date</span>()));</span><br><span class="line">        <span class="type">double</span> <span class="variable">delta</span> <span class="operator">=</span> (end - begin)/<span class="number">1000.0</span>;</span><br><span class="line">        System.out.println(<span class="string">&quot;耗时:&quot;</span>+delta+<span class="string">&quot;秒&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;------------------------------------------&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ol><li>在自建的软件包内建立一个TimeTool文件。</li><li>同包导入<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> 软件包名字.TimeTool.Task;</span><br></pre></td></tr></table></figure></li><li>调用方法<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">TimeTool.check(<span class="string">&quot;此处填写此次进程测试的名字（随便起个名字，方便对比区分）&quot;</span>,<span class="keyword">new</span> <span class="title class_">Task</span>()&#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="comment">//放入你需要测试的进程</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;)；</span><br></pre></td></tr></table></figure></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;进程耗时计算&quot;&gt;&lt;a href=&quot;#进程耗时计算&quot; class=&quot;headerlink&quot; title=&quot;进程耗时计算&quot;&gt;&lt;/a&gt;进程耗时计算&lt;/h1&gt;&lt;p&gt;这是一个能够计算运行进程的包。&lt;/p&gt;
+&lt;h2 id=&quot;代码&quot;&gt;&lt;a href=&quot;#代码&quot; class=&quot;h</summary>
+      
+    
+    
+    
+    <category term="工具" scheme="https://kalyan-zitiu.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="工具" scheme="https://kalyan-zitiu.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
 </feed>
