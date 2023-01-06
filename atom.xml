@@ -6,7 +6,7 @@
   <link href="https://kalyan-zitiu.github.io/atom.xml" rel="self"/>
   
   <link href="https://kalyan-zitiu.github.io/"/>
-  <updated>2023-01-05T11:31:21.200Z</updated>
+  <updated>2023-01-06T07:33:07.147Z</updated>
   <id>https://kalyan-zitiu.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Goal解析以及进阶练习</title>
+    <link href="https://kalyan-zitiu.github.io/2023/01/06/IC-%E7%BB%83%E4%B9%A0%E9%A2%98%E8%A7%A33/"/>
+    <id>https://kalyan-zitiu.github.io/2023/01/06/IC-%E7%BB%83%E4%B9%A0%E9%A2%98%E8%A7%A33/</id>
+    <published>2023-01-06T07:00:04.000Z</published>
+    <updated>2023-01-06T07:33:07.147Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="goal解析"><a href="#goal解析" class="headerlink" title="goal解析"></a>goal解析</h1><p>请你设计一个可以解释字符串 command 的 Goal 解析器 。</p><ul><li>command 由 “G”、”()” 和/或 “(al)” 按某种顺序组成。</li><li>Goal 解析器会将 “G” 解释为字符串 “G”、”()” 解释为字符串 “o” ，”(al)” 解释为字符串 “al” 。然后，按原顺序将经解释得到的字符串连接成一个字符串。</li><li>给你字符串 command ，返回 Goal 解析器 对 command 的解释结果。</li></ul><h2 id="P-题解"><a href="#P-题解" class="headerlink" title="P-题解"></a>P-题解</h2><p>又是偷懒的一天，直接用库函数了</p><ol><li>需要注意的是下面的括号是要转义的，不然会识别成null。</li><li>此方法的时间复杂度会较大，个人猜测是函数内部的循环或条件语句分析相对O-题解比较复杂。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">interpret</span><span class="params">(String command)</span> &#123;</span><br><span class="line">    command = command.replace(<span class="string">&#x27;G&#x27;</span>,<span class="string">&#x27;G&#x27;</span>);</span><br><span class="line">    command = command.replaceAll(<span class="string">&quot;\\(\\)&quot;</span>,<span class="string">&quot;o&quot;</span>);</span><br><span class="line">    command = command.replaceAll(<span class="string">&quot;\\(al\\)&quot;</span>,<span class="string">&quot;al&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> command;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol><h2 id="O-题解"><a href="#O-题解" class="headerlink" title="O-题解"></a>O-题解</h2><h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><ol><li>本题只会出现”G”,”()”以及”(al)”所以不符合”（）”与”G”的条件一律可以按照”（al）”处理。<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">interpret</span><span class="params">(String command)</span> &#123;</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">res</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; command.length(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (command.charAt(i) == <span class="string">&#x27;G&#x27;</span>) &#123;</span><br><span class="line">                res.append(<span class="string">&quot;G&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.charAt(i) == <span class="string">&#x27;(&#x27;</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (command.charAt(i + <span class="number">1</span>) == <span class="string">&#x27;)&#x27;</span>) &#123;</span><br><span class="line">                    res.append(<span class="string">&quot;o&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    res.append(<span class="string">&quot;al&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">来源：力扣（LeetCode）</span><br></pre></td></tr></table></figure></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;goal解析&quot;&gt;&lt;a href=&quot;#goal解析&quot; class=&quot;headerlink&quot; title=&quot;goal解析&quot;&gt;&lt;/a&gt;goal解析&lt;/h1&gt;&lt;p&gt;请你设计一个可以解释字符串 command 的 Goal 解析器 。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;comman</summary>
+      
+    
+    
+    
+    <category term="leetccode" scheme="https://kalyan-zitiu.github.io/categories/leetccode/"/>
+    
+    
+    <category term="练习" scheme="https://kalyan-zitiu.github.io/tags/%E7%BB%83%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>TinyURL 的加密与解密</title>
