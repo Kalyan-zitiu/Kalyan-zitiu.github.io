@@ -20,6 +20,15 @@
   </url>
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/2023/03/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    
+    <lastmod>2023-03-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/2022/10/08/%E5%BA%94%E7%94%A8%E5%B1%82/</loc>
     
     <lastmod>2023-03-16</lastmod>
@@ -382,6 +391,13 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%BB%83%E4%B9%A0/%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E4%B8%AD/</loc>
+    <lastmod>2023-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2023-03-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
