@@ -1,3 +1,4 @@
+https://kalyan-zitiu.github.io/2023/04/18/JDBC/
 https://kalyan-zitiu.github.io/2023/04/15/%E5%88%9D%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%91%98/
 https://kalyan-zitiu.github.io/2023/04/02/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/
 https://kalyan-zitiu.github.io/2022/12/05/%E4%BC%A0%E8%BE%93%E5%B1%82/
@@ -51,3 +52,4 @@ https://kalyan-zitiu.github.io/categories/%E5%B7%A5%E5%85%B7/
 https://kalyan-zitiu.github.io/categories/%E7%BB%83%E4%B9%A0/%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E4%B8%AD/
 https://kalyan-zitiu.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/
 https://kalyan-zitiu.github.io/categories/%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/
+https://kalyan-zitiu.github.io/categories/java/
