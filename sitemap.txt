@@ -1,8 +1,9 @@
+https://kalyan-zitiu.github.io/2023/05/06/mybatis/
+https://kalyan-zitiu.github.io/2023/04/15/%E5%88%9D%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%91%98/
 https://kalyan-zitiu.github.io/2023/04/25/2023425%E8%BA%AB%E9%AB%98%E6%8E%92%E5%BA%8F/
 https://kalyan-zitiu.github.io/2023/04/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B/
 https://kalyan-zitiu.github.io/2023/04/20/Kalyan%E7%9A%84%E5%81%A5%E8%BA%AB%E7%AC%94%E8%AE%B0/
 https://kalyan-zitiu.github.io/2023/04/18/JDBC/
-https://kalyan-zitiu.github.io/2023/04/15/%E5%88%9D%E7%BA%A7%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86%E5%91%98/
 https://kalyan-zitiu.github.io/2023/04/02/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/
 https://kalyan-zitiu.github.io/2022/12/05/%E4%BC%A0%E8%BE%93%E5%B1%82/
 https://kalyan-zitiu.github.io/2022/10/08/%E5%AE%9E%E7%94%A8%E6%8C%87%E4%BB%A4/
@@ -43,6 +44,7 @@ https://kalyan-zitiu.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/
 https://kalyan-zitiu.github.io/tags/%E5%B7%A5%E5%85%B7/
 https://kalyan-zitiu.github.io/tags/%E8%AE%AD%E7%BB%83/
 https://kalyan-zitiu.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/
+https://kalyan-zitiu.github.io/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/
 https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%B0%88/
 https://kalyan-zitiu.github.io/categories/%E5%88%86%E4%BA%AB/
 https://kalyan-zitiu.github.io/categories/leetccode/
@@ -58,3 +60,4 @@ https://kalyan-zitiu.github.io/categories/%E7%BB%83%E4%B9%A0/%E6%8C%81%E7%BB%AD%
 https://kalyan-zitiu.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/
 https://kalyan-zitiu.github.io/categories/%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/
 https://kalyan-zitiu.github.io/categories/java/
+https://kalyan-zitiu.github.io/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/
