@@ -6,7 +6,7 @@
   <link href="https://kalyan-zitiu.github.io/atom.xml" rel="self"/>
   
   <link href="https://kalyan-zitiu.github.io/"/>
-  <updated>2023-07-02T15:50:03.467Z</updated>
+  <updated>2023-07-02T16:05:03.029Z</updated>
   <id>https://kalyan-zitiu.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Basic Cryptography</title>
+    <link href="https://kalyan-zitiu.github.io/2023/06/29/Sercet/"/>
+    <id>https://kalyan-zitiu.github.io/2023/06/29/Sercet/</id>
+    <published>2023-06-29T08:50:04.000Z</published>
+    <updated>2023-07-02T16:05:03.029Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="基础密码学"><a href="#基础密码学" class="headerlink" title="基础密码学"></a>基础密码学</h1><p>密码学是研究信息的保密性、完整性和认证性的学科。它在现代通信和计算机系统中起着关键作用，保护着敏感数据的安全。</p><h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><p>对称加密是一种加密方法，其中使用相同的密钥进行加密和解密。以下是一些常见的对称加密算法和特点：</p><table><thead><tr><th>算法</th><th>特点</th></tr></thead><tbody><tr><td>DES</td><td>数据加密标准，使用56位密钥</td></tr><tr><td>AES</td><td>高级加密标准，使用128、192或256位密钥</td></tr><tr><td>3DES</td><td>三重数据加密标准，对数据进行三次加密</td></tr><tr><td>RC4</td><td>流密码算法，适用于嵌入式设备</td></tr></tbody></table><h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><p>非对称加密使用不同的密钥进行加密和解密。它包括公钥和私钥，其中公钥用于加密，私钥用于解密。以下是一些常见的非对称加密算法和特点：</p><table><thead><tr><th>算法</th><th>特点</th></tr></thead><tbody><tr><td>RSA</td><td>基于大素数分解的加密算法</td></tr><tr><td>Diffie-Hellman</td><td>密钥交换算法，用于安全地共享密钥</td></tr><tr><td>ECC</td><td>椭圆曲线密码学，使用较短的密钥提供相同的安全性</td></tr></tbody></table><h2 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h2><p>哈希函数将输入数据转换为固定长度的哈希值。它的主要特点是输入的任何小改变都会导致输出值的巨大改变。以下是一些常见的哈希函数和特点：</p><table><thead><tr><th>函数</th><th>特点</th></tr></thead><tbody><tr><td>MD5</td><td>128位哈希值，易于碰撞攻击</td></tr><tr><td>SHA-1</td><td>160位哈希值，被认为不够安全</td></tr><tr><td>SHA-256</td><td>256位哈希值，广泛用于数字签名和认证</td></tr></tbody></table><h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>数字签名用于验证消息的完整性和来源。它使用私钥对消息进行签名，然后使用公钥进行验证。以下是一些常见的数字签名算法和特点：</p><table><thead><tr><th>算法</th><th>特点</th></tr></thead><tbody><tr><td>RSA</td><td>基于大素数分解的加密算法</td></tr><tr><td>DSA</td><td>数字签名算法，用于确保消息的完整性和认证</td></tr><tr><td>ECDSA</td><td>椭圆曲线数字签名算法，提供相同安全性下较短的密钥长度</td></tr></tbody></table><h2 id="密钥交换"><a href="#密钥交换" class="headerlink" title="密钥交换"></a>密钥交换</h2><p>密钥交换是在通信双方之间安全地共享密钥的过程。以下是一些常见的密钥交换协议和特点：</p><table><thead><tr><th>协议</th><th>特点</th></tr></thead><tbody><tr><td>Diffie-Hellman</td><td>公钥密码学协议，双方通过交换信息生成共享密钥</td></tr><tr><td>RSA 密钥交换</td><td>基于RSA算法的密钥交换协议</td></tr><tr><td>ECDH</td><td>基于椭圆曲线密码学的密钥交换协议，提供较短的密钥长度</td></tr></tbody></table><h2 id="消息认证码"><a href="#消息认证码" class="headerlink" title="消息认证码"></a>消息认证码</h2><p>消息认证码（Message Authentication Code，MAC）用于验证消息的完整性和真实性，以防止消息被篡改。以下是一些常见的消息认证码算法和特点：</p><table><thead><tr><th>算法</th><th>特点</th></tr></thead><tbody><tr><td>HMAC</td><td>基于散列函数和密钥的消息认证码算法</td></tr><tr><td>CMAC</td><td>基于块密码的消息认证码算法</td></tr><tr><td>Poly1305</td><td>使用特殊的多项式计算的消息认证码算法</td></tr></tbody></table><h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><p>数字证书用于验证实体的身份和确保通信的安全。它包含了实体的公钥和其他身份信息，并由数字证书颁发机构（Certificate Authority，CA）签名。以下是一些与数字证书相关的概念和术语：</p><table><thead><tr><th>术语</th><th>解释</th></tr></thead><tbody><tr><td>公钥证书（Public Key Certificate）</td><td>包含公钥和实体身份信息的数字证书</td></tr><tr><td>数字签名（Digital Signature）</td><td>用于验证数字证书的完整性和真实性的签名</td></tr><tr><td>证书链（Certificate Chain）</td><td>由一系列数字证书组成的链，用于验证数字证书的信任链条</td></tr></tbody></table><h2 id="密码协议"><a href="#密码协议" class="headerlink" title="密码协议"></a>密码协议</h2><p>密码协议用于在不安全的通信环境中实现安全通信。它们定义了通信双方之间的消息格式、加密算法、密钥交换协议等。以下是一些常见的密码协议：</p><table><thead><tr><th>协议</th><th>特点</th></tr></thead><tbody><tr><td>SSL/TLS</td><td>安全套接层/传输层安全协议，用于保护Web通信</td></tr><tr><td>IPSec</td><td>用于保护IP网络通信的协议</td></tr><tr><td>SSH</td><td>安全外壳协议，用于远程登录和安全文件传输</td></tr></tbody></table><h2 id="抗量子密码学"><a href="#抗量子密码学" class="headerlink" title="抗量子密码学"></a>抗量子密码学</h2><p>随着量子计算机的发展，传统密码学算法的安全性受到了挑战。抗量子密码学致力于设计抵抗量子计算攻击的密码算法。以下是一些抗量子密码学的概念和算法：</p><table><thead><tr><th>概念/算法</th><th>解释</th></tr></thead><tbody><tr><td>Post-Quantum Cryptography（PQC）</td><td>用于抵抗量子计算攻击的密码学算法</td></tr><tr><td>Lattice-Based Cryptography</td><td>基于格的密码学，利用数学问题的困难性提供安全性</td></tr><tr><td>Code-Based Cryptography</td><td>基于编码的密码学，利用编码理论提供安全性</td></tr></tbody></table><h2 id="密码学应用"><a href="#密码学应用" class="headerlink" title="密码学应用"></a>密码学应用</h2><p>密码学在各个领域有广泛的应用。以下是一些常见的密码学应用和场景：</p><table><thead><tr><th>应用</th><th>描述</th></tr></thead><tbody><tr><td>数据加密</td><td>用于保护敏感数据的机密性，例如在存储和传输过程中进行加密</td></tr><tr><td>身份认证</td><td>用于验证用户的身份，例如使用密码、数字证书或生物特征识别</td></tr><tr><td>虚拟私人网络</td><td>通过加密和隧道技术实现安全的远程访问和通信</td></tr><tr><td>数字版权保护</td><td>用于保护数字内容的版权和防止非法复制和分发</td></tr><tr><td>安全电子支付</td><td>用于保护在线交易的机密性和完整性，例如使用加密货币和数字签名</td></tr></tbody></table><h2 id="密码破解与密码强度"><a href="#密码破解与密码强度" class="headerlink" title="密码破解与密码强度"></a>密码破解与密码强度</h2><p>密码破解是试图通过暴力猜测或使用各种技术手段来获取密码的过程。密码强度是衡量密码抵御密码破解攻击的程度。以下是一些与密码破解和密码强度相关的概念：</p><table><thead><tr><th>概念</th><th>解释</th></tr></thead><tbody><tr><td>字典攻击</td><td>使用预先生成的密码列表进行猜测的攻击方式</td></tr><tr><td>彩虹表攻击</td><td>使用预先计算的哈希值与密码对应表进行猜测的攻击方式</td></tr><tr><td>密码策略</td><td>设定密码要求和规则的策略，如密码长度、复杂性和更改频率等</td></tr><tr><td>双因素认证</td><td>使用两个或多个不同的身份验证因素来增强安全性，如密码+OTP令牌</td></tr></tbody></table><h2 id="密码学应用-1"><a href="#密码学应用-1" class="headerlink" title="密码学应用"></a>密码学应用</h2><p>密码学在各个领域有广泛的应用。以下是一些常见的密码学应用和场景：</p><table><thead><tr><th>应用</th><th>描述</th></tr></thead><tbody><tr><td>数据加密</td><td>用于保护敏感数据的机密性，例如在存储和传输过程中进行加密</td></tr><tr><td>身份认证</td><td>用于验证用户的身份，例如使用密码、数字证书或生物特征识别</td></tr><tr><td>虚拟私人网络</td><td>通过加密和隧道技术实现安全的远程访问和通信</td></tr><tr><td>数字版权保护</td><td>用于保护数字内容的版权和防止非法复制和分发</td></tr><tr><td>安全电子支付</td><td>用于保护在线交易的机密性和完整性，例如使用加密货币和数字签名</td></tr></tbody></table><h2 id="密码破解与密码强度-1"><a href="#密码破解与密码强度-1" class="headerlink" title="密码破解与密码强度"></a>密码破解与密码强度</h2><p>密码破解是试图通过暴力猜测或使用各种技术手段来获取密码的过程。密码强度是衡量密码抵御密码破解攻击的程度。以下是一些与密码破解和密码强度相关的概念：</p><table><thead><tr><th>概念</th><th>解释</th></tr></thead><tbody><tr><td>字典攻击</td><td>使用预先生成的密码列表进行猜测的攻击方式</td></tr><tr><td>彩虹表攻击</td><td>使用预先计算的哈希值与密码对应表进行猜测的攻击方式</td></tr><tr><td>密码策略</td><td>设定密码要求和规则的策略，如密码长度、复杂性和更改频率等</td></tr><tr><td>双因素认证</td><td>使用两个或多个不同的身份验证因素来增强安全性，如密码+OTP令牌</td></tr></tbody></table><h2 id="密码管理"><a href="#密码管理" class="headerlink" title="密码管理"></a>密码管理</h2><p>密码管理是指有效管理和保护个人或组织的密码。以下是一些常见的密码管理实践和工具：</p><table><thead><tr><th>实践/工具</th><th>描述</th></tr></thead><tbody><tr><td>密码管理器</td><td>用于安全存储和生成密码的应用程序，如LastPass和1Password等</td></tr><tr><td>多因素身份验证</td><td>在登录过程中要求提供多个验证因素，增加账户安全性</td></tr><tr><td>定期更改密码</td><td>定期更改密码以减少密码泄露和破解的风险</td></tr><tr><td>强密码生成</td><td>使用随机字符、数字和符号生成强密码，避免使用弱密码</td></tr><tr><td>社会工程学防范</td><td>提高对社会工程学攻击的意识，避免将密码泄露给不信任的来源</td></tr></tbody></table>]]></content>
+    
+    
+    <summary type="html">code</summary>
+    
+    
+    
+    <category term="密码学" scheme="https://kalyan-zitiu.github.io/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
+    
+    
+    <category term="密码学" scheme="https://kalyan-zitiu.github.io/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>设计模型-行为型模式</title>
@@ -469,27 +490,6 @@
     
     
     <category term="数据库" scheme="https://kalyan-zitiu.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>KALI之arp欺骗</title>
-    <link href="https://kalyan-zitiu.github.io/2022/11/05/KALI%E4%B9%8Barp%E6%AC%BA%E9%AA%97/"/>
-    <id>https://kalyan-zitiu.github.io/2022/11/05/KALI%E4%B9%8Barp%E6%AC%BA%E9%AA%97/</id>
-    <published>2022-11-05T12:01:04.000Z</published>
-    <updated>2022-11-10T02:50:34.717Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="KALI-arp欺骗"><a href="#KALI-arp欺骗" class="headerlink" title="KALI -arp欺骗"></a>KALI -arp欺骗</h1><h2 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h2><ul><li>kali linux</li><li>nmap</li><li>arpspoof</li><li>ettercap</li><li>driftnet</li></ul><h2 id="欺骗原理"><a href="#欺骗原理" class="headerlink" title="欺骗原理"></a>欺骗原理</h2><ol><li><p>ARP的全称是Address Resolution Protocol，翻译而成就是地址解析，需要注意的是这是针对以太网地址解析协议的一种攻击技术，通过欺骗局域网内访问者的PC的网关MAC地址，使访问者PC错以为攻击者的MAC地址才是网关的地址，导致被攻击者的网络不同。甚至可以修改被攻击者的数据报。</p></li><li><p>总的来说改攻击手法并不是让局域网的网络瘫痪而是直接切断所有主机的所有请求和所有该收取的响应。</p></li></ol><h2 id="个人步骤"><a href="#个人步骤" class="headerlink" title="个人步骤"></a>个人步骤</h2><ol><li>用netdiscover -p嗅探局域网内的存活的主机</li><li>一般第一步是很难达到你想要的目标，那么可以改用mrt工具，它可以直接检测目标地址的路由设备。</li><li>那么既然已经找到了路由，就可以通过路由fping自己的ip，这是用自己的ip地址来发出请求嗅探报文，如果有响应的话那么能知道局域网里面哪些ip是存活的，当然也会存在自己无法嗅探到的主机</li><li>既然确定了目标的ip就可以用arpspoof工具进行攻击</li></ol><h2 id="成果"><a href="#成果" class="headerlink" title="成果"></a>成果</h2><ol><li>目标主机：<br><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211101050888.png" alt="image-20221105195940111"></li><li>他急了<br><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211101050924.png" alt="image-20221105200011172"></li></ol>]]></content>
-    
-    
-    <summary type="html">Leisure articles about work and life</summary>
-    
-    
-    
-    <category term="KALI" scheme="https://kalyan-zitiu.github.io/categories/KALI/"/>
-    
-    
-    <category term="Kali linux" scheme="https://kalyan-zitiu.github.io/tags/Kali-linux/"/>
     
   </entry>
   
