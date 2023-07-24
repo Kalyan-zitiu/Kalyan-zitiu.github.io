@@ -1,0 +1,334 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>OceanBase | Kalyan的小书房</title><meta name="keywords" content="OceanBase"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="OceanBase传统集中式数据库面临的挑战架构  可扩展性方面：传统集中式数据库的扩展性有限，当数据量增加或者并发访问量增大时，集中式数据库可能无法提供足够的性能和吞吐量 单点故障：由于集中式数据库只有一个中心节点，一旦该节点发生故障，整个系统将无法正常工作。这种单点故障可能导致系统可用性和数据的丢失 数据库安全：传统型集中式数据库存储所有数据的中心节点成为攻击者的目标，一旦该节点被入侵或者遭受">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OceanBase">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2023/07/15/OceanBase/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="OceanBase传统集中式数据库面临的挑战架构  可扩展性方面：传统集中式数据库的扩展性有限，当数据量增加或者并发访问量增大时，集中式数据库可能无法提供足够的性能和吞吐量 单点故障：由于集中式数据库只有一个中心节点，一旦该节点发生故障，整个系统将无法正常工作。这种单点故障可能导致系统可用性和数据的丢失 数据库安全：传统型集中式数据库存储所有数据的中心节点成为攻击者的目标，一旦该节点被入侵或者遭受">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(44).jpg">
+<meta property="article:published_time" content="2023-07-15T14:00:00.000Z">
+<meta property="article:modified_time" content="2023-07-24T08:41:39.992Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="OceanBase">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(44).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2023/07/15/OceanBase/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OceanBase',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-07-24 16:41:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">17</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(44).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">OceanBase</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2023-07-15T14:00:00.000Z" title="發表於 2023-07-15 22:00:00">2023-07-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2023-07-24T08:41:39.992Z" title="更新於 2023-07-24 16:41:39">2023-07-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="OceanBase"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="OceanBase"><a href="#OceanBase" class="headerlink" title="OceanBase"></a>OceanBase</h1><h2 id="传统集中式数据库面临的挑战"><a href="#传统集中式数据库面临的挑战" class="headerlink" title="传统集中式数据库面临的挑战"></a>传统集中式数据库面临的挑战</h2><h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230718091134287.png" alt="image-20230718091134287"></p>
+<ul>
+<li>可扩展性方面：传统集中式数据库的扩展性有限，当数据量增加或者并发访问量增大时，集中式数据库可能无法提供足够的性能和吞吐量</li>
+<li>单点故障：由于集中式数据库只有一个中心节点，一旦该节点发生故障，整个系统将无法正常工作。这种单点故障可能导致系统可用性和数据的丢失</li>
+<li>数据库安全：传统型集中式数据库存储所有数据的中心节点成为攻击者的目标，一旦该节点被入侵或者遭受到其他安全威胁，整个数据库的数据会面临泄露和篡改的风险</li>
+<li>数据一致性：由于集中式数据库的数据存储都在一个节点上，当多个用户同时对数据库进行操作时，可能会出现数据一致性的问题。例如，当一个用户在修改某个数据时，另一个用户可能正在读取该数据，导致读取的数据不一致</li>
+<li>高延迟：远程用户在访问数据库时，可能会出现高延迟，这对于要低延迟响应的应用场景是不可接受的。</li>
+</ul>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230718094411164.png" alt="image-20230718094411164"></p>
+<h3 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h3><ul>
+<li>使用通用数据库，可以实现数据库线性的扩容</li>
+<li>数据库是单点数据库，数据库之间没有联系，不知道其他数据库的存在，依靠中间件完成需要跨库的事务</li>
+<li>数据库中间件连接各个数据库，实现分库分表</li>
+</ul>
+<h4 id="非短板"><a href="#非短板" class="headerlink" title="非短板"></a>非短板</h4><ul>
+<li>能过通过线性扩展来达到分库分表，可以快速实现数据库的水平扩展；</li>
+<li>技术成本较低，不需要改造核心数据库引擎，或者只需要做很少的改造；</li>
+</ul>
+<h4 id="短板"><a href="#短板" class="headerlink" title="短板"></a>短板</h4><ul>
+<li>跨库分布式事物，数据库核心引擎没有分布式能力，只能通过中间件来完成分布式处理，但中间件很难做到RPO = 0，因此在遇到异常和故障时无法100%保证分布式事务的ACID能力</li>
+<li>全局一致性，由于多个数据库服务器的时间戳不一致，因此很难保证多个库之间数据版本号的全局性一致</li>
+<li>负载均衡，在扩容和缩容时候，底层数据库引擎无法在线调整数据分布规则，因此需要暂停业务并重新导数据，对业务和运维挑战很大；</li>
+<li>跨库复杂SQL，跨库的复杂SQL运算，只能要求中间件能够完成，而中间件不具备分布式并行计算能力，最终会限制应用对SQL的使用，产生业务侵入性。</li>
+</ul>
+<h2 id="OceanBase-1"><a href="#OceanBase-1" class="headerlink" title="OceanBase"></a>OceanBase</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><h4 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h4><ul>
+<li><p>OceanBase是蚂蚁金服完全自主研发的通用的分布式关系型数据库。OceanBase以集群的形式存在，至少三个节点分布在三个区域（Zone），每个节点上运行一个单进程程序，进程名observer。每个observer进程都包含连个模块：SQL引擎和存储引擎，所以每个节点地位基本是平等的。稍微特殊的是每个Zone里会有一个节点的observer内还会运行总控服务，三个总控服务内容一样，角色上会有一个Leader和Follower，只有Leader提供服务。</p>
+</li>
+<li><p>OceanBase集群还支持多租户管理</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230719094326659.png" alt="image-20230719094326659"></p>
+</li>
+</ul>
+<h4 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h4><p>OceanBase的数据存在每个节点上，observer通过分区管理数据。分区是数据的子集，一个非分区就是一个分区，一个分区表包含多个分区，一个分区不能跨节点，分区表的不同分区可以跨节点。所以分区表可以做水平跨节点扩展。分区是数据的子集，是高可用的最小粒度。分析OceanBase是否丢数据，只要分析分区的数据写是否会丢。</p>
+<h4 id="读写模式"><a href="#读写模式" class="headerlink" title="读写模式"></a>读写模式</h4><ul>
+<li>OceanBase在初次读入一行数据时会将该行所在块读入到内存的Block Cache中，后面修改的时候并不是直接修改这个block，而是在另外一块内存中分配少量空间记录这笔修改，并且只记录变化部分，这称为增量数据（Memtable）。前面在Block Cache里的数据称为基线数据。同一记录如果反复修改多次，多个增量会议链表形式挂在该记录下</li>
+</ul>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230719095139281.png" alt="image-20230719095139281"></p>
+<p>OceanBase的这种方式能够比传统数据库产生的脏块要小得多，所以OceanBase会把这些Memtable一直保存在缓存中或者推迟写入磁盘。当最后落盘的时候，Memtable会冻结成历史版本，然后和对应的基线数据在内存中进行合并，生成SSTable格式写入磁盘数据文件。合并的操作对资源有较大的影响，所以会在尽可能推迟合并操作到低峰期。若专门用户Memtable的内存利用率达到了一定的阈值，它会将Memtable直接以SSTable格式临时写入磁盘中。这就是转储的操作，相对对资源消耗比较小。</p>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p>OceanBase的Memtable一天只落盘一次，但是记录Memtable的时候OceanBase会遵循WAL机制，生成相关的事务日志保存在日志缓冲区里。和Oracle不同的是OceanBase的这些事务日志在事务提交之前会一直在日志缓冲区里，若节点宕机，没提交的事务日志对业务来说也没有数据丢失，当提交后，OceanBase会做事务日志的持久化动作。所以可能对于一些大事务会占用不少的内存空间。而且OceanBase是没有Undo，假设业务事务回滚了，它只会有一些清理逻辑。</p>
+<h4 id="宕机恢复"><a href="#宕机恢复" class="headerlink" title="宕机恢复"></a>宕机恢复</h4><p>OceanBase的节点宕机后，节点上部分分区的访问会受影响，但OceanBase集群会很快恢复这些分区访问，这是OceanBase的可用性特性。和传统数据库一样，宕机后恢复，它会读取事务日志，重做事务，但在不同在于observer不需要再次读入基线数据，只需要在事务日志在增量内存中构建相关分区的Memtable。相关分区被业务读取时，对应的基线数据所在块才会被再次读入Block Cache中。</p>
+<h4 id="副本复制"><a href="#副本复制" class="headerlink" title="副本复制"></a>副本复制</h4><ul>
+<li>Oracle一样，光支持WAL是不足以保障数据安全，OceanBase还要设法保障事务日志的可靠性。除了使用DirectIO持久化到本节点磁盘外，也需要持久化到其他节点上。</li>
+<li>跟传统关系数据库主备两副本架构不一样，OceanBase选择了多副本架构，是如果副本数是偶数，会有传统双机房容灾的脑裂问题。脑裂问题的本质就是全体成员在局部通信中断故障时无法就哪个节点接管服务作出一致性决议。成员数是奇数，才有可能形成多数派。</li>
+</ul>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230719104329304.png" alt="image-20230719104329304"></p>
+<p>副本就是分区的别称，一个分区有三份数据，每份是一个副本。副本的内容除了数据还有事务日志。在这里我们只关心事务日志部分。三个副本在角色上是1个Leader（类似于主副本）2个Follower（类似于备副本）。只有Leader副本才会对外提供读写服务，这样就规避了单个分区多个节点同时写入的问题。但是注意每个分区只能单点写入跟OceanBase集群多个节点写入并不矛盾。因为Leader副本是可以分散到所有节点（OBServer）上。跟传统关系数据库一样，OceanBase维持三副本数据的同步是靠传输事务日志（Redo）机制实现的。</p>
+<p>所以，为了保障事务日志的可靠性，OceanBase要把Leader副本上的事务日志持久化到本机和其他两个Follower副本上。宏观上表现就是可能存在各个节点彼此互相传输事务日志。这个跟MySQL的Master-Master架构里双向复制并不完全一样。 我们重点看看OceanBase如何认定事务日志可靠了。</p>
+<p>使用Paxos协议，各个副本成员就事务日志持久化到磁盘进行表决。只要一半以上成员投票OK，Leader副本上的事务就可以继续提交了，Follower副本才开始应用Redo。这个协议是强制性约束，不够一半成员就会表决失败，Leader副本上事务就会回滚。这里没有类似Oracle或者MySQL的同步降级的做法。此外，剩余少数派成员最终也是要表决成功的，否则就是一个异常状态。</p>
+<p>OceanBase会尽力自动去保障三副本成员状态的正常，否则就会告警等运维处理。这点也是强制性的约束，也是跟传统关系数据库不一样的地方。</p>
+<h3 id="核心特性"><a href="#核心特性" class="headerlink" title="核心特性"></a>核心特性</h3><h4 id="分布性"><a href="#分布性" class="headerlink" title="分布性"></a>分布性</h4><ul>
+<li>集群形式部署，支持水平扩展</li>
+<li>在线扩容/缩容，自动负载均衡</li>
+<li>跨机房/城市部署，容灾/多活</li>
+</ul>
+<h4 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h4><ul>
+<li>基于Paxos协议，强一致性同步</li>
+<li>少数副本故障，数据不丢，服务自动回复</li>
+</ul>
+<h4 id="多租户"><a href="#多租户" class="headerlink" title="多租户"></a>多租户</h4><ul>
+<li>按需分配实例，即时创建和销毁</li>
+<li>在线扩容/缩容</li>
+<li>租户之间资源隔离</li>
+</ul>
+<h4 id="高兼容"><a href="#高兼容" class="headerlink" title="高兼容"></a>高兼容</h4><ul>
+<li>Oracle/MySQL两种兼容模式</li>
+<li>数据平滑迁移</li>
+<li>原生的SQL和事物引擎</li>
+</ul>
+<h2 id="集群技术架构"><a href="#集群技术架构" class="headerlink" title="集群技术架构"></a>集群技术架构</h2><h3 id="Paxos协议与负载均衡"><a href="#Paxos协议与负载均衡" class="headerlink" title="Paxos协议与负载均衡"></a>Paxos协议与负载均衡</h3><h4 id="分区-1"><a href="#分区-1" class="headerlink" title="分区"></a>分区</h4><ul>
+<li>当一个表很大，能够水平拆分为若干分区，每个分区包含表的若干记录。根据行数据到分区的映射关系不同，分为hash分区，List分区，range分区</li>
+<li>每个分区还能过通过不同维度再分，称为二级分区</li>
+<li>分区是OceanBase数据架构的基本单元，传统数据库的分区表在分布式系统上实现</li>
+</ul>
+<h4 id="副本"><a href="#副本" class="headerlink" title="副本"></a>副本</h4><ul>
+<li>为数据安全和高可用的数据服务，分区的数据在物理层面上会存储多份，每一份叫做分区的一个副本</li>
+<li>副本根据负载和特定的策略，由系统自动调度分散在多个Server上。副本支持迁移，复制，增删，类型转换等管理操作</li>
+</ul>
+<h5 id="副本构成"><a href="#副本构成" class="headerlink" title="副本构成"></a>副本构成</h5><p>副本构成由记录事务的日志，存储再内存的Memtable，磁盘上的静态数据SSTable</p>
+<h5 id="副本类型"><a href="#副本类型" class="headerlink" title="副本类型"></a>副本类型</h5><ul>
+<li>一个分区在一个zone中最多由一个全功能或日志型副本</li>
+<li>只读型副本在同一个zone可以有多个<h6 id="全能型副本"><a href="#全能型副本" class="headerlink" title="全能型副本"></a>全能型副本</h6>拥有事务日志，MemTable和SSTable等全部完整的数据和功能，它可以随时快速切换为leader对外提供服务。<h6 id="日志型副本"><a href="#日志型副本" class="headerlink" title="日志型副本"></a>日志型副本</h6>只包含日志的副本，没有Memtable和SSTable。它参与日志投票并对外提供日志服务，可以参与其他副本的恢复，但子集不能变为主提供数据库服务。因为日志型副本所消耗的物理资源更少，它可以有效降低最后副本机器的成本，降低集群的总体成本<h6 id="只读型副本"><a href="#只读型副本" class="headerlink" title="只读型副本"></a>只读型副本</h6>包含完整的日志，MemTable和SSTable等，但是它的日志比较特殊。它不作为paxos成员参与日志的投票，而是作为一个观察者实时追赶paxos成员的日志，并在本地回放。可以在业务读取数据的一致性要求不高的时候，提供只读服务。因其不加入paxos成员组，又不会造成投票成员增加导致事务提交延时的增加</li>
+</ul>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230721195400362.png" alt="image-20230721195400362"></p>
+<p>如上图，按照ID分为三个hash分区，每个分区再按照交易时间分为四个二级的range分区，然后会生成多份副本，副本数量会因集群数量而变化，一般来说会每个zone内只会包含一个副本</p>
+<h4 id="多副本一致性协议"><a href="#多副本一致性协议" class="headerlink" title="多副本一致性协议"></a>多副本一致性协议</h4><h5 id="以分区为单位组建Paxos协议组"><a href="#以分区为单位组建Paxos协议组" class="headerlink" title="以分区为单位组建Paxos协议组"></a>以分区为单位组建Paxos协议组</h5><p>每个分区都有多份副本（Replica），自动建立Paxos组，在分区级用多副本保证数据可靠性和服务高可用，数据管理更加灵活方便</p>
+<h5 id="自动选举主副本"><a href="#自动选举主副本" class="headerlink" title="自动选举主副本"></a>自动选举主副本</h5><p>OB自动生成多份副本，多副本自动选举主副本，主副本提供服务</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230721224526185.png" alt="image-20230721224526185"></p>
+<h4 id="自动负载均衡与智能路由"><a href="#自动负载均衡与智能路由" class="headerlink" title="自动负载均衡与智能路由"></a>自动负载均衡与智能路由</h4><h5 id="自动负载均衡"><a href="#自动负载均衡" class="headerlink" title="自动负载均衡"></a>自动负载均衡</h5><p>主副本均匀打散到各个服务器中，使得各个服务器都能承载业务流量</p>
+<h5 id="OB-Server相互独立"><a href="#OB-Server相互独立" class="headerlink" title="OB Server相互独立"></a>OB Server相互独立</h5><p>每台OB Server均可以独立执行SQL，如果应用需要访问的数据不同机器上，OB Server自动将请求路由至数据所在机器，对业务完全透明。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230721225131923.png" alt="image-20230721225131923"></p>
+<h4 id="多副本同步Redo-Log-确保数据持久化"><a href="#多副本同步Redo-Log-确保数据持久化" class="headerlink" title="多副本同步Redo Log 确保数据持久化"></a>多副本同步Redo Log 确保数据持久化</h4><ul>
+<li>Paxos组成员通过Redo-Log的多数派强同步确保数据的持久化</li>
+<li>Leader无需等待所有Follower的反馈，多数派完成同步即可向应用反馈成功</li>
+</ul>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230724153630019.png" alt="image-20230724153630019"></p>
+<ol>
+<li>应用写数据到P2分区。Zone2-OB Server1的P2为主副本（Leader），承接业务需求。</li>
+<li>将Redo-Log同步请求发送到Zone1-OB Server1和Zone3-OB Server1中的P2从副本（Follower）；</li>
+<li>任何一个Follower完成Redo-Log落盘并将响应返回给Leader后，Leader即认为Redo-Log完成强同步，无需再等待其他Follower的反馈；</li>
+<li>Leader反馈应用操作完成。</li>
+</ol>
+<h4 id="智能路由服务，应用透明访问"><a href="#智能路由服务，应用透明访问" class="headerlink" title="智能路由服务，应用透明访问"></a>智能路由服务，应用透明访问</h4><h5 id="高效路由转发"><a href="#高效路由转发" class="headerlink" title="高效路由转发"></a>高效路由转发</h5><ul>
+<li>对SQL做基本解析，确定对应Leader所在机器；</li>
+<li>反向代理，将请求路由至对应Leader；Leader位置无法确定时随机选择OB Server；</li>
+<li>轻量SQL解析 + 快速转发，保证高性能，单OB Proxy每秒转发百万次请求。</li>
+</ul>
+<h5 id="“非”计算节点，无状态"><a href="#“非”计算节点，无状态" class="headerlink" title="“非”计算节点，无状态"></a>“非”计算节点，无状态</h5><ul>
+<li>每个OB Proxy是一个“无状态”的服务进程，不做数据持久化，对部署位置无要求；</li>
+<li>OB Proxy不参与数据库引擎的计算任务，不参与事务处理；</li>
+<li>多个OB Proxy之间无联系，可通过F5/SLB组成负载均衡集群；</li>
+<li>不需要独立服务器，可以与OB Server共用一台服务器，如果应用对实时性要求高，也可以将OB Proxy部署到应用服务器中。</li>
+</ul>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230724160743540.png" alt="image-20230724160743540"></p>
+<p>OB Proxy的故障是不会影响事务的功能，事务，持久化，落盘基本是由OB Server来完成。</p>
+<h4 id="设置Primary-Zone，业务汇聚到特定Zone"><a href="#设置Primary-Zone，业务汇聚到特定Zone" class="headerlink" title="设置Primary Zone，业务汇聚到特定Zone"></a>设置Primary Zone，业务汇聚到特定Zone</h4><p>通过为不同的租户配置不同的Primary Zone，可以将业务流量集中到若干Zone中，减少跨Zone以及服务器的操作。Zone List，逗号两侧优先级相同，分号左侧优先级高于右侧</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230724161140837.png" alt="image-20230724161140837"></p>
+<h4 id="Primary-Zone有租户，数据库和表不同的级别。"><a href="#Primary-Zone有租户，数据库和表不同的级别。" class="headerlink" title="Primary Zone有租户，数据库和表不同的级别。"></a>Primary Zone有租户，数据库和表不同的级别。</h4><ul>
+<li>如无特殊指定，自动继承上级对象的Primary_zone:database继承租户的primary_zone设置，table继承database的primary_zone设置。</li>
+<li>database和table可以指定各自的primary_zone，不必和上一级对象的设置保持一致；提供更加灵活的负载均衡策略。</li>
+</ul>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230724162242300.png" alt="image-20230724162242300"></p>
+<h4 id="Table-Group-将多个表的相同分区ID的主副本聚集在一个OB-Server中，减少分布式事务引入的开销"><a href="#Table-Group-将多个表的相同分区ID的主副本聚集在一个OB-Server中，减少分布式事务引入的开销" class="headerlink" title="Table Group,将多个表的相同分区ID的主副本聚集在一个OB Server中，减少分布式事务引入的开销"></a>Table Group,将多个表的相同分区ID的主副本聚集在一个OB Server中，减少分布式事务引入的开销</h4><ul>
+<li>如果多个表的分区方式完全相同（分区类型，分区键个数，分区数量等），可以在逻辑上将这些表归属到同一个Table Group中，以影响动态负载均衡的策略</li>
+<li>同一个Table Group中的所有表，分区ID（partition_id） 相同的所有分区，他们的leader在同一个observer上：在不影响全局负载均衡的前提下，可有效减少分布式事务引入的跨机访问开销。</li>
+<li>如果负载均衡被打破（服务器故障后，扩容缩容等），Table Group中的所有表会作为一个整体来调整分区分布和Leader分布</li>
+<li>动态创建和删除，并且对上层应用完全透明。</li>
+<li>如果租户的unit_num=1 且 primary_zone只有一个zone，不需要tablegroup。</li>
+</ul>
+<p>RDS实例，mysql扩容主备切换，ELR提前解行锁.。。。。。持续更新学习中………</p>
+<h2 id="感谢OceanBase"><a href="#感谢OceanBase" class="headerlink" title="感谢OceanBase"></a>感谢OceanBase</h2><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20230724163848260.png" alt="image-20230724163848260"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2023/07/15/OceanBase/">https://kalyan-zitiu.github.io/2023/07/15/OceanBase/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/OceanBase/">OceanBase</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(44).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/06/29/Sercet/"><img class="next-cover" src="/img/WallPaper%20(42).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Basic Cryptography</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">31</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a><a class="social-icon" href="https://auto.kalyan-dao.space/" target="_blank" title="AutoGPT"><i class="fa-solid fa-shuttle-space"></i></a><a class="social-icon" href="https://fakegpt.kalyan-dao.space/" target="_blank" title="FakeGPT"><i class="fa-brands fa-kickstarter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OceanBase"><span class="toc-number">1.</span> <span class="toc-text">OceanBase</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E9%9B%86%E4%B8%AD%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E9%9D%A2%E4%B8%B4%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-number">1.1.</span> <span class="toc-text">传统集中式数据库面临的挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-number">1.1.2.</span> <span class="toc-text">中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E7%9F%AD%E6%9D%BF"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">非短板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9F%AD%E6%9D%BF"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">短板</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OceanBase-1"><span class="toc-number">1.2.</span> <span class="toc-text">OceanBase</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8C%BA"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">读写模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%95%E6%9C%BA%E6%81%A2%E5%A4%8D"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">宕机恢复</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E5%A4%8D%E5%88%B6"><span class="toc-number">1.2.1.6.</span> <span class="toc-text">副本复制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7"><span class="toc-number">1.2.2.</span> <span class="toc-text">核心特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E6%80%A7"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">分布性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">高可用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E7%A7%9F%E6%88%B7"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">多租户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E5%85%BC%E5%AE%B9"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">高兼容</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">集群技术架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Paxos%E5%8D%8F%E8%AE%AE%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">1.3.1.</span> <span class="toc-text">Paxos协议与负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8C%BA-1"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">副本</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E6%9E%84%E6%88%90"><span class="toc-number">1.3.1.2.1.</span> <span class="toc-text">副本构成</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.1.2.2.</span> <span class="toc-text">副本类型</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%A8%E8%83%BD%E5%9E%8B%E5%89%AF%E6%9C%AC"><span class="toc-number">1.3.1.2.2.1.</span> <span class="toc-text">全能型副本</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E5%9E%8B%E5%89%AF%E6%9C%AC"><span class="toc-number">1.3.1.2.2.2.</span> <span class="toc-text">日志型副本</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%AA%E8%AF%BB%E5%9E%8B%E5%89%AF%E6%9C%AC"><span class="toc-number">1.3.1.2.2.3.</span> <span class="toc-text">只读型副本</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E5%89%AF%E6%9C%AC%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">多副本一致性协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A5%E5%88%86%E5%8C%BA%E4%B8%BA%E5%8D%95%E4%BD%8D%E7%BB%84%E5%BB%BAPaxos%E5%8D%8F%E8%AE%AE%E7%BB%84"><span class="toc-number">1.3.1.3.1.</span> <span class="toc-text">以分区为单位组建Paxos协议组</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E9%80%89%E4%B8%BE%E4%B8%BB%E5%89%AF%E6%9C%AC"><span class="toc-number">1.3.1.3.2.</span> <span class="toc-text">自动选举主副本</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E6%99%BA%E8%83%BD%E8%B7%AF%E7%94%B1"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">自动负载均衡与智能路由</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">1.3.1.4.1.</span> <span class="toc-text">自动负载均衡</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#OB-Server%E7%9B%B8%E4%BA%92%E7%8B%AC%E7%AB%8B"><span class="toc-number">1.3.1.4.2.</span> <span class="toc-text">OB Server相互独立</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E5%89%AF%E6%9C%AC%E5%90%8C%E6%AD%A5Redo-Log-%E7%A1%AE%E4%BF%9D%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">多副本同步Redo Log 确保数据持久化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E8%B7%AF%E7%94%B1%E6%9C%8D%E5%8A%A1%EF%BC%8C%E5%BA%94%E7%94%A8%E9%80%8F%E6%98%8E%E8%AE%BF%E9%97%AE"><span class="toc-number">1.3.1.6.</span> <span class="toc-text">智能路由服务，应用透明访问</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AB%98%E6%95%88%E8%B7%AF%E7%94%B1%E8%BD%AC%E5%8F%91"><span class="toc-number">1.3.1.6.1.</span> <span class="toc-text">高效路由转发</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E2%80%9C%E9%9D%9E%E2%80%9D%E8%AE%A1%E7%AE%97%E8%8A%82%E7%82%B9%EF%BC%8C%E6%97%A0%E7%8A%B6%E6%80%81"><span class="toc-number">1.3.1.6.2.</span> <span class="toc-text">“非”计算节点，无状态</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEPrimary-Zone%EF%BC%8C%E4%B8%9A%E5%8A%A1%E6%B1%87%E8%81%9A%E5%88%B0%E7%89%B9%E5%AE%9AZone"><span class="toc-number">1.3.1.7.</span> <span class="toc-text">设置Primary Zone，业务汇聚到特定Zone</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Primary-Zone%E6%9C%89%E7%A7%9F%E6%88%B7%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%92%8C%E8%A1%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E7%BA%A7%E5%88%AB%E3%80%82"><span class="toc-number">1.3.1.8.</span> <span class="toc-text">Primary Zone有租户，数据库和表不同的级别。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Table-Group-%E5%B0%86%E5%A4%9A%E4%B8%AA%E8%A1%A8%E7%9A%84%E7%9B%B8%E5%90%8C%E5%88%86%E5%8C%BAID%E7%9A%84%E4%B8%BB%E5%89%AF%E6%9C%AC%E8%81%9A%E9%9B%86%E5%9C%A8%E4%B8%80%E4%B8%AAOB-Server%E4%B8%AD%EF%BC%8C%E5%87%8F%E5%B0%91%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E5%BC%95%E5%85%A5%E7%9A%84%E5%BC%80%E9%94%80"><span class="toc-number">1.3.1.9.</span> <span class="toc-text">Table Group,将多个表的相同分区ID的主副本聚集在一个OB Server中，减少分布式事务引入的开销</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%84%9F%E8%B0%A2OceanBase"><span class="toc-number">1.4.</span> <span class="toc-text">感谢OceanBase</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/15/OceanBase/" title="OceanBase"><img src="/img/WallPaper%20(44).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OceanBase"/></a><div class="content"><a class="title" href="/2023/07/15/OceanBase/" title="OceanBase">OceanBase</a><time datetime="2023-07-15T14:00:00.000Z" title="發表於 2023-07-15 22:00:00">2023-07-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/29/Sercet/" title="Basic Cryptography"><img src="/img/WallPaper%20(42).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Basic Cryptography"/></a><div class="content"><a class="title" href="/2023/06/29/Sercet/" title="Basic Cryptography">Basic Cryptography</a><time datetime="2023-06-29T08:50:04.000Z" title="發表於 2023-06-29 16:50:04">2023-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A1%8C%E4%B8%BA/" title="设计模型-行为型模式"><img src="/img/WallPaper%20(41).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="设计模型-行为型模式"/></a><div class="content"><a class="title" href="/2023/06/15/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A1%8C%E4%B8%BA/" title="设计模型-行为型模式">设计模型-行为型模式</a><time datetime="2023-06-15T14:00:00.000Z" title="發表於 2023-06-15 22:00:00">2023-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/06/mybatis/" title="MP"><img src="/img/WallPaper%20(40).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MP"/></a><div class="content"><a class="title" href="/2023/05/06/mybatis/" title="MP">MP</a><time datetime="2023-05-06T09:32:04.000Z" title="發表於 2023-05-06 17:32:04">2023-05-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/25/2023425%E8%BA%AB%E9%AB%98%E6%8E%92%E5%BA%8F/" title="2023425"><img src="/img/WallPaper%20(39).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2023425"/></a><div class="content"><a class="title" href="/2023/04/25/2023425%E8%BA%AB%E9%AB%98%E6%8E%92%E5%BA%8F/" title="2023425">2023425</a><time datetime="2023-04-25T08:50:04.000Z" title="發表於 2023-04-25 16:50:04">2023-04-25</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(44).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
