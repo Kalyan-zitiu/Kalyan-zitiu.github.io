@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/2023/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
+    
+    <lastmod>2023-10-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/2023/09/18/Python/</loc>
     
     <lastmod>2023-09-21</lastmod>
@@ -337,7 +346,7 @@
 
   <url>
     <loc>https://kalyan-zitiu.github.io/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -345,133 +354,140 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/English/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/tools/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E7%BB%83%E4%B9%A0/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E5%8D%8F%E8%AE%AE/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/Kali-linux/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/Linux/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95%E7%9F%A5%E8%AF%86/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E8%AE%AD%E7%BB%83/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/%E5%AF%86%E7%A0%81%E5%AD%A6/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/OceanBase/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/optimization/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/tags/Python/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/tags/OS/</loc>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -480,210 +496,224 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%B0%88/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E5%88%86%E4%BA%AB/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/leetccode/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/KALI/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%BB%83%E4%B9%A0/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/knowledge/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%BB%83%E4%B9%A0/%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E4%B8%AD/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/java/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/Cloud-Konwleage/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/Exercises/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Study-Note/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/java/Study-Note/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/Cloud-Konwleage/Study-Note/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%AE%97%E6%B3%95/Study-Note/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/Study-Note/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/Study-Note/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/Study-Note/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/Study-Note/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/Human/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/Human/daily-diet/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Study-Note/</loc>
-    <lastmod>2023-09-21</lastmod>
+    <lastmod>2023-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/Basic/</loc>
+    <lastmod>2023-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/Basic/Study-Note/</loc>
+    <lastmod>2023-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
