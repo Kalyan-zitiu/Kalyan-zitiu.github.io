@@ -1,0 +1,350 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Kubernetes | Kalyan的小书房</title><meta name="keywords" content="Basic"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="一个开源的容器编排系统，用于自动化应用程序容器的部署、扩展和管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2023/10/07/Kubernetes/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="一个开源的容器编排系统，用于自动化应用程序容器的部署、扩展和管理">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(46).jpg">
+<meta property="article:published_time" content="2023-10-07T13:00:00.000Z">
+<meta property="article:modified_time" content="2023-10-08T01:50:32.011Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="Basic">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(46).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2023/10/07/Kubernetes/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kubernetes',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-08 09:50:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">32</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(46).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Kubernetes</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2023-10-07T13:00:00.000Z" title="發表於 2023-10-07 21:00:00">2023-10-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2023-10-08T01:50:32.011Z" title="更新於 2023-10-08 09:50:32">2023-10-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Cloud-Konwleage/">Cloud Konwleage</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Cloud-Konwleage/Study-Note/">Study Note</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Kubernetes"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Kubernetes"><a href="#Kubernetes" class="headerlink" title="Kubernetes"></a>Kubernetes</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="什么是K8s"><a href="#什么是K8s" class="headerlink" title="什么是K8s"></a>什么是K8s</h3><iframe width="956" height="538" src="https://www.youtube.com/embed/ubz3cFgxeJA" title="Kubernetes" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+### 概述
++ k8s就是为了大规模管理容器应用的自动化工具而已
++ 如果你的业务不是以容器方式管理或者数量非常小是没有必要玩k8s
+
+<h2 id="架构以及核心组件"><a href="#架构以及核心组件" class="headerlink" title="架构以及核心组件"></a>架构以及核心组件</h2><ol>
+<li><p>Master节点：Master节点是集群的控制面，包含以下几个核心组件：</p>
+<ul>
+<li><p>kube-apiserver：它是Kubernetes API的前端，是所有操作和通信的入口点。</p>
+</li>
+<li><p>etcd：这是一个高可用性键值存储系统，用于保存所有集群数据。</p>
+</li>
+<li><p>kube-scheduler：根据资源可用性、策略、约束等因素，调度新创建的Pod到合适的工作节点上。</p>
+</li>
+<li><p>kube-controller-manager：运行了一系列的控制器，如节点控制器、副本控制器、端点控制器等。</p>
+</li>
+<li><p>cloud-controller-manager: 这是一个链接你的集群与云提供商API的桥梁，使得集群能够在云环境中运行。</p>
+</li>
+</ul>
+</li>
+<li><p>Worker节点：Worker节点运行着实际的应用，并由master节点进行管理。它们包括以下组件：</p>
+<ul>
+<li><p>kubelet：负责维护Pods并且与Kubernetes master节点进行交互。</p>
+</li>
+<li><p>kube-proxy：在每个节点上实现了网络规则，以处理集群内部的通信。</p>
+</li>
+<li><p>vContainer Runtime：用于运行容器，如Docker、containerd等。</p>
+</li>
+</ul>
+</li>
+<li><p>Pods：这是Kubernetes的最小部署单元，每个Pod内包含一个或多个紧密相关的容器。</p>
+</li>
+<li><p>Services：定义了访问和通信Pods的方式。Service可以将网络流量路由到正确的Pod。</p>
+</li>
+<li><p>Volumes：提供存储功能，使得数据能够在Pod之间持久化。</p>
+</li>
+<li><p>Namespaces：为集群中的资源和对象提供隔离。</p>
+</li>
+<li><p>Ingress：管理外部访问集群内服务的规则，可实现负载均衡、SSL终止和域名基础的虚拟主机。</p>
+</li>
+<li><p>ConfigMaps and Secrets：允许你将配置信息和敏感数据分离出来，以便安全地传递和使用。</p>
+</li>
+</ol>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p>  在Kubernetes中，用户通过API Server提交一个描述应用程序的YAML或JSON配置文件。Scheduler会根据集群资源使用情况，将应用部署到某个Node上。如果Node发生故障，Controller会自动将应用迁移到其他Node上。</p>
+<h2 id="部署方式"><a href="#部署方式" class="headerlink" title="部署方式"></a>部署方式</h2><h3 id="传统的服务进程管理方式"><a href="#传统的服务进程管理方式" class="headerlink" title="传统的服务进程管理方式"></a>传统的服务进程管理方式</h3><h4 id="手工繁琐-需要大量的自动化工具"><a href="#手工繁琐-需要大量的自动化工具" class="headerlink" title="手工繁琐:需要大量的自动化工具"></a>手工繁琐:需要大量的自动化工具</h4><ol>
+<li><p>Ansible： Ansible 是一种配置管理和自动化工具，可用于编写声明性的配置文件来定义服务器的状态。您可以使用 Ansible 来自动化服务器的设置、软件安装、配置文件管理等操作。</p>
+</li>
+<li><p>Chef： Chef 是一个自动化平台，允许您编写基础设施即代码。您可以使用 Chef 来定义服务器的状态，并在需要时自动配置服务器和部署服务。</p>
+</li>
+<li><p>Puppet： Puppet 是另一个配置管理工具，允许您定义服务器配置的期望状态，并确保服务器始终保持一致。</p>
+</li>
+<li><p>SaltStack： SaltStack 是一个事件驱动的自动化工具，可以用于自动配置和管理服务器，以及执行各种任务。</p>
+</li>
+<li><p>Jenkins： Jenkins 是一个持续集成和持续交付工具，可以用于自动化构建、部署和测试应用程序。您可以将 Jenkins 配置为监视代码仓库，并在代码提交后自动触发部署流程。</p>
+</li>
+<li><p>Docker Compose： 如果您希望使用 Docker 容器来部署传统的服务进程，可以使用 Docker Compose 来定义和管理多个容器的部署。</p>
+</li>
+<li><p>Terraform： 虽然 Terraform 主要用于基础设施即代码，但您可以使用它来自动化创建和管理服务器、网络、存储等资源。</p>
+</li>
+<li><p>Kubernetes Operator： 尽管 Kubernetes 本身是一个容器编排平台，但您可以使用 Kubernetes Operator 来创建自定义控制器，以自动化管理和部署特定类型的应用程序。</p>
+</li>
+</ol>
+<h4 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h4><ol>
+<li><p>准备环境： 在目标虚拟机或物理机上设置所需的操作系统和依赖项。这可能涉及安装操作系统、更新软件包、安装运行时环境（如Java、Node.js等）等。</p>
+</li>
+<li><p>安装服务进程： 将服务进程的执行文件和相关文件传输到目标机器，并将其安装到适当的位置。这可能涉及将二进制文件复制到目标目录，并设置执行权限。</p>
+</li>
+<li><p>配置服务： 编辑服务的配置文件，配置它所需的参数，例如端口号、数据库连接、认证凭据等。这些配置可能会存储在配置文件中，也可能存储在环境变量中。</p>
+</li>
+<li><p>启动服务： 使用特定的命令或脚本启动服务进程。这可以是一个简单的命令，例如 ./my-service，也可能是一系列复杂的操作。</p>
+</li>
+<li><p>监控和日志： 配置监控和日志记录，以便能够监视服务的运行状态和性能，以及收集服务的日志信息。</p>
+</li>
+<li><p>管理和维护： 随着时间的推移，您可能需要执行服务的升级、修复漏洞、处理配置更改等操作。这可能需要定期的维护和管理。</p>
+</li>
+</ol>
+<h3 id="容器应用管理方式"><a href="#容器应用管理方式" class="headerlink" title="容器应用管理方式"></a>容器应用管理方式</h3><ul>
+<li>Pod：Pod是Kubernetes中最小的可部署单元，它可以包含一个或多个容器。Pod提供了一个运行容器的环境，并且这些容器共享网络和存储资源。Pod可以被创建、启动、停止、删除等操作。</li>
+</ul>
+<ul>
+<li>Deployment：Deployment是用来管理Pod的对象。它定义了应用程序的期望状态，Kubernetes会根据定义的副本数来创建和管理Pod。Deployment还支持滚动升级和回滚操作，可以方便地更新应用程序。</li>
+</ul>
+<ul>
+<li>Service：Service是用来暴露应用程序的网络服务的对象。它为一组Pod提供了一个稳定的网络地址，并且可以通过这个地址来访问这些Pod。Service可以提供负载均衡、服务发现和服务代理等功能。</li>
+</ul>
+<ul>
+<li>Ingress：Ingress是用来管理应用程序的入口流量的对象。它可以将外部流量路由到不同的Service，实现基于域名或路径的流量分发。Ingress还支持SSL/TLS终止和基本的身份验证等功能。</li>
+</ul>
+<ul>
+<li>ConfigMap和Secret：ConfigMap用来存储应用程序的配置信息，可以通过环境变量或挂载文件的方式将配置信息传递给容器。Secret用来存储敏感的配置信息，如密码、API密钥等。ConfigMap和Secret可以在应用程序中被引用和使用。</li>
+</ul>
+<ul>
+<li>StatefulSet：StatefulSet用来管理有状态应用程序的对象。它可以确保每个Pod有唯一的标识和稳定的网络身份，这对于需要持久化存储和有序部署的应用程序非常重要。</li>
+</ul>
+<h2 id="服务发现与负载均衡"><a href="#服务发现与负载均衡" class="headerlink" title="服务发现与负载均衡"></a>服务发现与负载均衡</h2><p>服务发现和负载均衡是通过 Service 和 Ingress 对象来实现的。</p>
+<ol>
+<li>Service：<br> Service 是 Kubernetes 的核心概念之一，它为一组运行相同任务的 Pod 提供了一个统一的访问接口。当 Service 创建后，Kubernetes 会自动为其分配一个 IP 地址（称为 ClusterIP），并且在整个集群内部都可以使用这个 IP 地址进行访问。</li>
+</ol>
+<p>  当请求到达 Service 后，Kubernetes 会根据预设的策略将请求转发给后端的 Pod。这种策略通常是轮询（Round Robin）或者是基于 Session 的粘性 Session Affinity，也可以配置更复杂的网络策略。这就完成了负载均衡的功能。</p>
+<p>  Service 还有一个重要的特性，那就是它可以做到服务发现。每个 Service 在创建时，除了会被分配一个 ClusterIP 外，还会在 Kubernetes 集群的内部 DNS 中创建一个记录。这样其他的 Pod 就可以通过 Service 的名字来找到它，而不需要知道具体的 IP 地址。</p>
+<ol start="2">
+<li>Ingress：<br> 虽然 Service 可以提供内部的服务发现和负载均衡，但是如果我们希望从集群外部访问某个服务，就需要用到 Ingress。Ingress 是 Kubernetes 的一个对象，它定义了如何通过 HTTP 或 HTTPS 协议从集群外部访问内部的 Service。</li>
+</ol>
+<p>  当一个请求到达 Ingress 后，Ingress Controller 会根据预定义的规则将请求路由（Route）到相应的 Service。这样我们就可以用一个统一的入口来访问集群内部的多个服务，而不需要为每个服务都暴露一个端口出来。</p>
+<p>  另外，Ingress 还可以提供其他的功能，比如 SSL/TLS 终止、基于路径或者域名的路由，甚至是负载均衡和重试等。</p>
+<h2 id="存储管理"><a href="#存储管理" class="headerlink" title="存储管理"></a>存储管理</h2><p>Kubernetes支持多种存储解决方案，包括本地存储、网络存储（如NFS、iSCSI、GlusterFS等）以及云存储（如AWS EBS、GCE PD等）。同时，Kubernetes还提供了Persistent Volume (PV) 和 Persistent Volume Claim (PVC) 的抽象概念，使得用户可以在不了解具体存储技术的情况下，也能使用持久化存储。</p>
+<h3 id="本地存储："><a href="#本地存储：" class="headerlink" title="本地存储："></a>本地存储：</h3><p>  这是最简单的存储方式，即在Pod所在的节点上直接分配磁盘空间。但它的生命周期与Pod相同，当Pod被删除时，数据也会丢失。而且，如果Pod迁移到其他节点，数据将无法访问。因此，本地存储主要用于临时性的、不需要长期保存的数据。</p>
+<h3 id="网络存储："><a href="#网络存储：" class="headerlink" title="网络存储："></a>网络存储：</h3><p>  为了解决本地存储的限制，我们可以使用网络存储。网络存储就是通过网络协议，将远程服务器上的存储资源连接到本地，使其看起来像是本地的磁盘。常见的网络存储协议包括NFS（Network File System）、iSCSI (Internet Small Computer Systems Interface) 和 GlusterFS等。这些网络存储解决方案提供了跨节点的、可共享的、持久性的存储。</p>
+<h3 id="云存储："><a href="#云存储：" class="headerlink" title="云存储："></a>云存储：</h3><p>  对于在公有云平台上运行的Kubernetes集群，通常会使用云存储服务，如AWS的EBS (Elastic Block Store) 或者GCE的PD (Persistent Disk)。这些云存储服务通常提供了高可用、高性能和自动备份等高级功能。</p>
+<h4 id="EBS"><a href="#EBS" class="headerlink" title="EBS"></a>EBS</h4><ul>
+<li>是 Amazon Web Services 的一项服务，提供持久化、高性能、块级存储，可以与 AWS 的 EC2 实例一起使用。你可以创建一个 EBS 卷并将其附加到 EC2 实例上。然后，你可以像使用物理硬盘驱动器一样使用这个卷，包括文件系统、数据库或者应用程序等。EBS 提供了几种类型的卷，以满足不同的需求，例如：通用 SSD（gp2）、预配置 IOPS SSD（io1/io2）、吞吐优化 HDD（st1）、冷 HDD（sc1）和磁性（标准）。</li>
+</ul>
+<h4 id="PD"><a href="#PD" class="headerlink" title="PD"></a>PD</h4><p>Google Cloud Platform 的一项服务，为 Google Compute Engine 和 Google Kubernetes Engine 提供持久化、高性能的块存储。你可以创建一个 PD 卷并将其附加到 GCE 或 GKE 上的虚拟机实例。PD 提供了两种类型的卷：标准硬盘（HDD）和 SSD。SSD 可以分为常规 SSD 和高性能 Provisioned IOPS SSD。</p>
+<h3 id="Persistent-Volume-PV-："><a href="#Persistent-Volume-PV-：" class="headerlink" title="Persistent Volume (PV)："></a>Persistent Volume (PV)：</h3><p>  Kubernetes引入了PV和PVC的概念，以解决存储的生命周期管理问题。PV是集群中的一块独立的存储空间，它与Pod的生命周期独立，即使Pod被删除，PV中的数据也不会丢失。管理员可以预先创建多个PV，并指定其大小、访问模式（只读、读写）等属性。</p>
+<h3 id="Persistent-Volume-Claim-PVC-："><a href="#Persistent-Volume-Claim-PVC-：" class="headerlink" title="Persistent Volume Claim (PVC)："></a>Persistent Volume Claim (PVC)：</h3><p>  用户如果需要使用PV，必须通过创建一个PVC来申请。在PVC中，用户可以指定所需的存储空间大小、访问模式等信息。然后Kubernetes会自动匹配合适的PV给用户。当不再需要这个存储空间时，用户可以删除PVC，对应的PV会被释放，但数据不会丢失，除非管理员显式地删除PV。</p>
+<h2 id="日志和监控"><a href="#日志和监控" class="headerlink" title="日志和监控"></a>日志和监控</h2><ol>
+<li>日志：Kubernetes本身不提供一个原生的日志聚合解决方案，但是它允许使用各种通用的日志聚合工具。例如：</li>
+</ol>
+<p>Fluentd：一款开源数据收集器，可以整合各种类型的数据源，并将数据发送到多种类型的目标系统。</p>
+<p>Logstash：这是Elastic Stack（ELK Stack）中的一部分，用于接收、处理和转发事件和日志消息。</p>
+<p>Stackdriver Logging：Google Cloud Platform上的日志管理服务，也可以用于Kubernetes。</p>
+<ol start="2">
+<li>监控：Kubernetes有内建的资源利用率和性能指标，比如CPU和内存使用情况。你可以使用以下工具来可视化这些数据：</li>
+</ol>
+<p>Prometheus：开源的监控和警告工具，与Kubernetes紧密集成，可以收集各种指标并提供强大的查询语言。</p>
+<p>Grafana：开源的度量分析和可视化套件，经常与Prometheus一起使用，以图形方式展示Prometheus收集的数据。</p>
+<p>Google Cloud Monitoring：Google Cloud Platform的服务，提供了完全托管的端到端IT运营管理平台，包括监控、日志管理和应用程序性能管理。</p>
+<h2 id="Kubernetes与其他技术集成"><a href="#Kubernetes与其他技术集成" class="headerlink" title="Kubernetes与其他技术集成"></a>Kubernetes与其他技术集成</h2><ol>
+<li>云服务提供商：Kubernetes 可以运行在各种环境中，包括公有云、私有云和混合云。AWS、Google Cloud 和 Azure 都提供了 Kubernetes 服务，如 Amazon EKS、Google GKE 和 Azure AKS。</li>
+</ol>
+<ol start="2">
+<li>CI/CD 工具：持续集成和持续部署（CI/CD）是现代 DevOps 实践的核心组成部分。Jenkins、GitLab CI、CircleCI 等工具都可以与 Kubernetes 集成，以自动化构建、测试和部署流程。</li>
+</ol>
+<ol start="3">
+<li>服务网格：服务网格用于控制服务间的通信。Istio 和 Linkerd 是两个常见的服务网格，它们可以与 Kubernetes 集成，提供高级路由、负载均衡、故障注入等功能。</li>
+</ol>
+<ol start="4">
+<li>配置管理：Helm 是 Kubernetes 的一个包管理器，类似于 Linux 中的 apt 或 yum。你可以使用 Helm 来打包、发布和管理 Kubernetes 应用。</li>
+</ol>
+<ol start="5">
+<li>安全性和策略执法：Open Policy Agent (OPA) 是一个轻量级的、通用的策略引擎，可以与 Kubernetes 集成，用于策略执法。</li>
+</ol>
+<ol start="6">
+<li>存储系统：Kubernetes 可以与各种存储系统集成，包括云存储服务（如 AWS EBS 和 Google Cloud Storage）、分布式文件系统（如 Ceph 和 GlusterFS）和数据库系统（如 MySQL 和 PostgreSQL）。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2023/10/07/Kubernetes/">https://kalyan-zitiu.github.io/2023/10/07/Kubernetes/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Basic/">Basic</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(46).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"><img class="next-cover" src="/img/WallPaper%20(49).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">OS</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">32</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a><a class="social-icon" href="https://auto.kalyan-dao.space/" target="_blank" title="AutoGPT"><i class="fa-solid fa-shuttle-space"></i></a><a class="social-icon" href="https://fakegpt.kalyan-dao.space/" target="_blank" title="FakeGPT"><i class="fa-brands fa-kickstarter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kubernetes"><span class="toc-number">1.</span> <span class="toc-text">Kubernetes</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFK8s"><span class="toc-number">1.1.1.</span> <span class="toc-text">什么是K8s</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E4%BB%A5%E5%8F%8A%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">架构以及核心组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">部署方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84%E6%9C%8D%E5%8A%A1%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">传统的服务进程管理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E5%B7%A5%E7%B9%81%E7%90%90-%E9%9C%80%E8%A6%81%E5%A4%A7%E9%87%8F%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">手工繁琐:需要大量的自动化工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">部署步骤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E5%BA%94%E7%94%A8%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.2.</span> <span class="toc-text">容器应用管理方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">1.5.</span> <span class="toc-text">服务发现与负载均衡</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86"><span class="toc-number">1.6.</span> <span class="toc-text">存储管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8%EF%BC%9A"><span class="toc-number">1.6.1.</span> <span class="toc-text">本地存储：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%AD%98%E5%82%A8%EF%BC%9A"><span class="toc-number">1.6.2.</span> <span class="toc-text">网络存储：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%91%E5%AD%98%E5%82%A8%EF%BC%9A"><span class="toc-number">1.6.3.</span> <span class="toc-text">云存储：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EBS"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">EBS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PD"><span class="toc-number">1.6.3.2.</span> <span class="toc-text">PD</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Persistent-Volume-PV-%EF%BC%9A"><span class="toc-number">1.6.4.</span> <span class="toc-text">Persistent Volume (PV)：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Persistent-Volume-Claim-PVC-%EF%BC%9A"><span class="toc-number">1.6.5.</span> <span class="toc-text">Persistent Volume Claim (PVC)：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E5%92%8C%E7%9B%91%E6%8E%A7"><span class="toc-number">1.7.</span> <span class="toc-text">日志和监控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Kubernetes%E4%B8%8E%E5%85%B6%E4%BB%96%E6%8A%80%E6%9C%AF%E9%9B%86%E6%88%90"><span class="toc-number">1.8.</span> <span class="toc-text">Kubernetes与其他技术集成</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/10/07/Kubernetes/" title="Kubernetes"><img src="/img/WallPaper%20(46).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes"/></a><div class="content"><a class="title" href="/2023/10/07/Kubernetes/" title="Kubernetes">Kubernetes</a><time datetime="2023-10-07T13:00:00.000Z" title="發表於 2023-10-07 21:00:00">2023-10-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="OS"><img src="/img/WallPaper%20(49).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OS"/></a><div class="content"><a class="title" href="/2023/10/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="OS">OS</a><time datetime="2023-10-05T06:00:00.000Z" title="發表於 2023-10-05 14:00:00">2023-10-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/18/Python/" title="Python"><img src="/img/WallPaper%20(48).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Python"/></a><div class="content"><a class="title" href="/2023/09/18/Python/" title="Python">Python</a><time datetime="2023-09-18T12:00:00.000Z" title="發表於 2023-09-18 20:00:00">2023-09-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/31/%E4%BA%BA%E4%BD%93%E8%B0%83%E4%BC%98/" title="HumanSystemOptimization"><img src="/img/WallPaper%20(47).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HumanSystemOptimization"/></a><div class="content"><a class="title" href="/2023/08/31/%E4%BA%BA%E4%BD%93%E8%B0%83%E4%BC%98/" title="HumanSystemOptimization">HumanSystemOptimization</a><time datetime="2023-08-31T14:00:00.000Z" title="發表於 2023-08-31 22:00:00">2023-08-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/07/31/AWS%E4%BA%91%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80/" title="AWS云计算基础"><img src="/img/WallPaper%20(45).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AWS云计算基础"/></a><div class="content"><a class="title" href="/2023/07/31/AWS%E4%BA%91%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80/" title="AWS云计算基础">AWS云计算基础</a><time datetime="2023-07-31T14:00:00.000Z" title="發表於 2023-07-31 22:00:00">2023-07-31</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(46).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
