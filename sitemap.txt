@@ -1,4 +1,4 @@
-https://kalyan-zitiu.github.io/photo/index.html
+https://kalyan-zitiu.github.io/Gallery/index.html
 https://kalyan-zitiu.github.io/2023/09/18/Python/
 https://kalyan-zitiu.github.io/2023/10/08/docker/
 https://kalyan-zitiu.github.io/2023/10/07/Kubernetes/
