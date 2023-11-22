@@ -1,3 +1,4 @@
+https://kalyan-zitiu.github.io/2023/11/22/Bash%20Basic/
 https://kalyan-zitiu.github.io/2023/11/20/Linux%20Bash/
 https://kalyan-zitiu.github.io/Gallery/index.html
 https://kalyan-zitiu.github.io/2023/09/18/Python/
@@ -17,7 +18,6 @@ https://kalyan-zitiu.github.io/2023/06/29/Sercet/
 https://kalyan-zitiu.github.io/2023/04/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%BB%93%E6%9E%84%E5%9E%8B/
 https://kalyan-zitiu.github.io/2023/04/20/Kalyan%E7%9A%84%E5%81%A5%E8%BA%AB%E7%AC%94%E8%AE%B0/
 https://kalyan-zitiu.github.io/2022/12/05/%E4%BC%A0%E8%BE%93%E5%B1%82/
-https://kalyan-zitiu.github.io/2022/10/08/%E5%AE%9E%E7%94%A8%E6%8C%87%E4%BB%A4/
 https://kalyan-zitiu.github.io/2023/03/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/
 https://kalyan-zitiu.github.io/2022/10/08/%E5%BA%94%E7%94%A8%E5%B1%82/
 https://kalyan-zitiu.github.io/2023/01/06/IC-%E7%BB%83%E4%B9%A0%E9%A2%98%E8%A7%A33/
@@ -48,7 +48,6 @@ https://kalyan-zitiu.github.io/tags/%E5%8D%8F%E8%AE%AE/
 https://kalyan-zitiu.github.io/tags/Kali-linux/
 https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95/
 https://kalyan-zitiu.github.io/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/
-https://kalyan-zitiu.github.io/tags/Linux/
 https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95%E7%9F%A5%E8%AF%86/
 https://kalyan-zitiu.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/
 https://kalyan-zitiu.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/
@@ -70,7 +69,6 @@ https://kalyan-zitiu.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E
 https://kalyan-zitiu.github.io/categories/KALI/
 https://kalyan-zitiu.github.io/categories/%E7%BB%83%E4%B9%A0/
 https://kalyan-zitiu.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/
-https://kalyan-zitiu.github.io/categories/knowledge/
 https://kalyan-zitiu.github.io/categories/%E7%AE%97%E6%B3%95/
 https://kalyan-zitiu.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/
 https://kalyan-zitiu.github.io/categories/%E5%B7%A5%E5%85%B7/
