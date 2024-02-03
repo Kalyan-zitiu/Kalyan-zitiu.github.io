@@ -1,5 +1,6 @@
-https://kalyan-zitiu.github.io/2023/12/24/saa%E6%A6%82%E5%BF%B5/
+https://kalyan-zitiu.github.io/2023/12/24/AWS%20%E6%9C%8D%E5%8A%A1%E8%AF%A6%E7%BB%86/
 https://kalyan-zitiu.github.io/2023/12/24/saa%E9%A2%98%E5%BA%93/
+https://kalyan-zitiu.github.io/2023/12/24/saa%E6%A6%82%E5%BF%B5/
 https://kalyan-zitiu.github.io/2023/12/24/SAA%E6%8F%90%E7%BA%B2/
 https://kalyan-zitiu.github.io/2023/11/30/K8s/
 https://kalyan-zitiu.github.io/2023/11/22/Bash%20Basic/
