@@ -1,8 +1,8 @@
+https://kalyan-zitiu.github.io/2024/04/12/%E7%AE%80%E6%98%93%E9%AB%98%E5%BC%B9%E6%80%A7BS%E6%9E%B6%E6%9E%84/
 https://kalyan-zitiu.github.io/2024/03/04/AWS%20%E6%9C%8D%E5%8A%A1%E8%AF%A6%E7%BB%86/
 https://kalyan-zitiu.github.io/2023/12/24/saa%E9%A2%98%E5%BA%93/
 https://kalyan-zitiu.github.io/2023/12/24/saa%E6%A6%82%E5%BF%B5/
 https://kalyan-zitiu.github.io/2023/12/24/SAA%E6%8F%90%E7%BA%B2/
-https://kalyan-zitiu.github.io/2023/11/30/K8s/
 https://kalyan-zitiu.github.io/2023/11/22/Bash%20Basic/
 https://kalyan-zitiu.github.io/2023/11/20/Linux%20Bash/
 https://kalyan-zitiu.github.io/Gallery/index.html
@@ -55,7 +55,6 @@ https://kalyan-zitiu.github.io/tags/%E5%8D%8F%E8%AE%AE/
 https://kalyan-zitiu.github.io/tags/%E7%BB%83%E4%B9%A0/
 https://kalyan-zitiu.github.io/tags/Kali-linux/
 https://kalyan-zitiu.github.io/tags/%E8%AE%AD%E7%BB%83/
-https://kalyan-zitiu.github.io/tags/K8s/
 https://kalyan-zitiu.github.io/tags/Cloud/
 https://kalyan-zitiu.github.io/tags/%E7%AE%97%E6%B3%95%E7%9F%A5%E8%AF%86/
 https://kalyan-zitiu.github.io/tags/OceanBase/
@@ -69,6 +68,7 @@ https://kalyan-zitiu.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/
 https://kalyan-zitiu.github.io/tags/%E5%B7%A5%E5%85%B7/
 https://kalyan-zitiu.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/
 https://kalyan-zitiu.github.io/tags/OS/
+https://kalyan-zitiu.github.io/tags/AWS/
 https://kalyan-zitiu.github.io/categories/Exercises/
 https://kalyan-zitiu.github.io/categories/Cloud-Konwleage/
 https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%B0%88/
@@ -103,3 +103,4 @@ https://kalyan-zitiu.github.io/categories/%E7%AE%97%E6%B3%95/Study-Note/
 https://kalyan-zitiu.github.io/categories/Human/daily-diet/
 https://kalyan-zitiu.github.io/categories/%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86/Study-Note/
 https://kalyan-zitiu.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/Study-Note/
+https://kalyan-zitiu.github.io/categories/Basic/AWS/
