@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/2024/04/02/javaEE/</loc>
+    
+    <lastmod>2024-06-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/2024/04/10/%E7%9E%8E%E7%8E%A9EKS/</loc>
     
     <lastmod>2024-06-30</lastmod>
@@ -610,6 +619,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://kalyan-zitiu.github.io/tags/java/</loc>
+    <lastmod>2024-06-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/tags/springboot/</loc>
+    <lastmod>2024-06-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -887,6 +910,13 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/EKS/K8S/AWS/</loc>
+    <lastmod>2024-06-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/javaEE/</loc>
     <lastmod>2024-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

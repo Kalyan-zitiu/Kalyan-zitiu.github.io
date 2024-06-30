@@ -1,0 +1,992 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>javaEE | Kalyan的小书房</title><meta name="keywords" content="java,springboot"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="一次基于javaEE系统的设计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javaEE">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2024/04/02/javaEE/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="一次基于javaEE系统的设计">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(61).jpg">
+<meta property="article:published_time" content="2024-04-02T07:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-30T11:29:41.096Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="springboot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(61).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2024/04/02/javaEE/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'javaEE',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-30 19:29:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">41</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(61).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">javaEE</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2024-04-02T07:00:00.000Z" title="發表於 2024-04-02 15:00:00">2024-04-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2024-06-30T11:29:41.096Z" title="更新於 2024-06-30 19:29:41">2024-06-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/javaEE/">javaEE</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="javaEE"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="代码连接"><a href="#代码连接" class="headerlink" title="代码连接"></a>代码连接</h2><p><a target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu/Studyroomreservationsystem">https://github.com/Kalyan-zitiu/Studyroomreservationsystem</a></p>
+<h2 id="需求说明以及功能分析"><a href="#需求说明以及功能分析" class="headerlink" title="需求说明以及功能分析"></a>需求说明以及功能分析</h2><h3 id="用户用例需求分析及其功能"><a href="#用户用例需求分析及其功能" class="headerlink" title="用户用例需求分析及其功能"></a>用户用例需求分析及其功能</h3><p>  如下图，普通用户：1.查看自习室情况：普通用户可以查看自习室的预约情况。2.预约自习室：普通用户可以预约自习室。3.取消预约：普通用户可以取消已预约的自习室。4.查看预约情况：普通用户可以查看自己的预约情况。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630190654093.png" alt="image-20240630190654093"></p>
+<p>如下图管理员用例图，1.删除自习室：管理员可以删除系统中的自习室。2.添加自习室：管理员可以在系统中新增自习室。3.修改自习室：管理员可以对现有的自习室信息进行修改。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630191300868.png" alt="image-20240630191300868"></p>
+<p>如下图超级管理员用例图，1.添加自习室：超级管理员可以在系统中新增自习室。2.删除自习室：超级管理员可以删除系统中的自习室。3.修改自习室：超级管理员可以对现有的自习室信息进行修改。4.查看使用统计：超级管理员可以查看自习室的使用统计数据。5.管理用户：超级管理员可以管理系统中的用户，包括添加删除修改用户信息。6.搜索普通用户：超级管理员可以搜索普通用户的信息。</p>
+<p>​                                                                      <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps3.jpg" alt="img"> </p>
+<h3 id="系统总操作流程分析"><a href="#系统总操作流程分析" class="headerlink" title="系统总操作流程分析"></a>系统总操作流程分析</h3><p>如下图，操作流程图展示了一个自习室预约系统的总操作流程。用户首先进行登录，输入用户名和密码后，系统会检查输入是否为空。如果为空，系统会提示信息不为空并要求重新输入。如果不为空，系统继续检查用户名和密码是否正确。如果不正确，系统会提示信息不正确并返回重新输入步骤。如果正确，系统会进行身份权限判断，根据用户权限执行相应的功能处理。整个过程在执行完相关功能处理后结束。这个流程图主要描述了登录验证和权限判断的过程，但缺少注册、找回密码、不同权限的具体功能分支及错误处理等环节。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630191401981.png" alt="image-20240630191401981"></p>
+<h2 id="系统概要设计"><a href="#系统概要设计" class="headerlink" title="系统概要设计"></a>系统概要设计</h2><h3 id="系统概述以及设计"><a href="#系统概述以及设计" class="headerlink" title="系统概述以及设计"></a>系统概述以及设计</h3><p>自习室预约系统是一种在线平台，旨在为学生和教职员工提供便捷、高效的自习室预订服务。该系统通过采用先进的数字化管理手段，实现了自习室资源的合理分配和高效利用，用户可以随时随地进行自习室的查看、预订、取消和管理，以满足其个性化学习需求。如下图系统工作原理图，展示了自习室预约系统的执行过程：客户端向Web服务器发送请求，Web服务器对请求进行验证后，向数据库检索相关数据或更新信息。数据库完成操作后，将结果传送回Web服务器，Web服务器再将最终结果回发给客户端。整个流程确保数据的实时性和准确性</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630191517073.png" alt="image-20240630191517073"></p>
+<h3 id="系统结构设计"><a href="#系统结构设计" class="headerlink" title="系统结构设计"></a>系统结构设计</h3><p>如下图系统结构图，展示自习室预约系统的功能结构图，包含普通用户、管理员和超级管理员三个角色。普通用户可以查看自习室情况、进行预约和取消预约；管理员可以管理预约情况、添加、修改和删除自习室信息；超级管理员则具有更高级别的权限，不仅可以管理用户，还能查看使用统计，以及添加、修改和删除自习室信息。图中用方框和连接线清晰地展示了各角色的功能模块和操作权限。</p>
+<p>​                                                        <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps6.jpg" alt="img"> </p>
+<h3 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h3><ol>
+<li>数据存储</li>
+</ol>
+<p>数据库包含以下主要实体：用户、角色、自习室、自习室详情、预约信息、用户角色。各实体表的设计如下：</p>
+<p>用户表存储用户ID、用户名、密码、手机号和邮箱。</p>
+<p>角色表存储角色ID、角色名称、角色标识和角色状态。</p>
+<p>自习室表存储自习室ID、自习室编号、容量、设施和类型。</p>
+<p>自习室详情表存储自习室地址、预约次数和使用次数。</p>
+<p>预约信息表记录预约ID、用户ID、自习室详情ID、预约时间、状态原因和结束时间。</p>
+<ol start="2">
+<li>数据管理</li>
+</ol>
+<p>数据库通过标准的SQL命令行管理工具以及数据库管理软件进行管理，包括数据的插入、更新、删除和查询。此外，视图、存储过程和触发器简化了数据管理操作和维护数据完整性。</p>
+<ol start="3">
+<li>数据检索</li>
+</ol>
+<p>通过SQL查询语句进行数据检索。例如：</p>
+<p>查询用户的预约记录。</p>
+<p>查询某段时间内某自习室的使用情况。</p>
+<p>在重要字段（如用户ID、自习室ID、预约时间）上建立索引，以提高检索效率。</p>
+<ol start="4">
+<li>数据安全</li>
+</ol>
+<p>数据安全包括：</p>
+<p>用户认证：使用加密和散列技术保护用户密码。</p>
+<p>权限控制：通过角色和权限管理控制不同用户对数据库的访问权限。</p>
+<p>数据传输：使用SSL/TLS保护数据传输安全。</p>
+<p>日志记录：记录数据库访问和修改行为，以便审计。</p>
+<ol start="5">
+<li>数据一致性</li>
+</ol>
+<p>数据库通过以下策略确保数据一致性：</p>
+<p>主键约束：保证每个表的主键唯一且非空。</p>
+<p>外键约束：确保引用完整性（如预约记录的用户ID必须在用户表中存在）。</p>
+<p>触发器：自动检查和修正数据的一致性。</p>
+<ol start="6">
+<li>数据完整性</li>
+</ol>
+<p>数据库使用以下方法保证数据完整性：</p>
+<p>实体完整性：确保每个表的主键唯一且非空。</p>
+<p>参照完整性：通过外键约束保持表间关系一致。</p>
+<p>业务规则：使用存储过程和触发器实现业务逻辑，防止数据失效。</p>
+<p>如下图用户信息实体图，用户信息实体包含以下属性：用户ID、用户名、密码、手机号和邮箱。用户实体与预约信息（reservation）实体之间存在一对多的关系，即每个用户可以有多个预约记录。用户实体还与用户角色（user_role）实体存在一对多的关系，表示每个用户可以对应多个角色，从而实现不同的权限和功能。该设计保证了用户的基本信息与其预约和角色信息的有效关联。</p>
+<p>如下图角色信息实体图，角色信息实体（role）包含以下属性：角色ID、角色名字、角色标识和角色状态。角色信息实体与用户角色（user_role）实体之间存在一对多的关系，即每个角色可以对应多个用户角色记录。这个设计确保了每个角色的信息能够与多个用户相关联，从而在系统中实现多用户角色的管理和权限分配。</p>
+<p>​                                                                          <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps8.jpg" alt="img"> </p>
+<p>如下图自习室详情信息实体图，自习室详情信息实体包含以下属性：自习室详情ID、自习室地址、自习室ID、自习室预约次数和自习室使用次数。自习室详情信息实体与自习室信息实体之间存在一对一的关系，即每个自习室对应唯一的自习室详情记录。这个设计确保了每个自习室都有独立且详细的预订和使用情况描述，从而可以有效管理和监控每个自习室的使用状态。</p>
+<p>​                                                                         <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps9.jpg" alt="img"> </p>
+<p>如下图预约系统实体图，预约信息实体包含以下属性：预约ID、用户ID、自习室详情ID、预约开始时间、预约状态、取消或拒绝理由以及预约结束时间。预约信息实体与用户信息实体之间存在多对一关系，即多个预约记录可以对应同一个用户。同时，预约信息实体与自习室详情实体之间也存在多对一关系，即多个预约记录可以对应同一个自习室详情。这种设计确保了预约信息能够准确关联到具体的用户和自习室详情，从而实现全面的预约管理。</p>
+<p>​                                        <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192344417.png" alt="image-20240630192344417"></p>
+<p>如下图，自习室实体图，自习室信息实体包含以下属性：自习室ID、自习室编号、总容量、可用设备和自习室类型。自习室信息实体与自习室详情信息实体之间存在一对一的关系，即每个自习室对应唯一的自习室详情记录。这个设计确保了每个自习室在系统中都有详细且独立的描述，从而可以准确记录和管理自习室的使用情况、容量和设备等信息。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192355875.png" alt="image-20240630192355875"></p>
+<p>如下表3-1，自习室表存储每个自习室的基本信息，包括自习室ID、自习室编号、容量、设施和类型。在系统内，自习室表用于记录和管理所有自习室的基础信息，并与自习室详情表存在一对一关系。这种关系确保每个自习室都有唯一的详细信息记录，用于详细描述自习室的位置和使用情况。</p>
+<p>表3-1 自习室表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>study_room_id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>Id</td>
+</tr>
+<tr>
+<td>study_room_num</td>
+<td>varchar</td>
+<td>50</td>
+<td>无</td>
+<td>自习室可用数量</td>
+</tr>
+<tr>
+<td>capacity</td>
+<td>int</td>
+<td>50</td>
+<td>无</td>
+<td>总容量</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>varchar</td>
+<td>50</td>
+<td>无</td>
+<td>自习室类型</td>
+</tr>
+<tr>
+<td>facilities</td>
+<td>varchar</td>
+<td>50</td>
+<td>无</td>
+<td>自习室设备</td>
+</tr>
+</tbody></table>
+<p>如下表3-2，自习室详情表包含自习室的详细信息，包括位置、自习室ID、预约频率和使用频率。在系统内，自习室详情用于进一步描述自习室的具体信息，如地理位置和使用统计信息。它与自习室表存在一对一关系，确保每个自习室都有唯一的详细信息记录。</p>
+<p>表3-2 自习室详情表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>自习室Id</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>varchar</td>
+<td>50</td>
+<td>无</td>
+<td>自习室地址</td>
+</tr>
+<tr>
+<td>study_room_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>自习室归属Id</td>
+</tr>
+<tr>
+<td>reservation_frequency</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>自习室预约状态</td>
+</tr>
+<tr>
+<td>usage_frequency</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>自习室使用次数</td>
+</tr>
+<tr>
+<td>capecity</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>容量</td>
+</tr>
+</tbody></table>
+<p>  如下表3-3，用户表包含用户的基本信息，包括用户ID、用户名、密码、手机号和邮箱。系统内，用户表用于存储和管理所有用户的信息，并通过多对一关系与预约记录和用户角色关联，以便管理用户的预约活动和角色分配。</p>
+<p>表3-3 用户表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>User_id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>用户Id</td>
+</tr>
+<tr>
+<td>password</td>
+<td>varchar</td>
+<td>50</td>
+<td>无</td>
+<td>密码</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>mediumtext</td>
+<td>11</td>
+<td>无</td>
+<td>用户手机号码</td>
+</tr>
+<tr>
+<td>email</td>
+<td>varchar</td>
+<td>11</td>
+<td>无</td>
+<td>用户邮箱</td>
+</tr>
+<tr>
+<td>User_name</td>
+<td>varchar</td>
+<td>50</td>
+<td>无</td>
+<td>用户姓名</td>
+</tr>
+</tbody></table>
+<p>  如下表3-4，预约表记录每个预约的详细信息，包括预约ID、用户ID、自习室详情ID、预约时间、状态、取消或拒绝的原因和结束时间。在系统内，预约表用于跟踪和管理所有的自习室预约记录。它通过多对一关系与用户表和自习室详情表关联，确保每个预约记录都与特定的用户和自习室关联。</p>
+<p>表3-4 预约信息表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>reservation_id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>预约Id</td>
+</tr>
+<tr>
+<td>User_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>用户Id</td>
+</tr>
+<tr>
+<td>Study_details_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>自习室详情Id</td>
+</tr>
+<tr>
+<td>time_start</td>
+<td>datetime</td>
+<td>50</td>
+<td>无</td>
+<td>预约开始时间</td>
+</tr>
+<tr>
+<td>time_end</td>
+<td>datetime</td>
+<td>50</td>
+<td>无</td>
+<td>预约结束时间</td>
+</tr>
+<tr>
+<td>status</td>
+<td>tinyint</td>
+<td>11</td>
+<td>无</td>
+<td>预约状态</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>varchar</td>
+<td>50</td>
+<td>无</td>
+<td>申请原因</td>
+</tr>
+</tbody></table>
+<p>  如下表3-5，角色表包含每个角色的信息，包括角色ID、角色名称、角色标识和状态。在系统内，角色表用于定义和存储不同的角色，并与用户角色表存在多对一关系。这样，每个角色可以分配给多个用户，方便进行权限管理和角色分配。</p>
+<p>表3-5 角色表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>role_id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>角色Id</td>
+</tr>
+<tr>
+<td>role_name</td>
+<td>varchar</td>
+<td>255</td>
+<td>无</td>
+<td>角色名字</td>
+</tr>
+<tr>
+<td>role_sign</td>
+<td>varchar</td>
+<td>30</td>
+<td>无</td>
+<td>角色标识</td>
+</tr>
+<tr>
+<td>status</td>
+<td>tinyint</td>
+<td>11</td>
+<td>无</td>
+<td>角色状态</td>
+</tr>
+</tbody></table>
+<p>  如下表3-6，用户角色表记录用户与其分配角色之间的关系，包括用户角色ID、用户ID和角色ID。在系统内，用户角色表用来管理和存储用户与角色的映射关系。它通过多对一关系与用户表和角色表关联，确保用户可以拥有相应的角色和权限。</p>
+<p>表3-6 用户角色表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>角色用户Id</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>用户Id</td>
+</tr>
+<tr>
+<td>role_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>角色Id</td>
+</tr>
+</tbody></table>
+<p>  如下表3-7，自习室管理员表包含管理员的信息，包括管理员ID、用户ID和自习室ID。在系统内，自习室管理员表用于指定和管理自习室的管理员。它通过多对一关系与用户表和自习室表关联，确保每个自习室有特定的管理员进行管理和维护。</p>
+<p>表3-7 自习室管理表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>admin_id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>角色用户Id</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>用户Id</td>
+</tr>
+<tr>
+<td>study_room_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>角色Id</td>
+</tr>
+</tbody></table>
+<p>  如下表3-8，角色权限表存储角色与权限之间的关系，包括角色权限ID、角色ID和权限ID。在系统内，角色权限表用于管理和记录每个角色与其权限之间的映射关系。它通过多对一关系与角色表和权限表关联。</p>
+<p>表3-8 角色权限表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>角色权限Id</td>
+</tr>
+<tr>
+<td>role_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>角色Id</td>
+</tr>
+<tr>
+<td>permission_id</td>
+<td>int</td>
+<td>11</td>
+<td>无</td>
+<td>权限Id</td>
+</tr>
+</tbody></table>
+<p>如下表3-9，权限表存储权限的信息，包括权限ID、权限名称和权限简化表示。在系统内，权限表用于定义和存储不同的权限，并通过多对一关系与角色权限表关联。这样，每个权限可以分配给多个角色，实现灵活的权限管理。</p>
+<p>表3-9 权限表</p>
+<table>
+<thead>
+<tr>
+<th>列名</th>
+<th>数据类型</th>
+<th>长度</th>
+<th>约束</th>
+<th>详情</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>permsission_id</td>
+<td>int</td>
+<td>11</td>
+<td>主键非空</td>
+<td>角色用户Id</td>
+</tr>
+<tr>
+<td>permission_simplify</td>
+<td>varchar</td>
+<td>20</td>
+<td>无</td>
+<td>权限简化标识</td>
+</tr>
+<tr>
+<td>permsission_name</td>
+<td>varchar</td>
+<td>255</td>
+<td>无</td>
+<td>权限名称</td>
+</tr>
+</tbody></table>
+<h3 id="安全设计"><a href="#安全设计" class="headerlink" title="安全设计"></a>安全设计</h3><p>用户认证：采用安全认证机制，如密码哈希存储用户密码，使用令牌或会话管理用户登录状态。</p>
+<p>权限控制：根据用户角色进行权限控制，确保只有具有相应权限的用户才能执行特定操作。</p>
+<p>数据保护：对敏感数据进行加密存储和传输，确保数据的机密性和完整性。</p>
+<h2 id="系统详细设计"><a href="#系统详细设计" class="headerlink" title="系统详细设计"></a>系统详细设计</h2><h3 id="登录功能模块"><a href="#登录功能模块" class="headerlink" title="登录功能模块"></a>登录功能模块</h3><p>如下图，在自习室预约系统的登录时序图中，用户首先在浏览器中输入用户名和密码并点击登录。接着，浏览器通过HTTP请求将表单数据发送到服务器，服务器查询数据库以验证用户名和密码。如验证成功，服务器生成会话令牌，如JWT或Session ID，并将其发送回浏览器，同时浏览器将令牌保存在CookieLocalStorage中。最后，服务器发送登录成功的信息，并可能重定向用户到主页面或个人主页。这一过程清晰展示了用户登录流程的各个关键步骤及各组件间的交互</p>
+<p>​                               <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630191841675.png" alt="image-20240630191841675"></p>
+<p>如下图3,用户首先在浏览器中打开自习室预约系统的登录页面，并在页面的表单中输入用户名和密码。然后，用户点击“登录”按钮，表单数据通过HTTP请求发送到服务器。服务器接收到请求后，提取用户名和密码，并查询数据库以验证用户名是否存在。如果用户名存在，服务器会对比存储的哈希密码和用户输入的密码。如果用户名或密码不匹配，服务器向用户返回登录失败的信息。如果用户名密码匹配，服务器生成会话令牌，并将令牌发送给用户的浏览器。随后，浏览器收到会话令牌（如JWT或Session ID）并将其保存到Cookie或LocalStorage中。最后，服务器向用户浏览器返回登录成功的信息，并重定向到系统的主页面或用户的个人主页。把这部分的时序图的从上面内容提取出来。</p>
+<p>​                                                   <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps13.jpg" alt="img"> </p>
+<h3 id="管理员功能模块"><a href="#管理员功能模块" class="headerlink" title="管理员功能模块"></a>管理员功能模块</h3><p>添加自习室：</p>
+<p>如下图，浏览器将这些信息通过HTTP请求发送到服务器。服务器接收到请求后，首先对数据进行完整性和合法性检查，确保所有必填字段都有值且数据格式正确。然后，服务器将验证通过的自习室信息存入数据库。如果存储成功，服务器返回成功信息给浏览器；如果失败，则返回错误信息。最后，浏览器接收到服务器的响应并更新页面，根据返回的信息显示添加成功或失败的结果提示。</p>
+<p>​                               <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192418134.png" alt="image-20240630192418134"></p>
+<p>如下图所示，管理员访问自习室预约系统的添加自习室页面，在表单中输入自习室的详细信息并点击“添加”按钮</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192428678.png" alt="image-20240630192428678"></p>
+<p>删除自习室：</p>
+<p>如下图，该请求通过HTTP发送到服务器。服务器接收到请求后，会进行权限检查和请求有效性验证，确保管理员具有相应的操作权限。一旦验证通过，服务器指示数据库删除相关的自习室记录。数据库执行删除操作，服务器将结果返回给浏览器，显示该自习室已被成功删除或删除失败的信息。</p>
+<p>​                                                        <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps16.jpg" alt="img"> </p>
+<p>如下图所示，管理员首先登录到自习室预约系统，并访问自习室管理页面，该页面列出了所有注册的自习室信息。管理员找到并选择他们想要删除的自习室，并点击该自习室旁的“删除”按钮以发起删除请求。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192435966.png" alt="image-20240630192435966"></p>
+<p>修改自习室：</p>
+<p>如下图，编辑完成后，管理员点击“提交”按钮，浏览器会将修改后的信息以HTTP请求的形式发送到服务器。服务器接收这些信息后进行权限验证和数据合法性检查，一旦确认无误，服务器会指示数据库更新这些自习室信息。数据库完成更新操作后，服务器根据操作结果向管理员返回一个成功或失败的响应。浏览器接收到响应后，将页面更新以显现修改成功或失败的通知。这个过程不仅确保了数据的准确性和操作的安全性，还通过即时反馈帮助管理员确认修改操作的最终结果。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192447410.png" alt="image-20240630192447410"></p>
+<p>如下图所示，在自习室预约系统中，管理员首先登录并导航到自习室管理页面，这里列出了所有自习室的详细信息。管理员选择需要修改的自习室，并点击相对应的“编辑”按钮，这将打开一个带有当前自习室信息的表单。管理员在此表单中可以更新自习室的各类信息，如名称、容量、地点及开放时间等。</p>
+<p>​                                                                    <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps19.jpg" alt="img"> </p>
+<h3 id="用户功能模块"><a href="#用户功能模块" class="headerlink" title="用户功能模块"></a>用户功能模块</h3><p>预约自习室：</p>
+<p>如下图，编辑完成后，管理员点击“提交”按钮，浏览器会将修改后的信息以HTTP请求的形式发送到服务器。服务器接收这些信息后进行权限验证和数据合法性检查，一旦确认无误，服务器会指示数据库更新这些自习室信息。数据库完成更新操作后，服务器根据操作结果向管理员返回一个成功或失败的响应。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192457889.png" alt="image-20240630192457889"></p>
+<p>如下图，3-22所示，在自习室预约系统中，管理员首先登录并导航到自习室管理页面，这里列出了所有自习室的详细信息。管理员选择需要修改的自习室，并点击相对应的“编辑”按钮，这将打开一个带有当前自习室信息的表单。管理员在此表单中可以更新自习室的各类信息，如名称、容量、地点及开放时间等。</p>
+<p>​                                                         <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps21.jpg" alt="img"> </p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192512225.png" alt="image-20240630192512225"></p>
+<p>取消预约：</p>
+<p>如下图所示，用户首先登录到系统并导航到自己的预约历史或当前预约页面。在这里，所有的活跃预约都会被列出，包括每个预约的时间、自习室编号以及取消预约的选项。用户选择需要取消的预约后，点击“取消预约”按钮，系统会提示用户确认是否要取消。一旦用户确认取消，系统将自动发送取消请求到服务器，服务器验证请求的有效性后，更新数据库以反映预约被取消的状态。完成后，系统会通知用户预约已成功取消，并更新页面以显示最新的预约状态。用户首先登录到系统并导航到自己的预约历史或当前预约</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192521588.png" alt="image-20240630192521588"></p>
+<p>查看自习室情况：</p>
+<p>如下图所示，用户可以通过系统提供的自习室状态页面来查看各自习室的当前状态和预约情况。用户访问该页面后，系统展示所有自习室的列表，包括每间自习室的位置、容量和当前的占用情况。用户可以查看每个自习室的详细信息，如开放时间和特定时间段内的预约状况，这有助于用户在预约前做出更明智的选择。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192525619.png" alt="image-20240630192525619"></p>
+<p>查看预约情况：</p>
+<p>如下图所示，用户需要了解自己的预约历史，以便于管理和规划个人时间。系统允许用户访问一个专门的页面，列出他们过去和即将进行的所有预约详情。这包括预约的日期、时间、自习室号码以及预约的状态。用户可以通过这一功能轻松跟踪自己的预约状况，并进行相应的规划和调整。</p>
+<p>​                                                           <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps25.jpg" alt="img"> </p>
+<h3 id="超级管理员功能模块"><a href="#超级管理员功能模块" class="headerlink" title="超级管理员功能模块"></a>超级管理员功能模块</h3><p>搜索用户：</p>
+<p>如下图，服务器接收到请求后，解析其中的搜索关键字，并基于这些关键字对数据库进行查询操作，以找到符合条件的用户信息。一旦数据库查询完成，服务器会根据查询结果生成相应的响应信息。如果查询成功并找到了匹配的用户，服务器会将这些用户数据作为响应发送回浏览器；如果没有找到匹配的用户，则会发送一个表示无结果的提示信息。浏览器接收到这些信息后，便会更新用户管理页面，显示出搜索结果或者是没有找到任何用户的提示。整个过程不仅保证了超级管理员能够快速准确地获取用户信息，还优化了用户管理的效率。</p>
+<p>​                                                             <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps26.jpg" alt="img"> </p>
+<p>如下图所示，超级管理员首先需要登录到自习室预约系统，并导船到用户管理页面。这个页面包括一个搜索框，允许超级管理员输入特定的搜索条件，如用户的用户名、邮箱或其他相关属性。输入完成后，超级管理员点击“搜索”按钮，此时浏览器会将这些搜索条件通过HTTP请求形式发送给服务器。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192544783.png" alt="image-20240630192544783"></p>
+<p>管理用户：</p>
+<p>如下图，此时系统会将这一角色更改请求通过HTTP请求发送到服务器。服务器接收到请求后，首先进行权限验证，确保当前操作员有权执行这一角色修改操作。若权限验证通过，服务器则指令数据库更新该用户的角色信息。数据库更新完成后，服务器会根据操作的结果生成响应，并将其发送回浏览器。浏览器接收到这一信息后，会更新用户管理页面，并向超级管理员显示角色更新成功或失败的提示。这个完整的流程不仅保证了用户角色管理的灵活性和系统的权限控制，还通过实时反馈使得超级管理员能够即刻知晓操作结果，从而提升了用户管理的效率和准确性。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192553947.png" alt="image-20240630192553947"></p>
+<p>如下图所示，在自习室预约系统中，超级管理员首先需要通过浏览器登录系统，并导航至用户管理页面。此页面详细展示了系统中所有用户的列表，包括他们的基本信息和当前分配的角色。超级管理员浏览这个列表，并选择想要修改角色的特定用户。选择用户后，超级管理员可以通过一个界面元素（通常是下拉菜单）来指定新的用户角色，比如将用户从普通用户改为管理员或其他角色。一旦选择了新的角色，超级管理员会点击“更新”或“提交”按钮。</p>
+<p>​                                                                <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192605509.png" alt="image-20240630192605509"></p>
+<p>​                                                                                  <img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps30.jpg" alt="img"> </p>
+<p>查看使用统计：</p>
+<p>如下图所示，通过合法的认证流程登录系统。登录后，超级管理员可以导航到系统提供的“统计”或“报表”页面，这里集中展示了自习室使用的各种统计数据。这些统计数据通常包括但不限于用户预约次数、自习室使用频率、高峰使用时段、取消预约的次数以及任何特定时间段内的用户活动情况。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192613060.png" alt="image-20240630192613060"></p>
+<h2 id="系统测试"><a href="#系统测试" class="headerlink" title="系统测试"></a>系统测试</h2><h3 id="系统测试综述"><a href="#系统测试综述" class="headerlink" title="系统测试综述"></a>系统测试综述</h3><p>综述：</p>
+<p>在自习室预约系统中，我们聚焦于测试查看自习室情况、预约和取消预约功能以确认普通用户的交互正确性；同时，管理员的添加、删除和修改自习室信息功能进行深入测试以保证系统信息的准确更新；对于超级管理员功能，特别测试了查看使用统计、管理用户以及搜索用户信息的准确性和效率。这些测试是为了确保系统各功能模块不仅符合设计要求，同时也提供了用户友好、安全和高效的操作体验，从而在系统投入实际使用前，能够识别并修正潜在问题，进一步提升服务的质量和用户满意度。通过全面的测试策略，我们的目标是确保自习室预约系统在提供必需服务的同时，保护用户信息的安全，同时确保系统跨平台的兼容性和高效性。测试覆盖了从基本功能到用户最终接受的每个阶段，确保发现并修复潜在的问题，从而提供一个既易于使用也高度可靠的系统，满足最终用户的期望和需求。这些测试不仅提高了系统的整体质量，也提升了用户信任。</p>
+<p>测试类型及其目的：</p>
+<p>功能测试：主要验证系统中的核心功能，如预约准确性、用户管理、通知系统以及时间选择功能。这项测试确保所有功能按预期工作，没有逻辑错误或缺陷，从而保证系统操作的正确性和预期行为。</p>
+<p>性能测试：着重检查系统在高负载或高压力条件下的表现。该测试评估系统的响应速度和稳定性，确保在大量用户同时使用时系统能够有效地处理请求，从而提供持续的服务质量。</p>
+<p>安全性测试：保证用户数据的安全性和隐私。通过这项测试，我们评估系统防止未授权访问以及数据泄露的能力，关注保护用户信息和转输安全。</p>
+<p>兼容性测试：验证软件在不同的设备、操作系统和浏览器上的运行稳定性。这确保所有用户无论使用何种技术平台都能获得一致的体验。</p>
+<p>用户接受测试：通过实际用户的操作反馈来评估系统的实用性和满意度。这项测试帮助我们了解用户在日常使用中遇到的问题和不便，以便进行调整和优化，提升用户体验。</p>
+<h3 id="关键测试"><a href="#关键测试" class="headerlink" title="关键测试"></a>关键测试</h3><p>接口测试：</p>
+<p>如下图所示，登录接口测试用Postman进行用户登录测试的过程。其中，发送了一个包含用户名和密码的POST请求到本地服务器，并成功接收到JSON格式响应数据。这表明登录操作被成功处理，用户被验证为“普通用户”。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192633876.png" alt="image-20240630192633876"></p>
+<p>如下图所示，预约查询接口测试使用Postman来获取预约信息的过程。在图中，执行了一个GET请求至<a target="_blank" rel="noopener" href="http://localhost:8989/reservations%E4%BB%A5%E6%9F%A5%E8%AF%A2%E9%A2%84%E7%BA%A6%E6%95%B0%E6%8D%AE%E3%80%82%E8%AF%B7%E6%B1%82%E6%88%90%E5%8A%9F%EF%BC%8C%E7%8A%B6%E6%80%81%E7%A0%81200%E8%A1%A8%E6%98%8E%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B%E9%A1%BA%E5%88%A9%E3%80%82%E8%BF%94%E5%9B%9E%E7%9A%84JSON%E5%93%8D%E5%BA%94%E6%95%B0%E6%8D%AE%E5%8C%85%E5%90%AB%E4%B8%80%E7%B3%BB%E5%88%97%E7%9A%84%E9%A2%84%E7%BA%A6%E4%BF%A1%E6%81%AF%EF%BC%8C%E8%BF%99%E9%87%8C%E6%98%BE%E7%A4%BA%E4%BA%86%E4%B8%80%E6%9D%A1%E9%A2%84%E7%BA%A6%E7%9A%84%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF%E3%80%82%E8%AF%A5%E9%A2%84%E7%BA%A6%E5%8C%85%E5%90%AB%E5%A4%9A%E4%B8%AA%E5%AD%97%E6%AE%B5%EF%BC%9A%E9%A2%84%E7%BA%A6ID%E4%B8%BA1%EF%BC%8C%E9%A2%84%E7%BA%A6%E7%8A%B6%E6%80%81%E7%A0%81%E4%B8%BA2%EF%BC%88%E5%8F%AF%E8%83%BD%E8%A1%A8%E7%A4%BA%E6%9F%90%E7%A7%8D%E7%8A%B6%E6%80%81%EF%BC%8C%E6%AF%94%E5%A6%82&quot;%E5%B7%B2%E7%A1%AE%E8%AE%A4&quot;%EF%BC%89%EF%BC%8C%E7%94%A8%E6%88%B7%E5%A7%93%E5%90%8D%E4%B8%BA%E7%A9%BA%EF%BC%8C%E9%A2%84%E7%BA%A6%E7%B1%BB%E5%9E%8B%E4%B8%BA&quot;%E8%AE%BE%E6%96%BD%E9%A2%84%E7%BA%A6&quot;%EF%BC%8C%E5%85%B7%E4%BD%93%E4%BD%8D%E7%BD%AE%E4%B8%BA&quot;A2-209&quot;%EF%BC%8C%E9%A2%84%E7%BA%A6%E5%8E%9F%E5%9B%A0%E6%98%AF&quot;%E5%AD%A6%E4%B9%A0%E8%AE%A8%E8%AE%BA&quot;%E3%80%82%E9%A2%84%E7%BA%A6%E7%9B%B8%E5%85%B3%E7%9A%84%E8%AE%BE%E6%96%BD%E5%8C%85%E6%8B%AC&quot;%E7%94%B5%E8%84%91%E5%92%8C%E6%8A%95%E5%BD%B1%E4%BB%AA&quot;%E3%80%82%E8%BF%99%E5%9B%BE%E6%9C%89%E6%95%88%E6%BC%94%E7%A4%BA%E4%BA%86%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87API%E6%8E%A5%E5%8F%A3%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E9%A2%84%E7%BA%A6%E8%AF%A6%E6%83%85%EF%BC%8C%E8%BF%99%E5%AF%B9%E4%BA%8E%E7%AE%A1%E7%90%86%E5%92%8C%E7%9B%91%E7%9D%A3%E9%A2%84%E7%BA%A6%E7%B3%BB%E7%BB%9F%E5%B0%A4%E4%B8%BA%E9%87%8D%E8%A6%81%E3%80%82">http://localhost:8989/reservations以查询预约数据。请求成功，状态码200表明查询过程顺利。返回的JSON响应数据包含一系列的预约信息，这里显示了一条预约的详细信息。该预约包含多个字段：预约ID为1，预约状态码为2（可能表示某种状态，比如&quot;已确认&quot;），用户姓名为空，预约类型为&quot;设施预约&quot;，具体位置为&quot;A2-209&quot;，预约原因是&quot;学习讨论&quot;。预约相关的设施包括&quot;电脑和投影仪&quot;。这图有效演示了如何通过API接口获取系统中的预约详情，这对于管理和监督预约系统尤为重要。</a></p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240630192639167.png" alt="image-20240630192639167"></p>
+<p>如下图所示，审核接口测试使用Postman执行PUT请求以修改预约信息的操作。请求成功执行，返回表明预约信息已经被成功更新。这表明API已经正确处理了修改预约信息的请求。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps34.jpg" alt="img"> </p>
+<p>如下图所示，获取用户列表接口测试使用Postman执行GET请求从服务器获取用户角色信息的过程。请求成功返回，展示了包括用户名、角色、电邮、电话和用户ID在内的详细信息，用于描绘系统中某个用户的权限和角色概况。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/wps35.jpg" alt="img"> </p>
+<h3 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h3><p>如下表3-10，这组测试用例关注于验证系统管理用户的功能，包括添加新用户，修改现有用户信息，以及删除用户。各个用例检验系统是否能够成功执行用户管理任务并给出适当的反馈消息。</p>
+<p>表3-10 管理用户测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>添加新用户</td>
+<td>检验添加用户功能的执行</td>
+<td>成功添加用户，系统显示添加成功消息</td>
+<td>成功添加，消息正确显示</td>
+</tr>
+<tr>
+<td>修改现有用户信息</td>
+<td>检验修改用户信息的正确性</td>
+<td>成功修改用户信息，系统显示更新成功消息</td>
+<td>修改成功，消息正确显示</td>
+</tr>
+<tr>
+<td>删除用户</td>
+<td>检验删除用户的功能</td>
+<td>成功删除用户，系统显示删除成功消息</td>
+<td>用户成功删除，确认消息显示</td>
+</tr>
+</tbody></table>
+<p>如下表3-11，测试用例集中于系统的用户搜索功能，包括对存在的用户的精确搜索，对不存在用户的搜索处理，以及使用模糊匹配进行的多用户搜索，确认系统能否在这些情况下准确显示用户信息或相关提示。</p>
+<p>表3-11 搜索用户测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>搜索存在的用户</td>
+<td>检验搜索功能的准确性</td>
+<td>系统正确显示匹配的用户信息</td>
+<td>搜索成功，用户信息准确显示</td>
+</tr>
+<tr>
+<td>搜索不存在的用户</td>
+<td>测试系统的搜索容错能力</td>
+<td>系统显示无结果，提示用户找不到匹配信息</td>
+<td>搜索结果为空，系统正确显示无匹配信息提示</td>
+</tr>
+<tr>
+<td>使用模糊匹配搜索多个用户</td>
+<td>检验模糊搜索功能的效果</td>
+<td>系统显示所有相关匹配的用户信息</td>
+<td>模糊搜索成功，相关用户信息被展示</td>
+</tr>
+</tbody></table>
+<p>如下表3-12，这些测试用例旨在评估系统在显示自习室使用统计信息上的表现，无论是在没有使用记录的情况下还是有使用记录时，系统都应正确显示相关统计信息。</p>
+<p>表3-12 查看使用统计测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>没有任何自习室使用记录时查看统计</td>
+<td>检验统计功能正常情况下的显示</td>
+<td>统计结果显示无使用记录</td>
+<td>系统正确显示无使用记录</td>
+</tr>
+<tr>
+<td>自习室有使用记录时查看统计</td>
+<td>检验统计功能反映实际使用情况</td>
+<td>统计结果详细反映每个自习室的使用情况</td>
+<td>统计正确，详细展示每个自习室的使用记录</td>
+</tr>
+</tbody></table>
+<p>如下表3-13，这一组测试用例检查系统在不同情况下（全部空闲、部分预约、全部预约满）展示自习室状态的准确性。</p>
+<p>表3-13 查看自习室情况测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自习室全部空闲时进行查看</td>
+<td>检查系统显示所有自习室空闲情况</td>
+<td>系统显示所有自习室处于空闲状态</td>
+<td>系统正确显示所有自习室空闲状态</td>
+</tr>
+<tr>
+<td>自习室部分被预约时进行查看</td>
+<td>检查系统显示部分自习室预约情况</td>
+<td>系统显示部分自习室被预约，其余空闲</td>
+<td>系统正确反映部分自习室被预约，其余空闲</td>
+</tr>
+<tr>
+<td>自习室全部被预约满时查看</td>
+<td>检查系统显示所有自习室被预约情况</td>
+<td>系统显示所有自习室处于被预约状态</td>
+<td>系统正确显示所有自习室被预约状态</td>
+</tr>
+</tbody></table>
+<p>如下表3-14，用例专注于系统处理自习室预约的能力，包括成功预约空闲的自习室、处理预约冲突以及连续预约多间自习室的情况，确保系统在这些场景下能正确执行并提供反馈。</p>
+<p>表3-14 预约自习室测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>预约一间未被预约的自习室</td>
+<td>测试能否成功预约自习室</td>
+<td>成功预约，系统显示预约成功信息</td>
+<td>预约成功，系统显示预约成功信息</td>
+</tr>
+<tr>
+<td>尝试预约已被他人预约满的自习室</td>
+<td>测试系统处理冲突预约的能力</td>
+<td>系统显示错误信息，指出自习室已被预约</td>
+<td>尝试失败，系统正确显示错误信息</td>
+</tr>
+<tr>
+<td>连续预约多间自习室</td>
+<td>测试系统处理多项预约的能力</td>
+<td>成功预约多间自习室，显示预约成功信息</td>
+<td>成功预约多间，系统正确显示预约成功信息</td>
+</tr>
+</tbody></table>
+<p>如下表3-15，测试集包括检验用户取消自己之前成功的自习室预约，并测试系统防止用户撤销他人预约的安全性和权限管理。目的是确保系统在处理取消操作时既符合预期又维护了适当的访问控制。</p>
+<p>表3-15 取消预约测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>取消自己之前成功预约的自习室</td>
+<td>测试能否取消自己的预约</td>
+<td>成功取消预约，系统显示取消成功信息</td>
+<td>预约取消成功，实际结果与预期相符</td>
+</tr>
+<tr>
+<td>尝试取消他人的预约</td>
+<td>测试系统的安全性和权限管理</td>
+<td>系统显示错误信息，不允许取消他人预约</td>
+<td>系统正确显示错</td>
+</tr>
+</tbody></table>
+<p>如下表3-16，这些用例测试系统如何处理自习室的删除请求，包括已安排和未安排预约的自习室，以及尝试删除不存在的自习室。这一系列测试旨在确保删除操作在不同状况下被正确处理，提供适当的反馈和错误处理。</p>
+<p>表3-16 删除自习室测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>删除系统中未被预约的自习室</td>
+<td>检验删除功能的正常逻辑</td>
+<td>成功删除，系统更新状态表示自习室已删除</td>
+<td>成功删除自习室，系统正确显示删除状态</td>
+</tr>
+<tr>
+<td>删除系统中已被预约的自习室</td>
+<td>检验系统如何处理预约中的删除请求</td>
+<td>系统阻止删除或需特殊处理</td>
+<td>系统成功阻止删除，提示自习室正在被预约中</td>
+</tr>
+<tr>
+<td>尝试删除不存在的自习室</td>
+<td>测试系统的错误处理能力</td>
+<td>系统显示错误信息，删除失败</td>
+<td>系统正确显示错误信息，指出自习室不存在</td>
+</tr>
+</tbody></table>
+<p>如下表3-17，此部分测试用例关注于系统添加新自习室的功能，验证系统如何处理新自习室的添加，包括重复自习室编号的错误处理和在信息输入不完整时的系统反馈。</p>
+<p>表3-17 添加自习室测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>成功在系统中添加一个新的自习室</td>
+<td>检验添加功能的正常逻辑</td>
+<td>系统显示添加成功并更新自习室列表</td>
+<td>添加成功，系统正确显示自习室列表更新</td>
+</tr>
+<tr>
+<td>尝试添加已存在的自习室编号</td>
+<td>测试系统处理重复添加的能力</td>
+<td>系统显示错误，指出自习室编号重复</td>
+<td>系统成功显示错误信息，防止重复添加</td>
+</tr>
+<tr>
+<td>添加自习室时未填写完整信息</td>
+<td>测试系统的输入验证功能</td>
+<td>系统显示错误并要求必要信息完整</td>
+<td>系统正确显示错误，要求填写必要信息</td>
+</tr>
+</tbody></table>
+<p>如下表3-18，这组测试用例评估了修改自习室信息的功能，测试了合法和非法修改案例，包括尝试修改不存在的自习室以及输入非法数据时的系统响应。目标是验证系统在更新自习室信息时的可靠性和错误处理能力。</p>
+<p>表3-18 修改自习室测试用例表</p>
+<table>
+<thead>
+<tr>
+<th>测试用例描述</th>
+<th>目标</th>
+<th>预期结果</th>
+<th>实际结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>修改自习室的信息</td>
+<td>检验修改功能的正常逻辑</td>
+<td>成功修改，系统显示更新成功消息</td>
+<td>修改成功，系统正确显示更新成功消息</td>
+</tr>
+<tr>
+<td>尝试修改不存在的自习室信息</td>
+<td>测试系统的错误处理能力</td>
+<td>系统显示错误信息，修改失败</td>
+<td>系统正确显示错误信息，指出自习室不存在</td>
+</tr>
+<tr>
+<td>修改自习室信息时输入非法数据</td>
+<td>测试系统的输入验证功能</td>
+<td>系统显示错误信息，阻止修改</td>
+<td>系统正确显示错误，防止了无效的修改</td>
+</tr>
+</tbody></table>
+<h3 id="测试分析"><a href="#测试分析" class="headerlink" title="测试分析"></a>测试分析</h3><p>在对自习室预约系统进行细致的测试后，我们发现系统在多数关键功能上运作正常且符合预设需求。通过模拟普通用户的各种情境，如查看自习室预约状态、预约和取消自习室，系统显示了良好的反馈和正确管理冲突的能力。管理员功能测试表明，添加、删除和修改自习室的操作均得以准确执行，系统妥善处理了包括预约中的自习室不能被删除的逻辑。超级管理员的权限测试也验证了其对整个系统用户和统计信息的完全控制能力。模拟的实际结果与预期结果大致一致，验证了系统的可靠性和用户界面的友好性。然而，存在的一些预期外情况建议我们在未来增强输入验证、错误提示和系统的异常处理机制，特别是在处理重复数据和非法输入时。总体来说，自习室预约系统表现出了良好的稳定性和功能完整性，适合进行下一阶段的用户验收测试和进一步开发。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在这个项目中，我使用Spring Boot作为后端框架，并结合Element Plus和Vue作为前端框架，构建了一个功能齐全的应用程序。Spring Boot提供了快速搭建后端服务的方式，支持依赖注入、自动配置和开发工具，极大地提升了开发效率，并能轻松集成各种第三方库。前端方面，Element Plus提供了一套漂亮易用的UI组件，而Vue则简化了数据绑定和组件开发，使前端代码更易维护和扩展。通过将后端和前端分离开发和部署，利用RESTful API进行通信，系统保持了松散耦合和易扩展性。我实现了用户管理功能，如登录、注册、获取和修改个人信息、搜索用户和查看所有用户等，并使用Spring Security进行权限控制，确保只有特定权限的用户能访问相应接口。项目中，用户管理功能包括注册、登录、获取和修改个人信息，这些操作通过Spring Boot的RESTful API实现，前端通过Axios进行请求处理。为了确保系统的安全性，我使用Spring Security进行权限控制，确保只有特定权限的用户可以访问相应的接口。这个项目集成了Spring Boot、Element Plus和Vue等技术，增强了我对这些技术的理解，并为今后的开发工作提供了良好的基础和参考。通过这个项目，我深刻体会到合适的技术栈能够极大地提升开发效率和系统质量，前后端分离开发的优势使得开发过程更加高效，细粒度的权限控制确保了系统的安全性，而组件化开发使得代码更加模块化和可维护。总之，这个项目不仅提升了我的技术能力，也让我对系统架构设计、用户体验和安全性有了更深刻的理解。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2024/04/02/javaEE/">https://kalyan-zitiu.github.io/2024/04/02/javaEE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a><a class="post-meta__tags" href="/tags/springboot/">springboot</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(61).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/08/%E5%9F%BA%E4%BA%8EDocker%E9%83%A8%E7%BD%B2Kubernetes/"><img class="prev-cover" src="/img/WallPaper%20(59).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">基于Docker部署Kubernetes</div></div></a></div><div class="next-post pull-right"><a href="/2024/03/04/AWS%20%E6%9C%8D%E5%8A%A1%E8%AF%A6%E7%BB%86/"><img class="next-cover" src="/img/WallPaper%20(57).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">AWS Server Details</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">41</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a><a class="social-icon" href="https://auto.kalyan-dao.space/" target="_blank" title="AutoGPT"><i class="fa-solid fa-shuttle-space"></i></a><a class="social-icon" href="https://chat.zhile.io/" target="_blank" title="FakeGPT"><i class="fa-brands fa-kickstarter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">代码连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E8%AF%B4%E6%98%8E%E4%BB%A5%E5%8F%8A%E5%8A%9F%E8%83%BD%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">需求说明以及功能分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%94%A8%E4%BE%8B%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E5%8F%8A%E5%85%B6%E5%8A%9F%E8%83%BD"><span class="toc-number">2.1.</span> <span class="toc-text">用户用例需求分析及其功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%80%BB%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">2.2.</span> <span class="toc-text">系统总操作流程分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">系统概要设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0%E4%BB%A5%E5%8F%8A%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.1.</span> <span class="toc-text">系统概述以及设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.2.</span> <span class="toc-text">系统结构设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.3.</span> <span class="toc-text">数据库设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.4.</span> <span class="toc-text">安全设计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1"><span class="toc-number">4.</span> <span class="toc-text">系统详细设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="toc-number">4.1.</span> <span class="toc-text">登录功能模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E5%91%98%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="toc-number">4.2.</span> <span class="toc-text">管理员功能模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="toc-number">4.3.</span> <span class="toc-text">用户功能模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E7%BA%A7%E7%AE%A1%E7%90%86%E5%91%98%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="toc-number">4.4.</span> <span class="toc-text">超级管理员功能模块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95"><span class="toc-number">5.</span> <span class="toc-text">系统测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%B5%8B%E8%AF%95%E7%BB%BC%E8%BF%B0"><span class="toc-number">5.1.</span> <span class="toc-text">系统测试综述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%B5%8B%E8%AF%95"><span class="toc-number">5.2.</span> <span class="toc-text">关键测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">5.3.</span> <span class="toc-text">测试用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E5%88%86%E6%9E%90"><span class="toc-number">5.4.</span> <span class="toc-text">测试分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/%E7%AE%80%E6%98%93%E9%AB%98%E5%BC%B9%E6%80%A7BS%E6%9E%B6%E6%9E%84/" title="简易高弹性B/S架构"><img src="/img/WallPaper%20(58).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易高弹性B/S架构"/></a><div class="content"><a class="title" href="/2024/04/12/%E7%AE%80%E6%98%93%E9%AB%98%E5%BC%B9%E6%80%A7BS%E6%9E%B6%E6%9E%84/" title="简易高弹性B/S架构">简易高弹性B/S架构</a><time datetime="2024-04-12T12:00:00.000Z" title="發表於 2024-04-12 20:00:00">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/10/%E7%9E%8E%E7%8E%A9EKS/" title="EKS概述"><img src="/img/WallPaper%20(60).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="EKS概述"/></a><div class="content"><a class="title" href="/2024/04/10/%E7%9E%8E%E7%8E%A9EKS/" title="EKS概述">EKS概述</a><time datetime="2024-04-10T12:00:00.000Z" title="發表於 2024-04-10 20:00:00">2024-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/08/%E5%9F%BA%E4%BA%8EDocker%E9%83%A8%E7%BD%B2Kubernetes/" title="基于Docker部署Kubernetes"><img src="/img/WallPaper%20(59).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于Docker部署Kubernetes"/></a><div class="content"><a class="title" href="/2024/04/08/%E5%9F%BA%E4%BA%8EDocker%E9%83%A8%E7%BD%B2Kubernetes/" title="基于Docker部署Kubernetes">基于Docker部署Kubernetes</a><time datetime="2024-04-08T06:00:00.000Z" title="發表於 2024-04-08 14:00:00">2024-04-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/02/javaEE/" title="javaEE"><img src="/img/WallPaper%20(61).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="javaEE"/></a><div class="content"><a class="title" href="/2024/04/02/javaEE/" title="javaEE">javaEE</a><time datetime="2024-04-02T07:00:00.000Z" title="發表於 2024-04-02 15:00:00">2024-04-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/04/AWS%20%E6%9C%8D%E5%8A%A1%E8%AF%A6%E7%BB%86/" title="AWS Server Details"><img src="/img/WallPaper%20(57).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AWS Server Details"/></a><div class="content"><a class="title" href="/2024/03/04/AWS%20%E6%9C%8D%E5%8A%A1%E8%AF%A6%E7%BB%86/" title="AWS Server Details">AWS Server Details</a><time datetime="2024-03-04T07:00:00.000Z" title="發表於 2024-03-04 15:00:00">2024-03-04</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(61).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
