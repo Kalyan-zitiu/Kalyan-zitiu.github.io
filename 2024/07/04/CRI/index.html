@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>CRI容器运行时接口 | Kalyan的小书房</title><meta name="keywords" content="CRI"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="CRI (容器运行时接口)了解CRI之前，我们先了解一下什么是RPC 什么是RPC概述  一种常用的通信机制，运行程序调用位于远程计算机上的行数或方法，就像调用本地对象一眼。RPC抽象了底层的网络通信细节，使得开发者可以更加专注与业务逻辑的开发，不必过多担心网络相关性的复杂性。 RPC工作原理客户端调用过程 客户端程序调用一个本地的存根（stub）函数，这个存根代表远程函数 存根将函数调用的参数打">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CRI容器运行时接口">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2024/07/04/CRI/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="CRI (容器运行时接口)了解CRI之前，我们先了解一下什么是RPC 什么是RPC概述  一种常用的通信机制，运行程序调用位于远程计算机上的行数或方法，就像调用本地对象一眼。RPC抽象了底层的网络通信细节，使得开发者可以更加专注与业务逻辑的开发，不必过多担心网络相关性的复杂性。 RPC工作原理客户端调用过程 客户端程序调用一个本地的存根（stub）函数，这个存根代表远程函数 存根将函数调用的参数打">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(63).jpg">
+<meta property="article:published_time" content="2024-07-04T08:22:37.000Z">
+<meta property="article:modified_time" content="2024-07-04T08:22:39.787Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="CRI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(63).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2024/07/04/CRI/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CRI容器运行时接口',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-04 16:22:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">47</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">44</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(63).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CRI容器运行时接口</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2024-07-04T08:22:37.000Z" title="發表於 2024-07-04 16:22:37">2024-07-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2024-07-04T08:22:39.787Z" title="更新於 2024-07-04 16:22:39">2024-07-04</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/K8s/">K8s</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/K8s/CRI/">CRI</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CRI容器运行时接口"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="CRI-容器运行时接口"><a href="#CRI-容器运行时接口" class="headerlink" title="CRI (容器运行时接口)"></a>CRI (容器运行时接口)</h1><p>了解CRI之前，我们先了解一下什么是RPC</p>
+<h2 id="什么是RPC"><a href="#什么是RPC" class="headerlink" title="什么是RPC"></a>什么是RPC</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  一种常用的通信机制，运行程序调用位于远程计算机上的行数或方法，就像调用本地对象一眼。RPC抽象了底层的网络通信细节，使得开发者可以更加专注与业务逻辑的开发，不必过多担心网络相关性的复杂性。</p>
+<h3 id="RPC工作原理"><a href="#RPC工作原理" class="headerlink" title="RPC工作原理"></a>RPC工作原理</h3><h4 id="客户端调用过程"><a href="#客户端调用过程" class="headerlink" title="客户端调用过程"></a>客户端调用过程</h4><ol>
+<li>客户端程序调用一个本地的存根（stub）函数，这个存根代表远程函数</li>
+<li>存根将函数调用的参数打包成一个消息，通过网络发送给服务端</li>
+<li>客户端等待服务端响应</li>
+</ol>
+<h4 id="服务端处理过程"><a href="#服务端处理过程" class="headerlink" title="服务端处理过程"></a>服务端处理过程</h4><ol>
+<li>服务器收到消息，解包得到调用参数。</li>
+<li>服务端调用本地实际函数，执行必要的处理。</li>
+<li>处理完毕后，服务端将结果打包并发送回客户端。<h4 id="客户端接收过程"><a href="#客户端接收过程" class="headerlink" title="客户端接收过程"></a>客户端接收过程</h4></li>
+<li>客户端存根收到响应消息，解包得到结果</li>
+<li>客户端的调用像本地执行一样，得到从远程服务器返回的结果。</li>
+</ol>
+<h3 id="RPC特点"><a href="#RPC特点" class="headerlink" title="RPC特点"></a>RPC特点</h3><ul>
+<li>封装:隐藏网络通信细节，开发者无需直接处理socket编程或其他通信协议细节</li>
+<li>同步:默认同步，即客户端调用一个远程方法时候，回阻塞知道得到结果，尽管如此，许多现代RPC框架支持异步调用。</li>
+<li>透明:</li>
+</ul>
+<h3 id="常见的RPC框架"><a href="#常见的RPC框架" class="headerlink" title="常见的RPC框架"></a>常见的RPC框架</h3><ul>
+<li>gRPC：由Google开发，基于HTTP/2协议，支持多种语言，能够提供高性能的通信。gRPC使用Protocol Buffers作为其接口定义语言和消息序列化格式。</li>
+<li>Apache Thrift：由Facebook开发，支持跨语言服务的开发，使用自定义的IDL (Interface Definition Language) 来定义数据类型和服务接口。</li>
+<li>JSON-RPC和XML-RPC：这些是较轻量级的RPC实现，使用JSON和XML格式分别进行数据序列化，易于与Web技术集成。</li>
+</ul>
+<h3 id="RPC应用场景"><a href="#RPC应用场景" class="headerlink" title="RPC应用场景"></a>RPC应用场景</h3><ul>
+<li><p>微服务架构：在微服务架构中，各个服务组件常常需要进行网络通信，RPC提供了一种高效的方式来实现服务间的调用。</p>
+</li>
+<li><p>分布式计算：在需要多个节点共同完成计算任务的场景中，RPC可以用来协调各个节点之间的工作。</p>
+</li>
+</ul>
+<p>让我再在了解CRI之前，先清楚什么是容器的执行以及生命周期</p>
+<h2 id="容器执行和生命周期"><a href="#容器执行和生命周期" class="headerlink" title="容器执行和生命周期"></a>容器执行和生命周期</h2><p>容器的执行和生命周期是指容器从创建到终止的整个过程，涉及到创建，启动，运行，停止和删除。</p>
+<ul>
+<li>创建（Pre-production/Planning）：<br>就像电影制作前的筹备阶段，需要确定剧本、演员、场地等。在 Kubernetes 中，创建容器涉及配置容器的环境，如定义容器的镜像、资源限制（CPU、内存）、网络设置等。</li>
+<li>启动（Production/Shooting）：<br>类似于电影开始拍摄。容器的启动阶段是指实际上将容器镜像运行起来。在这个阶段，容器内部的应用开始执行其预定任务，比如启动一个 Web 服务器、数据库服务等。</li>
+<li>运行（Release/Screening）：<br>就像电影的放映过程。容器成功启动后，它会进入运行状态。在这个阶段，容器内的应用对外提供服务，如处理网络请求、执行数据处理等。</li>
+<li>停止（Ending）：<br>类似于电影放映结束。当容器需要更新或不再需要时，它会被停止。停止容器通常意味着停止容器内部的应用进程。</li>
+<li>删除（Post-production/Cleanup）：<br>就像电影拍摄后的清理阶段。在容器的生命周期的最后阶段，容器会被彻底删除，包括其在节点上的所有数据。这确保了不会留下无用的资源或数据。</li>
+</ul>
+<h3 id="生命周期钩子"><a href="#生命周期钩子" class="headerlink" title="生命周期钩子"></a>生命周期钩子</h3><p>允许用户在容器的特殊阶段进行自定义操作。</p>
+<h4 id="PostStart"><a href="#PostStart" class="headerlink" title="PostStart"></a>PostStart</h4><p><code>PostSrart</code>是在容器创建并启动后立即执行的钩子，这个钩子的执行时间是容器入口命令开始执行之后，但是并不保证是容器的应用程序完全启动之后再再执行。</p>
+<p>ps：若是PostStart钩子启动失败，那么容器不会被杀死或者重启，钩子启动失败的记录会写入日志中。</p>
+<h4 id="PreStop"><a href="#PreStop" class="headerlink" title="PreStop"></a>PreStop</h4><p><code>PreStop</code>是容器被终止钱执行的钩子。当k8s需要停止容器时，首先调用PreStop钩子，然后才会执行容器的终止过程。经常用于优雅的关闭应用程序，保存状态，执行清理任务。</p>
+<p>ps：钩子是会延迟容器的终止过程的，因为k8s会等待钩子执行完成后才会发送SIGTERM信号停止容器。</p>
+<h2 id="CRI是什么"><a href="#CRI是什么" class="headerlink" title="CRI是什么"></a>CRI是什么</h2><p>简单理解的话可以理解成一个适配器，就是为了管理不同容器运行时进行交互的一套标准接口。主要的作用是为了解决k8s直接依赖特定容器运行时的问题。主要是启动停止容器，拉取容器镜像，查询容器状态，管理容器生命周期。</p>
+<ol>
+<li>统一接口是通过RPC内gRPC框架实现的。</li>
+<li>解耦合，完成了k8s与docker直接集成的紧密耦合关系。</li>
+<li>可以让开发者通过自我需求或喜爱来选择合适的容器进行时。</li>
+</ol>
+<h3 id="为什么使用gRPC"><a href="#为什么使用gRPC" class="headerlink" title="为什么使用gRPC"></a>为什么使用gRPC</h3><ul>
+<li>首先是使用了能够适应高并发低延迟的通信的HTTP/2，再头部压缩和多路复用请求等高效传输机制。</li>
+<li>gRPC支持双向流，允许服务器和客户端再长连接中实时发送和接受消息。</li>
+</ul>
+<p>只有了解这么多了，gRPC还有很多有用的功能，适用场景也比较广，可能日后碰上这种场景后再继续了解。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2024/07/04/CRI/">https://kalyan-zitiu.github.io/2024/07/04/CRI/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CRI/">CRI</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(63).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/"><img class="next-cover" src="/img/WallPaper%20(62).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux从核心到边缘</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">47</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">44</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a><a class="social-icon" href="https://auto.kalyan-dao.space/" target="_blank" title="AutoGPT"><i class="fa-solid fa-shuttle-space"></i></a><a class="social-icon" href="https://chat.zhile.io/" target="_blank" title="FakeGPT"><i class="fa-brands fa-kickstarter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CRI-%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.</span> <span class="toc-text">CRI (容器运行时接口)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRPC"><span class="toc-number">1.1.</span> <span class="toc-text">什么是RPC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.2.</span> <span class="toc-text">RPC工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">客户端调用过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">服务端处理过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">客户端接收过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC%E7%89%B9%E7%82%B9"><span class="toc-number">1.1.3.</span> <span class="toc-text">RPC特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84RPC%E6%A1%86%E6%9E%B6"><span class="toc-number">1.1.4.</span> <span class="toc-text">常见的RPC框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.5.</span> <span class="toc-text">RPC应用场景</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E6%89%A7%E8%A1%8C%E5%92%8C%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.2.</span> <span class="toc-text">容器执行和生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90"><span class="toc-number">1.2.1.</span> <span class="toc-text">生命周期钩子</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PostStart"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">PostStart</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PreStop"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">PreStop</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CRI%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.3.</span> <span class="toc-text">CRI是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8gRPC"><span class="toc-number">1.3.1.</span> <span class="toc-text">为什么使用gRPC</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/04/CRI/" title="CRI容器运行时接口"><img src="/img/WallPaper%20(63).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CRI容器运行时接口"/></a><div class="content"><a class="title" href="/2024/07/04/CRI/" title="CRI容器运行时接口">CRI容器运行时接口</a><time datetime="2024-07-04T08:22:37.000Z" title="發表於 2024-07-04 16:22:37">2024-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/" title="Linux从核心到边缘"><img src="/img/WallPaper%20(62).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux从核心到边缘"/></a><div class="content"><a class="title" href="/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/" title="Linux从核心到边缘">Linux从核心到边缘</a><time datetime="2024-07-01T15:42:37.000Z" title="發表於 2024-07-01 23:42:37">2024-07-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/%E7%AE%80%E6%98%93%E9%AB%98%E5%BC%B9%E6%80%A7BS%E6%9E%B6%E6%9E%84/" title="简易高弹性B/S架构"><img src="/img/WallPaper%20(58).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易高弹性B/S架构"/></a><div class="content"><a class="title" href="/2024/04/12/%E7%AE%80%E6%98%93%E9%AB%98%E5%BC%B9%E6%80%A7BS%E6%9E%B6%E6%9E%84/" title="简易高弹性B/S架构">简易高弹性B/S架构</a><time datetime="2024-04-12T12:00:00.000Z" title="發表於 2024-04-12 20:00:00">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/10/%E7%9E%8E%E7%8E%A9EKS/" title="EKS概述"><img src="/img/WallPaper%20(60).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="EKS概述"/></a><div class="content"><a class="title" href="/2024/04/10/%E7%9E%8E%E7%8E%A9EKS/" title="EKS概述">EKS概述</a><time datetime="2024-04-10T12:00:00.000Z" title="發表於 2024-04-10 20:00:00">2024-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/08/%E5%9F%BA%E4%BA%8EDocker%E9%83%A8%E7%BD%B2Kubernetes/" title="基于Docker部署Kubernetes"><img src="/img/WallPaper%20(59).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于Docker部署Kubernetes"/></a><div class="content"><a class="title" href="/2024/04/08/%E5%9F%BA%E4%BA%8EDocker%E9%83%A8%E7%BD%B2Kubernetes/" title="基于Docker部署Kubernetes">基于Docker部署Kubernetes</a><time datetime="2024-04-08T06:00:00.000Z" title="發表於 2024-04-08 14:00:00">2024-04-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(63).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,3 +1,4 @@
+https://kalyan-zitiu.github.io/2024/07/04/CRI/
 https://kalyan-zitiu.github.io/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/
 https://kalyan-zitiu.github.io/2024/04/02/javaEE/
 https://kalyan-zitiu.github.io/2024/04/10/%E7%9E%8E%E7%8E%A9EKS/
@@ -77,6 +78,7 @@ https://kalyan-zitiu.github.io/tags/java/
 https://kalyan-zitiu.github.io/tags/springboot/
 https://kalyan-zitiu.github.io/tags/Linux/
 https://kalyan-zitiu.github.io/tags/%E5%86%85%E6%A0%B8/
+https://kalyan-zitiu.github.io/tags/CRI/
 https://kalyan-zitiu.github.io/categories/Exercises/
 https://kalyan-zitiu.github.io/categories/Cloud-Konwleage/
 https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%B0%88/
@@ -119,3 +121,5 @@ https://kalyan-zitiu.github.io/categories/EKS/K8S/
 https://kalyan-zitiu.github.io/categories/EKS/K8S/AWS/
 https://kalyan-zitiu.github.io/categories/javaEE/
 https://kalyan-zitiu.github.io/categories/Linux/
+https://kalyan-zitiu.github.io/categories/K8s/
+https://kalyan-zitiu.github.io/categories/K8s/CRI/
