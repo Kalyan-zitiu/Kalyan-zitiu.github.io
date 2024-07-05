@@ -1,0 +1,298 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>CNI | Kalyan的小书房</title><meta name="keywords" content="Kubernets"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="容器网络接口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CNI">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2024/07/05/CNI/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="容器网络接口">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(65).jpg">
+<meta property="article:published_time" content="2024-07-05T01:51:24.000Z">
+<meta property="article:modified_time" content="2024-07-05T03:01:35.474Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="Kubernets">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(65).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2024/07/05/CNI/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CNI',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-05 11:01:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">30</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">45</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(65).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CNI</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2024-07-05T01:51:24.000Z" title="發表於 2024-07-05 09:51:24">2024-07-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2024-07-05T03:01:35.474Z" title="更新於 2024-07-05 11:01:35">2024-07-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/K8s/">K8s</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/K8s/CNI/">CNI</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CNI"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="CNI"><a href="#CNI" class="headerlink" title="CNI"></a>CNI</h1><p>定义容器运行时，如何配置网络接口，以便容器可以网络通信。</p>
+<h2 id="主要作用"><a href="#主要作用" class="headerlink" title="主要作用"></a>主要作用</h2><ul>
+<li>关注网络连接和网络解除连接</li>
+<li>支持各种不同的网络配置要求</li>
+<li>通过各种不同的网络解决方案解决网络配置。</li>
+</ul>
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>当一个Pod被创建时，k8s调用CNI插件来为pod配置网络，通常包括分配IP地址，设置网络路由和创建网络接口等任务。CNI插件负责把pod连接到一个预先的环境，保证pod之间的网络通信。</p>
+<h2 id="常见的-CNI-插件："><a href="#常见的-CNI-插件：" class="headerlink" title="常见的 CNI 插件："></a>常见的 CNI 插件：</h2><ul>
+<li><strong>Calico</strong>：提供高性能的网络和网络策略，支持跨主机的网络隔离。</li>
+<li><strong>Flannel</strong>：简单易用，主要用于创建一个覆盖网络，允许 Pod 跨节点通信。</li>
+<li><strong>Weave Net</strong>：提供一个强大的网络和网络策略，支持自动发现和网络隔离。</li>
+<li><strong>Cilium</strong>：使用 BPF（Berkeley Packet Filter）来提供网络安全、策略执行和负载均衡功能。</li>
+</ul>
+<h3 id="1-Calico"><a href="#1-Calico" class="headerlink" title="1. Calico"></a>1. <strong>Calico</strong></h3><p><strong>特点</strong>:</p>
+<ul>
+<li><strong>高性能</strong>：Calico 使用 BGP（边界网关协议）进行路由，避免了封装和解封装的开销，从而提供高性能的网络连接。</li>
+<li><strong>网络策略</strong>：Calico 提供强大的网络策略功能，允许用户定义细粒度的访问控制规则。</li>
+<li><strong>可扩展性</strong>：适用于大规模集群，能够处理成千上万的节点和 Pod。</li>
+<li><strong>安全性</strong>：支持网络隔离和加密，确保数据在传输过程中安全。</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li><strong>大规模生产环境</strong>：由于其高性能和可扩展性，Calico 非常适合大规模生产环境。</li>
+<li><strong>需要严格网络策略的环境</strong>：如果需要细粒度的网络访问控制和安全策略，Calico 是一个理想的选择。</li>
+</ul>
+<h3 id="2-Flannel"><a href="#2-Flannel" class="headerlink" title="2. Flannel"></a>2. <strong>Flannel</strong></h3><p><strong>特点</strong>:</p>
+<ul>
+<li><strong>简单易用</strong>：Flannel 设计简单，易于部署和管理。</li>
+<li><strong>覆盖网络</strong>：主要提供覆盖网络，使用 UDP、VXLAN 或 host-gw 模式来封装跨主机的容器流量。</li>
+<li><strong>轻量级</strong>：适合中小规模的集群，不需要复杂的配置。</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li><strong>中小规模集群</strong>：由于其简单性和轻量级特性，Flannel 适用于中小规模的 Kubernetes 集群。</li>
+<li><strong>快速部署</strong>：如果需要快速部署一个 Kubernetes 集群，Flannel 是一个不错的选择。</li>
+</ul>
+<h3 id="3-Weave-Net"><a href="#3-Weave-Net" class="headerlink" title="3. Weave Net"></a>3. <strong>Weave Net</strong></h3><p><strong>特点</strong>:</p>
+<ul>
+<li><strong>自发现网络</strong>：Weave Net 能够自动发现和管理网络配置，简化了网络管理。</li>
+<li><strong>网络加密</strong>：支持网络流量加密，确保数据在传输过程中的安全性。</li>
+<li><strong>多云支持</strong>：能够跨多个云提供商和本地数据中心创建统一的网络。</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li><strong>多云环境</strong>：Weave Net 非常适合需要跨多个云提供商和本地数据中心的环境。</li>
+<li><strong>需要网络加密的环境</strong>：如果需要确保网络流量的安全性，Weave Net 是一个理想的选择。</li>
+</ul>
+<h3 id="4-Cilium"><a href="#4-Cilium" class="headerlink" title="4. Cilium"></a>4. <strong>Cilium</strong></h3><p><strong>特点</strong>:</p>
+<ul>
+<li><strong>基于 BPF</strong>：Cilium 使用 Linux 内核的 BPF 技术来实现高性能和可扩展的网络功能。</li>
+<li><strong>Layer 7 支持</strong>：支持 HTTP/HTTPS、gRPC 等 Layer 7 协议的负载均衡和安全策略。</li>
+<li><strong>可见性和监控</strong>：提供丰富的网络可见性和监控功能，帮助用户了解网络流量和性能。</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li><strong>需要高级网络功能的环境</strong>：Cilium 非常适合需要高级网络功能和安全策略的环境。</li>
+<li><strong>微服务架构</strong>：由于其对 Layer 7 协议的支持，Cilium 非常适合微服务架构。</li>
+</ul>
+<h3 id="5-Canal"><a href="#5-Canal" class="headerlink" title="5. Canal"></a>5. <strong>Canal</strong></h3><p><strong>特点</strong>:</p>
+<ul>
+<li><strong>结合了 Flannel 和 Calico</strong>：Canal 将 Flannel 的简单性和 Calico 的网络策略功能结合在一起。</li>
+<li><strong>灵活性</strong>：提供了 Flannel 的覆盖网络和 Calico 的网络策略，适用于多种场景。</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li><strong>需要简单网络和策略控制的环境</strong>：Canal 适用于需要简单网络配置和基本网络策略控制的环境。</li>
+<li><strong>中小规模集群</strong>：由于其灵活性和简单性，Canal 适用于中小规模的 Kubernetes 集群。</li>
+</ul>
+<h3 id="6-Kube-Router"><a href="#6-Kube-Router" class="headerlink" title="6. Kube-Router"></a>6. <strong>Kube-Router</strong></h3><p><strong>特点</strong>:</p>
+<ul>
+<li><strong>综合功能</strong>：Kube-Router 提供网络路由、网络策略和服务代理功能。</li>
+<li><strong>高性能</strong>：使用 BGP 进行路由，提供高性能的网络连接。</li>
+<li><strong>易于部署</strong>：集成了多个网络功能，简化了部署和管理。</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li><strong>需要综合网络功能的环境</strong>：Kube-Router 适用于需要综合网络功能（如路由、策略和服务代理）的环境。</li>
+<li><strong>高性能需求</strong>：由于其高性能特性，Kube-Router 适用于对网络性能有较高要求的环境。</li>
+</ul>
+<h3 id="7-Multus"><a href="#7-Multus" class="headerlink" title="7. Multus"></a>7. <strong>Multus</strong></h3><p><strong>特点</strong>:</p>
+<ul>
+<li><strong>多网络支持</strong>：Multus 允许一个 Pod 连接到多个网络，支持多种 CNI 插件的组合使用。</li>
+<li><strong>灵活性</strong>：提供了极大的灵活性，适用于复杂的网络需求。</li>
+</ul>
+<p><strong>使用场景</strong>:</p>
+<ul>
+<li><strong>复杂网络需求</strong>：Multus 适用于需要多个网络接口和复杂网络配置的环境。</li>
+<li><strong>多 CNI 插件组合</strong>：如果需要同时使用多个 CNI 插件，Multus 是一个理想的选择。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2024/07/05/CNI/">https://kalyan-zitiu.github.io/2024/07/05/CNI/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Kubernets/">Kubernets</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(65).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/07/04/CRI/"><img class="next-cover" src="/img/WallPaper%20(63).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CRI容器运行时接口</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">48</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">30</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">45</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a><a class="social-icon" href="https://auto.kalyan-dao.space/" target="_blank" title="AutoGPT"><i class="fa-solid fa-shuttle-space"></i></a><a class="social-icon" href="https://chat.zhile.io/" target="_blank" title="FakeGPT"><i class="fa-brands fa-kickstarter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CNI"><span class="toc-number">1.</span> <span class="toc-text">CNI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">主要作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84-CNI-%E6%8F%92%E4%BB%B6%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">常见的 CNI 插件：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Calico"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. Calico</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Flannel"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. Flannel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Weave-Net"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. Weave Net</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Cilium"><span class="toc-number">1.3.4.</span> <span class="toc-text">4. Cilium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Canal"><span class="toc-number">1.3.5.</span> <span class="toc-text">5. Canal</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Kube-Router"><span class="toc-number">1.3.6.</span> <span class="toc-text">6. Kube-Router</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Multus"><span class="toc-number">1.3.7.</span> <span class="toc-text">7. Multus</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/05/CNI/" title="CNI"><img src="/img/WallPaper%20(65).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CNI"/></a><div class="content"><a class="title" href="/2024/07/05/CNI/" title="CNI">CNI</a><time datetime="2024-07-05T01:51:24.000Z" title="發表於 2024-07-05 09:51:24">2024-07-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/04/CRI/" title="CRI容器运行时接口"><img src="/img/WallPaper%20(63).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CRI容器运行时接口"/></a><div class="content"><a class="title" href="/2024/07/04/CRI/" title="CRI容器运行时接口">CRI容器运行时接口</a><time datetime="2024-07-04T08:22:37.000Z" title="發表於 2024-07-04 16:22:37">2024-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/" title="Linux从核心到边缘"><img src="/img/WallPaper%20(62).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux从核心到边缘"/></a><div class="content"><a class="title" href="/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/" title="Linux从核心到边缘">Linux从核心到边缘</a><time datetime="2024-07-01T15:42:37.000Z" title="發表於 2024-07-01 23:42:37">2024-07-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/%E7%AE%80%E6%98%93%E9%AB%98%E5%BC%B9%E6%80%A7BS%E6%9E%B6%E6%9E%84/" title="简易高弹性B/S架构"><img src="/img/WallPaper%20(58).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简易高弹性B/S架构"/></a><div class="content"><a class="title" href="/2024/04/12/%E7%AE%80%E6%98%93%E9%AB%98%E5%BC%B9%E6%80%A7BS%E6%9E%B6%E6%9E%84/" title="简易高弹性B/S架构">简易高弹性B/S架构</a><time datetime="2024-04-12T12:00:00.000Z" title="發表於 2024-04-12 20:00:00">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/10/%E7%9E%8E%E7%8E%A9EKS/" title="EKS概述"><img src="/img/WallPaper%20(60).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="EKS概述"/></a><div class="content"><a class="title" href="/2024/04/10/%E7%9E%8E%E7%8E%A9EKS/" title="EKS概述">EKS概述</a><time datetime="2024-04-10T12:00:00.000Z" title="發表於 2024-04-10 20:00:00">2024-04-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(65).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
