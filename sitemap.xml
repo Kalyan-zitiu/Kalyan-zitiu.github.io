@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://kalyan-zitiu.github.io/2024/07/07/vmware/</loc>
-    
-    <lastmod>2024-07-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://kalyan-zitiu.github.io/2024/07/07/%E5%8D%9A%E5%AE%A2%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/</loc>
     
     <lastmod>2024-07-07</lastmod>
@@ -713,13 +704,6 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://kalyan-zitiu.github.io/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/</loc>
-    <lastmod>2024-07-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
@@ -1039,13 +1023,6 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/python/</loc>
-    <lastmod>2024-07-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://kalyan-zitiu.github.io/categories/VMware/</loc>
     <lastmod>2024-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
