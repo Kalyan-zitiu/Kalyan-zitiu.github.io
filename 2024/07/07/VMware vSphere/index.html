@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>VMware vSphere | Kalyan的小书房</title><meta name="keywords" content="虚拟化"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="是什么是vmware官方开发的一套虚拟化平台 能够干什么 虚拟化：将物理服务器的资源分配给多个VM，提高硬件资源利用率，减少硬件成本。 集中管理：统一管理监控整个虚拟化环境，包括虚拟机，主机，网络和存储 高可用提供：能够自动重启故障的物理服务器，保持业务连续。 资源优化：提供分布式资源调度DRS功能，动态调整VM资源，性能和负载 安全：能够网络隔离，访问控制，数据加密 数据保护：提供快照和备份，支">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMware vSphere">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2024/07/07/VMware%20vSphere/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="是什么是vmware官方开发的一套虚拟化平台 能够干什么 虚拟化：将物理服务器的资源分配给多个VM，提高硬件资源利用率，减少硬件成本。 集中管理：统一管理监控整个虚拟化环境，包括虚拟机，主机，网络和存储 高可用提供：能够自动重启故障的物理服务器，保持业务连续。 资源优化：提供分布式资源调度DRS功能，动态调整VM资源，性能和负载 安全：能够网络隔离，访问控制，数据加密 数据保护：提供快照和备份，支">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(68).jpg">
+<meta property="article:published_time" content="2024-07-07T03:01:04.000Z">
+<meta property="article:modified_time" content="2024-07-08T02:36:43.736Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="虚拟化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(68).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2024/07/07/VMware%20vSphere/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'VMware vSphere',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-08 10:36:43'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">47</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(68).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">VMware vSphere</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2024-07-07T03:01:04.000Z" title="發表於 2024-07-07 11:01:04">2024-07-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2024-07-08T02:36:43.736Z" title="更新於 2024-07-08 10:36:43">2024-07-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/VMware/">VMware</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="VMware vSphere"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>是vmware官方开发的一套虚拟化平台</p>
+<h2 id="能够干什么"><a href="#能够干什么" class="headerlink" title="能够干什么"></a>能够干什么</h2><ol>
+<li>虚拟化：将物理服务器的资源分配给多个VM，提高硬件资源利用率，减少硬件成本。</li>
+<li>集中管理：统一管理监控整个虚拟化环境，包括虚拟机，主机，网络和存储</li>
+<li>高可用提供：能够自动重启故障的物理服务器，保持业务连续。</li>
+<li>资源优化：提供分布式资源调度DRS功能，动态调整VM资源，性能和负载</li>
+<li>安全：能够网络隔离，访问控制，数据加密</li>
+<li>数据保护：提供快照和备份，支持快速恢复</li>
+<li>自动化和编排，通过脚本和工具实现虚拟机的快速部署。</li>
+</ol>
+<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><h3 id="ESXi"><a href="#ESXi" class="headerlink" title="ESXi"></a>ESXi</h3><p>是VMware vSphere虚拟化平台的核心组件。它是一种小型的、专用的操作系统，直接安装在物理服务器上，用于运行和管理虚拟机（VM）。可以说有ESXi的OS的物理服务器就是宿主机Host。</p>
+<h3 id="vSwitch"><a href="#vSwitch" class="headerlink" title="vSwitch"></a>vSwitch</h3><p>运行在VMware ESXi主机上的软件交换机，用于管理虚拟网络。它类似于物理交换机，但功能更灵活，能够在虚拟化环境中提供网络连接和管理。</p>
+<h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><ol>
+<li><p>网络连接：提供VM之间的网络连接，以及虚拟机与外部物理网络的连接。</p>
+</li>
+<li><p>流量隔离和管理：通过VLAN（虚拟局域网）标签，vSwitch可以隔离和管理不同虚拟机的网络流量，提高网络安全性和性能。</p>
+</li>
+<li><p>网络适配器绑定：vSwitch支持将多个物理网络适配器（NIC）绑定在一起，提供冗余和负载均衡，提高网络的可用性和带宽。</p>
+</li>
+</ol>
+<p>ps: NIC即网络接口卡，是计算机硬件组件，用于计算机与网络的连接。它通常以插卡形式存在，插入计算机主板的扩展槽中，也有集成在主板上的形式。</p>
+<ol start="4">
+<li><p>流量整形：vSwitch能够对进出网络流量进行整形（Traffic Shaping），控制流量速率，确保网络性能的稳定性。</p>
+</li>
+<li><p>安全特性：vSwitch具备安全特性，如防止MAC地址欺骗和IP地址欺骗，提升虚拟网络的安全性。 </p>
+</li>
+</ol>
+<h4 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h4><h5 id="标准虚拟交换机（vSS）"><a href="#标准虚拟交换机（vSS）" class="headerlink" title="标准虚拟交换机（vSS）"></a>标准虚拟交换机（vSS）</h5><ul>
+<li>独立管理：每台ESXi主机上的vSS独立管理，不同主机上的vSS配置相互独立</li>
+<li>本地主机管理：配置和管理通过ESXi主机的Host Client或vSphere Clinet进行。</li>
+<li>手动配置：手动为每个ESXi主机上分别配置，配置工作量大。</li>
+<li>适用小型环境：适合规模较小或独立的环境，网络配置相对简单<br>ps：缺乏跨主机的集中管理和高级网络功能。</li>
+</ul>
+<h5 id="分布式虚拟交换机（vDS）"><a href="#分布式虚拟交换机（vDS）" class="headerlink" title="分布式虚拟交换机（vDS）"></a>分布式虚拟交换机（vDS）</h5><ul>
+<li>集中管理：能够跨多个ESXi主机统一配置管理</li>
+<li>视图统一：提供网络配置视图，简化大规模环境中的网络管理。</li>
+<li>集中配置：可以在vCenter Server中一次性配置和管理所有相关ESXi主机上的网络设备</li>
+<li>适用于大环境：适合规模大，复杂的，网络配置需求高的。</li>
+</ul>
+<p>ps：拥有比较高级的功能，入Private VLAN，网络IO控制（NetIOC），分布式端口镜像（Port Mirroring）/简化迁移能够网络配置一起迁移，无需重新配置。</p>
+<h5 id="VLAN-和Private-VALN"><a href="#VLAN-和Private-VALN" class="headerlink" title="VLAN 和Private VALN"></a>VLAN 和Private VALN</h5><ol>
+<li>VLAN: </li>
+</ol>
+<ul>
+<li>主要通过交换机端口配置，将交换机端口分到不同的VLAN中。每个VLAN都有唯一的VLAN ID</li>
+<li>设备之间通信得在同一VLAN进行，不同VLAN之间通信需要通过三层设备（如路由器，三层交换机）</li>
+</ul>
+<ol start="2">
+<li>Private VLAN</li>
+</ol>
+<ul>
+<li>进一步细分VLAN内部的子VLAN，从而提供更精细的流量隔离和控制。</li>
+<li>避免VLAN ID的浪费，适合大规模网络环境。</li>
+</ul>
+<h6 id="Private实现"><a href="#Private实现" class="headerlink" title="Private实现"></a>Private实现</h6><ol>
+<li>Private VLAN将一个VLAN划分为主VLAN（Primary VLAN）和子VLAN（Secondary VLAN）。子VLAN又分为两种类型：Isolated VLAN和Community VLAN。</li>
+</ol>
+<ul>
+<li>Primary VLAN：主VLAN，包含所有的Secondary VLAN。</li>
+<li>Isolated VLAN：隔离VLAN，主机只能与Promiscuous端口通信，不能与其他任何端口通信。</li>
+<li>Community VLAN：社区VLAN，主机可以与同一个Community VLAN内的其他主机和Promiscuous端口通信，但不能与其他Community VLAN或Isolated VLAN内的主机通信。</li>
+<li>Promiscuous端口：可以与所有子VLAN内的端口通信，通常用于连接网关或路由器等设备。</li>
+</ul>
+<h5 id="vDS和vSS的区别"><a href="#vDS和vSS的区别" class="headerlink" title="vDS和vSS的区别"></a>vDS和vSS的区别</h5><p>管理上，vSS独立管理（每个ESXi独立配置），vDS集中管理（跨多个ESXi主机统一配置）<br>功能上，vSS网络配置简单，vDS提供高级网络功能。</p>
+<h3 id="Datastore"><a href="#Datastore" class="headerlink" title="Datastore"></a>Datastore</h3><ul>
+<li>Datastore是一个逻辑存储单元，由ESXi主机创建和管理。</li>
+<li>它可以基于不同类型的物理存储，如本地硬盘、NFS共享、iSCSI目标和SAN存储。</li>
+<li>Datastore用于存储虚拟机的虚拟磁盘文件（.vmdk）、配置文件（.vmx）、ISO映像文件以及其他虚拟机相关的数据。</li>
+</ul>
+<h4 id="数据存储类型及其特点"><a href="#数据存储类型及其特点" class="headerlink" title="数据存储类型及其特点"></a>数据存储类型及其特点</h4><ol>
+<li>本地</li>
+</ol>
+<ul>
+<li>直接连接单个ESXi主机的存储设备，SATA，SAS，SSD硬盘</li>
+</ul>
+<ol start="2">
+<li>SAN（Storage Area Network）</li>
+</ol>
+<ul>
+<li>高性能，低延迟的存储网络，通常使用光纤通道或iSCSI协议连接</li>
+<li>提供集中管理和共享存储</li>
+</ul>
+<ol start="3">
+<li>NAS（Network Attached Storage）</li>
+</ol>
+<ul>
+<li>通过标准网络协议（IFS或SMB）访问存储设备</li>
+<li>适用于文件级存储需求</li>
+</ul>
+<ol start="4">
+<li>vSAN（Virtual SAN）</li>
+</ol>
+<ul>
+<li>VM的分布式存储解决方案，集群中所有ESXi主机的本地存储集合成一个逻辑数据存储。</li>
+<li>提供高性能，可扩展共享存储，支持高可用性。</li>
+</ul>
+<h5 id="类型-1"><a href="#类型-1" class="headerlink" title="类型"></a>类型</h5><ul>
+<li>VMFS： 块存储，如SAN和本地存储。</li>
+<li>NFS：网络附加存储如NAS。</li>
+<li>vSAN:分布式存储解决方案。</li>
+</ul>
+<h3 id="Resource-Pool"><a href="#Resource-Pool" class="headerlink" title="Resource Pool"></a>Resource Pool</h3><p>用于管理和分配计算资源（如CPU和内存）。</p>
+<h4 id="资源池的关键特性"><a href="#资源池的关键特性" class="headerlink" title="资源池的关键特性"></a>资源池的关键特性</h4><ol>
+<li><strong>资源分配</strong>：<ul>
+<li><strong>预留（Reservation）</strong>：确保虚拟机或资源池可以使用的最小资源量。预留的资源保证在所有者需要时始终可用。</li>
+<li><strong>限制（Limit）</strong>：资源池或虚拟机可以使用的最大资源量。限制防止单个实体使用过多资源，影响其他实体的性能。</li>
+<li><strong>份额（Shares）</strong>：定义资源争用时的相对优先级。份额是一个权重，用于确定在资源紧张时各个虚拟机或资源池的优先级。</li>
+</ul>
+</li>
+<li><strong>灵活的资源管理</strong>：<ul>
+<li>动态调整资源：管理员可以在不影响虚拟机运行的情况下动态调整资源池的配置。</li>
+<li>自动化资源分配：配合VMware的DRS（分布式资源调度），可以自动平衡资源池之间的负载。</li>
+</ul>
+</li>
+<li><strong>资源池的层次结构</strong>：<ul>
+<li><strong>根资源池（Root Resource Pool）</strong>：默认存在于每个主机或集群中，是最顶层的资源池。</li>
+<li><strong>子资源池（Child Resource Pool）</strong>：创建在根资源池或其他资源池下，形成树状结构。</li>
+</ul>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2024/07/07/VMware%20vSphere/">https://kalyan-zitiu.github.io/2024/07/07/VMware%20vSphere/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(68).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/07/07/%E5%8D%9A%E5%AE%A2%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/"><img class="prev-cover" src="/img/WallPaper%20(69).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Blog脚本编写</div></div></a></div><div class="next-post pull-right"><a href="/2024/07/05/CNI/"><img class="next-cover" src="/img/WallPaper%20(65).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CNI</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">50</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">47</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a><a class="social-icon" href="https://auto.kalyan-dao.space/" target="_blank" title="AutoGPT"><i class="fa-solid fa-shuttle-space"></i></a><a class="social-icon" href="https://chat.zhile.io/" target="_blank" title="FakeGPT"><i class="fa-brands fa-kickstarter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%BD%E5%A4%9F%E5%B9%B2%E4%BB%80%E4%B9%88"><span class="toc-number">2.</span> <span class="toc-text">能够干什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ESXi"><span class="toc-number">3.1.</span> <span class="toc-text">ESXi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vSwitch"><span class="toc-number">3.2.</span> <span class="toc-text">vSwitch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD"><span class="toc-number">3.2.1.</span> <span class="toc-text">功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.2.</span> <span class="toc-text">类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E8%99%9A%E6%8B%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA%EF%BC%88vSS%EF%BC%89"><span class="toc-number">3.2.2.1.</span> <span class="toc-text">标准虚拟交换机（vSS）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%99%9A%E6%8B%9F%E4%BA%A4%E6%8D%A2%E6%9C%BA%EF%BC%88vDS%EF%BC%89"><span class="toc-number">3.2.2.2.</span> <span class="toc-text">分布式虚拟交换机（vDS）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VLAN-%E5%92%8CPrivate-VALN"><span class="toc-number">3.2.2.3.</span> <span class="toc-text">VLAN 和Private VALN</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Private%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.2.2.3.1.</span> <span class="toc-text">Private实现</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#vDS%E5%92%8CvSS%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.2.2.4.</span> <span class="toc-text">vDS和vSS的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Datastore"><span class="toc-number">3.3.</span> <span class="toc-text">Datastore</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%85%B6%E7%89%B9%E7%82%B9"><span class="toc-number">3.3.1.</span> <span class="toc-text">数据存储类型及其特点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B-1"><span class="toc-number">3.3.1.1.</span> <span class="toc-text">类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource-Pool"><span class="toc-number">3.4.</span> <span class="toc-text">Resource Pool</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E6%B1%A0%E7%9A%84%E5%85%B3%E9%94%AE%E7%89%B9%E6%80%A7"><span class="toc-number">3.4.1.</span> <span class="toc-text">资源池的关键特性</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/07/%E5%8D%9A%E5%AE%A2%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/" title="Blog脚本编写"><img src="/img/WallPaper%20(69).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Blog脚本编写"/></a><div class="content"><a class="title" href="/2024/07/07/%E5%8D%9A%E5%AE%A2%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/" title="Blog脚本编写">Blog脚本编写</a><time datetime="2024-07-07T03:03:50.000Z" title="發表於 2024-07-07 11:03:50">2024-07-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/07/VMware%20vSphere/" title="VMware vSphere"><img src="/img/WallPaper%20(68).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VMware vSphere"/></a><div class="content"><a class="title" href="/2024/07/07/VMware%20vSphere/" title="VMware vSphere">VMware vSphere</a><time datetime="2024-07-07T03:01:04.000Z" title="發表於 2024-07-07 11:01:04">2024-07-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/05/CNI/" title="CNI"><img src="/img/WallPaper%20(65).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CNI"/></a><div class="content"><a class="title" href="/2024/07/05/CNI/" title="CNI">CNI</a><time datetime="2024-07-05T01:51:24.000Z" title="發表於 2024-07-05 09:51:24">2024-07-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/04/CRI/" title="CRI容器运行时接口"><img src="/img/WallPaper%20(63).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CRI容器运行时接口"/></a><div class="content"><a class="title" href="/2024/07/04/CRI/" title="CRI容器运行时接口">CRI容器运行时接口</a><time datetime="2024-07-04T08:22:37.000Z" title="發表於 2024-07-04 16:22:37">2024-07-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/" title="Linux从核心到边缘"><img src="/img/WallPaper%20(62).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux从核心到边缘"/></a><div class="content"><a class="title" href="/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/" title="Linux从核心到边缘">Linux从核心到边缘</a><time datetime="2024-07-01T15:42:37.000Z" title="發表於 2024-07-01 23:42:37">2024-07-01</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(68).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
