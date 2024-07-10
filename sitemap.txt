@@ -1,3 +1,4 @@
+https://kalyan-zitiu.github.io/2024/07/10/%E8%A7%A3%E6%9E%90Linux%E6%96%87%E4%BB%B6/
 https://kalyan-zitiu.github.io/2024/07/10/%E8%A7%A3%E6%9E%90Linux%E7%BD%91%E7%BB%9C/
 https://kalyan-zitiu.github.io/2024/07/08/%E8%A7%A3%E6%9E%90Linux%E7%A3%81%E7%9B%98/
 https://kalyan-zitiu.github.io/2024/07/07/VMware%20vSphere/
@@ -89,6 +90,7 @@ https://kalyan-zitiu.github.io/tags/%E8%84%9A%E6%9C%AC/
 https://kalyan-zitiu.github.io/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/
 https://kalyan-zitiu.github.io/tags/linux/
 https://kalyan-zitiu.github.io/tags/net/
+https://kalyan-zitiu.github.io/tags/file/
 https://kalyan-zitiu.github.io/categories/Exercises/
 https://kalyan-zitiu.github.io/categories/Cloud-Konwleage/
 https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%B0%88/
