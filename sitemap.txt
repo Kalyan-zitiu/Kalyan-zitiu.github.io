@@ -1,3 +1,4 @@
+https://kalyan-zitiu.github.io/2024/07/19/Kubernetes_ingress/
 https://kalyan-zitiu.github.io/2024/07/17/Kubernetes%E6%9C%8D%E5%8A%A1/
 https://kalyan-zitiu.github.io/2024/07/10/%E8%A7%A3%E6%9E%90Linux%E6%96%87%E4%BB%B6/
 https://kalyan-zitiu.github.io/2024/07/10/%E8%A7%A3%E6%9E%90Linux%E7%BD%91%E7%BB%9C/
