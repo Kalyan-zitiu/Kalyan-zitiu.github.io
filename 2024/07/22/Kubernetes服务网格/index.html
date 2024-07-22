@@ -1,0 +1,249 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Kubernetes服务网格 | Kalyan的小书房</title><meta name="keywords" content="Kubernetes"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="kubernetes服务网格是一种架构，为了解决服务和服务之间的通信。 服务网格接口（打算理解）SMI  用于定义服务网格标准化接口的规范，旨在提供一个通用的接口，让不同的服务网格实现可以互操作。SMI的主要目的是简化服务网格的使用和集成，使用户可以使用统一的API管理不同的服务网格实现，如Istio、Linkerd、Consul Connect等。 CRD  是Kubernetes中的一种机制，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes服务网格">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="kubernetes服务网格是一种架构，为了解决服务和服务之间的通信。 服务网格接口（打算理解）SMI  用于定义服务网格标准化接口的规范，旨在提供一个通用的接口，让不同的服务网格实现可以互操作。SMI的主要目的是简化服务网格的使用和集成，使用户可以使用统一的API管理不同的服务网格实现，如Istio、Linkerd、Consul Connect等。 CRD  是Kubernetes中的一种机制，">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(81).jpg">
+<meta property="article:published_time" content="2024-07-22T03:31:12.000Z">
+<meta property="article:modified_time" content="2024-07-22T03:35:22.878Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(81).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kubernetes服务网格',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-22 11:35:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">49</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(81).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Kubernetes服务网格</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2024-07-22T03:31:12.000Z" title="發表於 2024-07-22 11:31:12">2024-07-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2024-07-22T03:35:22.878Z" title="更新於 2024-07-22 11:35:22">2024-07-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Kubernetes/">Kubernetes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Kubernetes服务网格"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="kubernetes服务网格"><a href="#kubernetes服务网格" class="headerlink" title="kubernetes服务网格"></a>kubernetes服务网格</h2><p>是一种架构，为了解决服务和服务之间的通信。</p>
+<h3 id="服务网格接口（打算理解）"><a href="#服务网格接口（打算理解）" class="headerlink" title="服务网格接口（打算理解）"></a>服务网格接口（打算理解）</h3><h4 id="SMI"><a href="#SMI" class="headerlink" title="SMI"></a>SMI</h4><p>  用于定义服务网格标准化接口的规范，旨在提供一个通用的接口，让不同的服务网格实现可以互操作。SMI的主要目的是简化服务网格的使用和集成，使用户可以使用统一的API管理不同的服务网格实现，如Istio、Linkerd、Consul Connect等。</p>
+<h4 id="CRD"><a href="#CRD" class="headerlink" title="CRD"></a>CRD</h4><p>  是Kubernetes中的一种机制，用于扩展Kubernetes API，使用户可以定义自己的资源类型。通过CRD，用户可以创建自定义资源（CR），这些资源可以与Kubernetes内置资源（如Pod、Service）一样进行管理和操作。</p>
+<h3 id="数据平面代理"><a href="#数据平面代理" class="headerlink" title="数据平面代理"></a>数据平面代理</h3><p>负责处理和管理服务间流量的代理组件。</p>
+<p>核心职责:<br>流量转发：代理组件负责接收、转发和负载均衡服务之间的流量。这包括 HTTP、gRPC、TCP 等多种协议。<br>服务发现：代理可以自动发现 Kubernetes 中的服务，根据服务的配置进行相应的流量路由。<br>流量管理：包括流量控制、重试策略、断路器、故障注入等功能，以保证服务间通信的可靠性和稳定性。<br>安全：提供 mTLS（双向 TLS）加密来确保服务间通信的安全性，支持认证和授权策略。<br>监控和可观测性：代理会收集并上报各种流量指标和日志，帮助管理员监控和诊断服务间的通信问题。</p>
+<h4 id="数据平面架构"><a href="#数据平面架构" class="headerlink" title="数据平面架构"></a>数据平面架构</h4><h5 id="代理附件"><a href="#代理附件" class="headerlink" title="代理附件"></a>代理附件</h5><p>一般部署在工作负载的pod上，后续会拦截进出服务的所有通信，但是在一些升级上，代理附件不能保证在不重建Pod的条件下进行升级</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240722112524609.png" alt="image-20240722112524609"></p>
+<h5 id="代理节点"><a href="#代理节点" class="headerlink" title="代理节点"></a>代理节点</h5><p>由代理节点来处理运行服务的所有流量。但是会存在很大的网络瓶颈。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240722112926402.png" alt="image-20240722112926402"></p>
+<h4 id="Envoy"><a href="#Envoy" class="headerlink" title="Envoy"></a>Envoy</h4><p>  一个高性能的开源边缘和服务代理，主要用于微服务架构中的通信管理</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240722102428515.png" alt="image-20240722102428515"></p>
+<h5 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h5><h6 id="API网关："><a href="#API网关：" class="headerlink" title="API网关："></a>API网关：</h6><p>Envoy可以作为API网关，处理外部请求并将其路由到内部服务，同时提供认证、限流、缓存等功能。</p>
+<h6 id="边车代理："><a href="#边车代理：" class="headerlink" title="边车代理："></a>边车代理：</h6><ul>
+<li>是一种设计模式，在这种模式下，一个代理程序（如Envoy）被部署在每个服务实例的旁边，这样每个服务实例都有一个独立的代理来处理进出流量。</li>
+<li>在服务网格架构中，Envoy通常以边车代理的形式部署在每个服务实例旁，拦截和处理所有入站和出站流量。</li>
+<li>边车注入是将边车代理自动注入到服务实例的Pod中，以便在微服务架构中实现服务网格功能的过程。分为手动与自动，自动注入似乎能够用istio来进行自动注入。</li>
+<li>Sidecar 模式：Envoy 通常以 sidecar 容器的形式部署在每个微服务 Pod 内，与应用容器共享网络命名空间。所有进出微服务的流量都会通过 Envoy 代理。</li>
+</ul>
+<h6 id="中介层代理："><a href="#中介层代理：" class="headerlink" title="中介层代理："></a>中介层代理：</h6><p>Envoy可以部署在不同的服务层之间，作为中介层代理，处理跨服务的流量和策略管理。</p>
+<h5 id="模块化架构"><a href="#模块化架构" class="headerlink" title="模块化架构"></a>模块化架构</h5><p>Listener：<br>作用：Listener是Envoy用于监听网络端口的组件，负责接受客户端的连接请求。每个Listener都绑定到一个特定的IP地址和端口，并根据配置将流量传递给相应的处理模块。<br>配置：Listener的配置包括监听的地址和端口、使用的协议（如HTTP、TCP）、以及关联的过滤器链。</p>
+<p>Filter：<br>作用：Filter是Envoy用于处理请求和响应的中间处理模块。Filter可以用于修改请求、添加日志、执行身份验证、路由选择等。Envoy的Filter分为多种类型，包括网络过滤器、HTTP过滤器和TCP过滤器。<br>类型：<br>网络过滤器：处理TCP连接层面的流量，如TLS终止、连接限速等。<br>HTTP过滤器：处理HTTP请求和响应，如修改头部信息、执行认证和授权、负载均衡等。<br>TCP过滤器：处理TCP层流量，如TCP代理、流量镜像等。</p>
+<p>Cluster：<br>作用：Cluster是Envoy用于表示一组上游服务实例的组件。Cluster负责服务发现、负载均衡、健康检查等。每个Cluster包含多个主机（即上游服务实例），并定义了如何将流量分配到这些主机上。<br>配置：Cluster的配置包括服务发现类型（静态、DNS、EDS等）、负载均衡策略（如轮询、随机、加权轮询等）、健康检查配置等。</p>
+<p>Route：<br>作用：Route组件定义了Envoy如何将请求路由到不同的Cluster。Route规则基于请求的属性（如路径、头部信息、方法等）来决定具体的路由目标。<br>配置：Route的配置包括匹配规则、路由目标Cluster、重试策略、超时设置等。</p>
+<p>Admin：<br>作用：Admin组件提供了管理和监控Envoy的接口。通过Admin接口，用户可以查看Envoy的运行状态、统计信息、配置详情，并进行管理操作。<br>配置：Admin接口通常通过HTTP API暴露，可以在Envoy配置中指定Admin的监听地址和端口。</p>
+<h5 id="配置管理"><a href="#配置管理" class="headerlink" title="配置管理"></a>配置管理</h5><p>配置管理<br>Envoy的配置管理可以通过静态文件配置，也可以通过动态配置API（xDS）实现。xDS（Envoy Dynamic Configuration API）包括以下几个部分：<br>ADS（Aggregated Discovery Service）：聚合配置服务，统一管理其他xDS服务。<br>CDS（Cluster Discovery Service）：动态管理Cluster的配置。<br>EDS（Endpoint Discovery Service）：动态管理Cluster中上游服务实例的配置。<br>LDS（Listener Discovery Service）：动态管理Listener的配置。<br>RDS（Route Discovery Service）：动态管理路由配置。<br>SDS（Secret Discovery Service）：动态管理密钥和证书。</p>
+<h3 id="控制平面"><a href="#控制平面" class="headerlink" title="控制平面"></a>控制平面</h3><p>负责管理和协调数据平面代理</p>
+<p>配置管理：提供统一的配置接口，管理服务网格中所有代理的配置，包括路由规则、负载均衡策略、故障恢复策略等。<br>服务发现：集成服务发现机制，实时感知集群中服务的变化，并通知数据平面代理更新其配置。<br>安全管理：实现服务间的认证和授权，管理 TLS 证书的分发和轮换，确保服务间通信的安全性。<br>流量管理：提供流量路由、灰度发布、A/B 测试等高级流量控制功能，帮助开发和运维人员灵活管理服务间的流量。<br>可观测性：收集和聚合数据平面代理的监控指标、日志和分布式追踪数据，提供全局的可观测性视图，帮助排查和诊断问题。</p>
+<h4 id="istio"><a href="#istio" class="headerlink" title="istio"></a>istio</h4><p>istiod为基于envoy的服务网络提供控制平面，他包括三个核心组件，Galley，Pilot，Citidel</p>
+<p>Pilot：一个Envoy的配置服务器，实现 xDS API，并将配置流向与应用程序一起运行的Envoy代理。</p>
+<p>Citadel：负责网格内的证书管理，建立服务器身份和相互TLS。</p>
+<p>Galley：与外部系统互动，Kubernetes等。</p>
+<h4 id="webhook"><a href="#webhook" class="headerlink" title="webhook"></a>webhook</h4><p>用于在 Kubernetes 集群中实现动态配置和策略控制的关键组件。 Istio 中的主要用途包括服务网格控制、资源变更管理和策略执行等。</p>
+<ul>
+<li>自动注入 Sidecar 容器:Istio 使用一个变异（Mutating）Webhook 自动将 Envoy 代理（Sidecar）注入到新创建的 Kubernetes Pod 中。这个过程确保每个服务都能被 Istio 管理和监控。当你为集群启用了自动注入，Webhook 会拦截 Pod 创建请求，在 Pod 完成调度之前往其定义中添加 Envoy 容器以及必要的配置信息。</li>
+<li>配置验证（Validating Webhook）:验证（Validating）Webhook 用于在新的 Istio 配置资源（如 VirtualService、DestinationRule 等）创建或更新时执行验证过程，确保这些配置符合要求，避免因错误配置导致服务故障。这个 Webhook 会在配置提交到 etcd 之前进行执行，起到一个“守门人”的作用，阻止不符合标准的配置生效。</li>
+<li>动态配置和策略控制:Webhook 还可以用于执行动态配置和策略决策。例如，通过 Webhook，可以向运行时注入配置参数或更新策略以应对瞬时需求或安全要求。</li>
+</ul>
+<h4 id="通过iptable达到工作负载通过Envoy发送流量。"><a href="#通过iptable达到工作负载通过Envoy发送流量。" class="headerlink" title="通过iptable达到工作负载通过Envoy发送流量。"></a>通过iptable达到工作负载通过Envoy发送流量。</h4><p>Istio的iptables规则是通过init-containner来进行安装，拦截pod网络流量路由到Envoy。</p>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240722111557580.png" alt="image-20240722111557580"></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">initContainers:</span></span><br><span class="line"><span class="string">”argS:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">istio-iptables</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">--envoy-port</span> <span class="comment">#捕获出站的所有流量，并且发送到Envoy这个端口</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;15001&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">--inbound-capture-port</span> <span class="comment">#捕获入站的所有流量，并且发送Envoy这个端口1</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;15006&quot;</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">--proxy-uid</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">&quot;1337”</span></span><br><span class="line"><span class="string">- --istio-inbound-interception-mode</span></span><br><span class="line"><span class="string">- REDIRECT</span></span><br><span class="line"><span class="string">--istio-service-cidr </span></span><br><span class="line"><span class="string">- &#x27;*&#x27;</span></span><br><span class="line"><span class="string">--istio-inbound-ports </span></span><br><span class="line"><span class="string">- &#x27;*&#x27;</span></span><br><span class="line"><span class="string">- --istio-local-exclude-ports</span></span><br><span class="line"><span class="string">- 15090,15021,15020</span></span><br><span class="line"><span class="string">image: docker.io/istio/proxyv2:1.6.7</span></span><br><span class="line"><span class="string">imagePullPolicy: Always</span></span><br><span class="line"><span class="string">name: istio-init</span></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/">https://kalyan-zitiu.github.io/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Kubernetes/">Kubernetes</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(81).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/07/19/Kubernetes_ingress/"><img class="next-cover" src="/img/WallPaper%20(79).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Kubernetes ingress基础</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/2024/07/17/Kubernetes%E6%9C%8D%E5%8A%A1/" title="Kubernetes服务基础"><img class="cover" src="/img/WallPaper%20(76).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-17</div><div class="title">Kubernetes服务基础</div></div></a></div><div><a href="/2024/07/19/Kubernetes_ingress/" title="Kubernetes ingress基础"><img class="cover" src="/img/WallPaper%20(79).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-19</div><div class="title">Kubernetes ingress基础</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">56</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">49</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a><a class="social-icon" href="https://auto.kalyan-dao.space/" target="_blank" title="AutoGPT"><i class="fa-solid fa-shuttle-space"></i></a><a class="social-icon" href="https://chat.zhile.io/" target="_blank" title="FakeGPT"><i class="fa-brands fa-kickstarter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC"><span class="toc-number">1.</span> <span class="toc-text">kubernetes服务网格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC%E6%8E%A5%E5%8F%A3%EF%BC%88%E6%89%93%E7%AE%97%E7%90%86%E8%A7%A3%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">服务网格接口（打算理解）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SMI"><span class="toc-number">1.1.1.</span> <span class="toc-text">SMI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CRD"><span class="toc-number">1.1.2.</span> <span class="toc-text">CRD</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2%E4%BB%A3%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">数据平面代理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B9%B3%E9%9D%A2%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.1.</span> <span class="toc-text">数据平面架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E7%90%86%E9%99%84%E4%BB%B6"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">代理附件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E7%90%86%E8%8A%82%E7%82%B9"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">代理节点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Envoy"><span class="toc-number">1.2.2.</span> <span class="toc-text">Envoy</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">场景</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#API%E7%BD%91%E5%85%B3%EF%BC%9A"><span class="toc-number">1.2.2.1.1.</span> <span class="toc-text">API网关：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BE%B9%E8%BD%A6%E4%BB%A3%E7%90%86%EF%BC%9A"><span class="toc-number">1.2.2.1.2.</span> <span class="toc-text">边车代理：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%AD%E4%BB%8B%E5%B1%82%E4%BB%A3%E7%90%86%EF%BC%9A"><span class="toc-number">1.2.2.1.3.</span> <span class="toc-text">中介层代理：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">模块化架构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">配置管理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%B9%B3%E9%9D%A2"><span class="toc-number">1.3.</span> <span class="toc-text">控制平面</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#istio"><span class="toc-number">1.3.1.</span> <span class="toc-text">istio</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#webhook"><span class="toc-number">1.3.2.</span> <span class="toc-text">webhook</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87iptable%E8%BE%BE%E5%88%B0%E5%B7%A5%E4%BD%9C%E8%B4%9F%E8%BD%BD%E9%80%9A%E8%BF%87Envoy%E5%8F%91%E9%80%81%E6%B5%81%E9%87%8F%E3%80%82"><span class="toc-number">1.3.3.</span> <span class="toc-text">通过iptable达到工作负载通过Envoy发送流量。</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/" title="Kubernetes服务网格"><img src="/img/WallPaper%20(81).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes服务网格"/></a><div class="content"><a class="title" href="/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/" title="Kubernetes服务网格">Kubernetes服务网格</a><time datetime="2024-07-22T03:31:12.000Z" title="發表於 2024-07-22 11:31:12">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/19/Kubernetes_ingress/" title="Kubernetes ingress基础"><img src="/img/WallPaper%20(79).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes ingress基础"/></a><div class="content"><a class="title" href="/2024/07/19/Kubernetes_ingress/" title="Kubernetes ingress基础">Kubernetes ingress基础</a><time datetime="2024-07-19T01:21:03.000Z" title="發表於 2024-07-19 09:21:03">2024-07-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/17/Kubernetes%E6%9C%8D%E5%8A%A1/" title="Kubernetes服务基础"><img src="/img/WallPaper%20(76).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes服务基础"/></a><div class="content"><a class="title" href="/2024/07/17/Kubernetes%E6%9C%8D%E5%8A%A1/" title="Kubernetes服务基础">Kubernetes服务基础</a><time datetime="2024-07-17T05:26:24.000Z" title="發表於 2024-07-17 13:26:24">2024-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/10/%E8%A7%A3%E6%9E%90Linux%E6%96%87%E4%BB%B6/" title="解析Linux文件"><img src="/img/WallPaper%20(73).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解析Linux文件"/></a><div class="content"><a class="title" href="/2024/07/10/%E8%A7%A3%E6%9E%90Linux%E6%96%87%E4%BB%B6/" title="解析Linux文件">解析Linux文件</a><time datetime="2024-07-10T03:47:16.000Z" title="發表於 2024-07-10 11:47:16">2024-07-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/10/%E8%A7%A3%E6%9E%90Linux%E7%BD%91%E7%BB%9C/" title="解析Linux网络"><img src="/img/WallPaper%20(72).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="解析Linux网络"/></a><div class="content"><a class="title" href="/2024/07/10/%E8%A7%A3%E6%9E%90Linux%E7%BD%91%E7%BB%9C/" title="解析Linux网络">解析Linux网络</a><time datetime="2024-07-10T01:39:02.000Z" title="發表於 2024-07-10 09:39:02">2024-07-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(81).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
