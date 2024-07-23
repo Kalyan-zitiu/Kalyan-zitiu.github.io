@@ -1,3 +1,4 @@
+https://kalyan-zitiu.github.io/2024/07/23/Prometheus%E5%9F%BA%E7%A1%80/
 https://kalyan-zitiu.github.io/2024/07/22/%E7%AE%80%E5%8D%95ansible%E6%93%8D%E4%BD%9C/
 https://kalyan-zitiu.github.io/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/
 https://kalyan-zitiu.github.io/2024/07/04/CRI/
@@ -97,6 +98,7 @@ https://kalyan-zitiu.github.io/tags/net/
 https://kalyan-zitiu.github.io/tags/file/
 https://kalyan-zitiu.github.io/tags/Kubernetes/
 https://kalyan-zitiu.github.io/tags/ansible/
+https://kalyan-zitiu.github.io/tags/Prometheus/
 https://kalyan-zitiu.github.io/categories/Exercises/
 https://kalyan-zitiu.github.io/categories/Cloud-Konwleage/
 https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%B0%88/
@@ -147,3 +149,4 @@ https://kalyan-zitiu.github.io/categories/VMware/
 https://kalyan-zitiu.github.io/categories/linux/
 https://kalyan-zitiu.github.io/categories/Kubernetes/
 https://kalyan-zitiu.github.io/categories/ansible/
+https://kalyan-zitiu.github.io/categories/kubernetes/
