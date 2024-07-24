@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Kind基础 | Kalyan的小书房</title><meta name="keywords" content="Kubernetes"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="KIND（Kubernetes IN Docker）介绍KIND，全称“Kubernetes IN Docker”，是一个开源工具，用于在本地开发和测试 Kubernetes 集群。KIND 允许在 Docker 容器中运行 Kubernetes 集群，从而便于开发者快速创建和销毁 Kubernetes 集群，提升开发效率。 安装和配置前置条件在使用 KIND 之前，你需要确保以下软件已经正确安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kind基础">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2024/07/24/Kind/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="KIND（Kubernetes IN Docker）介绍KIND，全称“Kubernetes IN Docker”，是一个开源工具，用于在本地开发和测试 Kubernetes 集群。KIND 允许在 Docker 容器中运行 Kubernetes 集群，从而便于开发者快速创建和销毁 Kubernetes 集群，提升开发效率。 安装和配置前置条件在使用 KIND 之前，你需要确保以下软件已经正确安装">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(84).jpg">
+<meta property="article:published_time" content="2024-07-24T01:58:31.000Z">
+<meta property="article:modified_time" content="2024-07-24T08:22:58.302Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(84).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2024/07/24/Kind/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kind基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-07-24 16:22:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">52</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(84).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Kind基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2024-07-24T01:58:31.000Z" title="發表於 2024-07-24 09:58:31">2024-07-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2024-07-24T08:22:58.302Z" title="更新於 2024-07-24 16:22:58">2024-07-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Kubernetes/">Kubernetes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Kind基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="KIND（Kubernetes-IN-Docker）"><a href="#KIND（Kubernetes-IN-Docker）" class="headerlink" title="KIND（Kubernetes IN Docker）"></a>KIND（Kubernetes IN Docker）</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>KIND，全称“Kubernetes IN Docker”，是一个开源工具，用于在本地开发和测试 Kubernetes 集群。KIND 允许在 Docker 容器中运行 Kubernetes 集群，从而便于开发者快速创建和销毁 Kubernetes 集群，提升开发效率。</p>
+<h3 id="安装和配置"><a href="#安装和配置" class="headerlink" title="安装和配置"></a>安装和配置</h3><h4 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h4><p>在使用 KIND 之前，你需要确保以下软件已经正确安装：<br>Docker<br>kubectl<br>确保 Docker 已经启动，并且你的用户在 docker 组中，以便能够运行 Docker 命令而无需 sudo。</p>
+<h4 id="安装-KIND"><a href="#安装-KIND" class="headerlink" title="安装 KIND"></a>安装 KIND</h4><p>在 Linux 环境中，可以通过以下命令获取和安装 KIND：</p>
+<p>curl -Lo ./kind <a target="_blank" rel="noopener" href="https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64">https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64</a><br>chmod +x ./kind<br>sudo mv ./kind /usr/local/bin/kind</p>
+<h4 id="检查安装"><a href="#检查安装" class="headerlink" title="检查安装"></a>检查安装</h4><p>验证 KIND 是否安装成功：</p>
+<p>kind –version<br>你应该看到类似 kind v0.11.1 的输出。</p>
+<h3 id="创建-Kubernetes-集群"><a href="#创建-Kubernetes-集群" class="headerlink" title="创建 Kubernetes 集群"></a>创建 Kubernetes 集群</h3><h4 id="简单创建一个集群"><a href="#简单创建一个集群" class="headerlink" title="简单创建一个集群"></a>简单创建一个集群</h4><p>使用以下命令创建一个默认的 Kubernetes 集群：</p>
+<p>kind create cluster<br>成功创建后，你会看到与集群相关的信息输出。</p>
+<h4 id="自定义配置创建集群"><a href="#自定义配置创建集群" class="headerlink" title="自定义配置创建集群"></a>自定义配置创建集群</h4><p>为了更具定制化，可以使用 YAML 文件：</p>
+<p>创建 kind-config.yaml 文件：</p>
+<p>kind: Cluster<br>apiVersion: kind.x-k8s.io/v1alpha4<br>nodes:</p>
+<ul>
+<li>role: control-plane</li>
+<li>role: worker</li>
+<li>role: worker<br>使用以下命令创建集群：</li>
+</ul>
+<p>kind create cluster –config kind-config.yaml</p>
+<h4 id="查看集群状态"><a href="#查看集群状态" class="headerlink" title="查看集群状态"></a>查看集群状态</h4><p>验证集群状态：</p>
+<p>kubectl cluster-info –context kind-kind</p>
+<h3 id="实战操作"><a href="#实战操作" class="headerlink" title="实战操作"></a>实战操作</h3><h4 id="部署应用到-KIND-集群"><a href="#部署应用到-KIND-集群" class="headerlink" title="部署应用到 KIND 集群"></a>部署应用到 KIND 集群</h4><p>创建一个名为 nginx-deployment.yaml 的文件：</p>
+<p>apiVersion: apps/v1<br>kind: Deployment<br>metadata:<br>  name: nginx-deployment<br>spec:<br>  replicas: 3<br>  selector:<br>    matchLabels:<br>      app: nginx<br>  template:<br>    metadata:<br>      labels:<br>        app: nginx<br>    spec:<br>      containers:<br>      - name: nginx<br>        image: nginx:1.14.2<br>        ports:<br>        - containerPort: 80<br>使用 kubectl 部署：</p>
+<p>kubectl apply -f nginx-deployment.yaml</p>
+<h4 id="验证部署"><a href="#验证部署" class="headerlink" title="验证部署"></a>验证部署</h4><p>查看部署的状态：</p>
+<p>kubectl get deployments<br>查看 Pods 状态：</p>
+<p>kubectl get pods</p>
+<h4 id="暴露服务"><a href="#暴露服务" class="headerlink" title="暴露服务"></a>暴露服务</h4><p>创建一个名为 nginx-service.yaml 的文件：</p>
+<p>kind: Service<br>apiVersion: v1<br>metadata:<br>  name: nginx-service<br>spec:<br>  selector:<br>    app: nginx<br>  ports:</p>
+<ul>
+<li>protocol: TCP<br>port: 80<br>targetPort: 80<br>type: LoadBalancer<br>使用 kubectl 暴露服务：</li>
+</ul>
+<p>kubectl apply -f nginx-service.yaml</p>
+<h3 id="KIND的应用场景和作用"><a href="#KIND的应用场景和作用" class="headerlink" title="KIND的应用场景和作用"></a>KIND的应用场景和作用</h3><h4 id="开发和测试环境"><a href="#开发和测试环境" class="headerlink" title="开发和测试环境"></a>开发和测试环境</h4><p>在本地开发和测试 Kubernetes 应用，KIND 的特性让开发者可以快速创建和删除集群，大大提高了开发效率。</p>
+<h4 id="CI-CD管道"><a href="#CI-CD管道" class="headerlink" title="CI/CD管道"></a>CI/CD管道</h4><p>在 CI/CD 管道中，KIND 可以在每次代码变更时快速创建一个新的 Kubernetes 集群用于测试，确保代码的稳定性和一致性。</p>
+<h4 id="学习和培训"><a href="#学习和培训" class="headerlink" title="学习和培训"></a>学习和培训</h4><p>KIND 非常适合用于学习和培训，可以在本地快速搭建 Kubernetes 环境，使学习者掌握 Kubernetes 基本操作和概念。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>KIND 是基于 Docker 容器的，因此某些 Kubernetes 高级功能可能不完全支持。<br>偶尔你可能需要手动清理 Docker 容器和网络设置，特别是在多次创建和删除集群后。<br>不建议在生产环境中使用 KIND，它更适用于开发和测试用途。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>KIND 是一个非常方便的工具，可以帮助我们在本地快速搭建和管理 Kubernetes 集群。无论是开发测试、CI/CD 还是学习培训，KIND 都能发挥其巨大的作用。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2024/07/24/Kind/">https://kalyan-zitiu.github.io/2024/07/24/Kind/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Kubernetes/">Kubernetes</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(84).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/07/24/%E6%8E%92%E9%9A%9C%E6%97%A5%E5%BF%97%EF%BC%88updating%EF%BC%89/"><img class="prev-cover" src="/img/WallPaper%20(85).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">排错杂记（pod error）</div></div></a></div><div class="next-post pull-right"><a href="/2024/07/23/Prometheus%E5%9F%BA%E7%A1%80/"><img class="next-cover" src="/img/WallPaper%20(83).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Prometheus基础</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/2024/07/17/Kubernetes%E6%9C%8D%E5%8A%A1/" title="Kubernetes服务基础"><img class="cover" src="/img/WallPaper%20(76).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-17</div><div class="title">Kubernetes服务基础</div></div></a></div><div><a href="/2024/07/19/Kubernetes_ingress/" title="Kubernetes ingress基础"><img class="cover" src="/img/WallPaper%20(79).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-19</div><div class="title">Kubernetes ingress基础</div></div></a></div><div><a href="/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/" title="Kubernetes服务网格"><img class="cover" src="/img/WallPaper%20(81).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-22</div><div class="title">Kubernetes服务网格</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">60</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">52</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a><a class="social-icon" href="https://auto.kalyan-dao.space/" target="_blank" title="AutoGPT"><i class="fa-solid fa-shuttle-space"></i></a><a class="social-icon" href="https://chat.zhile.io/" target="_blank" title="FakeGPT"><i class="fa-brands fa-kickstarter"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KIND%EF%BC%88Kubernetes-IN-Docker%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">KIND（Kubernetes IN Docker）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.</span> <span class="toc-text">安装和配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.2.1.</span> <span class="toc-text">前置条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-KIND"><span class="toc-number">1.2.2.</span> <span class="toc-text">安装 KIND</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.3.</span> <span class="toc-text">检查安装</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-Kubernetes-%E9%9B%86%E7%BE%A4"><span class="toc-number">1.3.</span> <span class="toc-text">创建 Kubernetes 集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%9B%86%E7%BE%A4"><span class="toc-number">1.3.1.</span> <span class="toc-text">简单创建一个集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4"><span class="toc-number">1.3.2.</span> <span class="toc-text">自定义配置创建集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%9B%86%E7%BE%A4%E7%8A%B6%E6%80%81"><span class="toc-number">1.3.3.</span> <span class="toc-text">查看集群状态</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">实战操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8%E5%88%B0-KIND-%E9%9B%86%E7%BE%A4"><span class="toc-number">1.4.1.</span> <span class="toc-text">部署应用到 KIND 集群</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2"><span class="toc-number">1.4.2.</span> <span class="toc-text">验证部署</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.4.3.</span> <span class="toc-text">暴露服务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KIND%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%92%8C%E4%BD%9C%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">KIND的应用场景和作用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E5%92%8C%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="toc-number">1.5.1.</span> <span class="toc-text">开发和测试环境</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CI-CD%E7%AE%A1%E9%81%93"><span class="toc-number">1.5.2.</span> <span class="toc-text">CI&#x2F;CD管道</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E5%92%8C%E5%9F%B9%E8%AE%AD"><span class="toc-number">1.5.3.</span> <span class="toc-text">学习和培训</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.6.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">1.7.</span> <span class="toc-text">结论</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/24/%E6%8E%92%E9%9A%9C%E6%97%A5%E5%BF%97%EF%BC%88updating%EF%BC%89/" title="排错杂记（pod error）"><img src="/img/WallPaper%20(85).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="排错杂记（pod error）"/></a><div class="content"><a class="title" href="/2024/07/24/%E6%8E%92%E9%9A%9C%E6%97%A5%E5%BF%97%EF%BC%88updating%EF%BC%89/" title="排错杂记（pod error）">排错杂记（pod error）</a><time datetime="2024-07-24T02:44:28.000Z" title="發表於 2024-07-24 10:44:28">2024-07-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/24/Kind/" title="Kind基础"><img src="/img/WallPaper%20(84).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kind基础"/></a><div class="content"><a class="title" href="/2024/07/24/Kind/" title="Kind基础">Kind基础</a><time datetime="2024-07-24T01:58:31.000Z" title="發表於 2024-07-24 09:58:31">2024-07-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/23/Prometheus%E5%9F%BA%E7%A1%80/" title="Prometheus基础"><img src="/img/WallPaper%20(83).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Prometheus基础"/></a><div class="content"><a class="title" href="/2024/07/23/Prometheus%E5%9F%BA%E7%A1%80/" title="Prometheus基础">Prometheus基础</a><time datetime="2024-07-23T08:10:02.000Z" title="發表於 2024-07-23 16:10:02">2024-07-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/22/%E7%AE%80%E5%8D%95ansible%E6%93%8D%E4%BD%9C/" title="简单ansible操作"><img src="/img/WallPaper%20(82).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="简单ansible操作"/></a><div class="content"><a class="title" href="/2024/07/22/%E7%AE%80%E5%8D%95ansible%E6%93%8D%E4%BD%9C/" title="简单ansible操作">简单ansible操作</a><time datetime="2024-07-22T06:59:35.000Z" title="發表於 2024-07-22 14:59:35">2024-07-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/" title="Kubernetes服务网格"><img src="/img/WallPaper%20(81).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes服务网格"/></a><div class="content"><a class="title" href="/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/" title="Kubernetes服务网格">Kubernetes服务网格</a><time datetime="2024-07-22T03:31:12.000Z" title="發表於 2024-07-22 11:31:12">2024-07-22</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(84).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.kalyan-dao.space/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
