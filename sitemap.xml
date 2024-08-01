@@ -11,6 +11,15 @@
   </url>
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/</loc>
+    
+    <lastmod>2024-08-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/2024/07/26/%E5%9F%BA%E4%BA%8Econtainerd%E7%9A%84kubernetes%E9%9B%86%E7%BE%A4%E5%BB%BA%E8%AE%BE/</loc>
     
     <lastmod>2024-07-30</lastmod>
@@ -1245,6 +1254,13 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%AE%B0/</loc>
+    <lastmod>2024-08-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/Kubernentes/</loc>
     <lastmod>2024-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
