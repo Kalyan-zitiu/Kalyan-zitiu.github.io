@@ -1,0 +1,535 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>浅解析Containerd | Kalyan的小书房</title><meta name="keywords" content="Kubernetes"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="导言最近在集群中遇到了很多containerd的问题，所以不禁思考我真的懂containerd吗？？? 前提本文假设你熟悉了  CRI的概念 &amp;&amp; gRPC &amp;&amp; socket 参考：https:&#x2F;&#x2F;blog.kalyan.life&#x2F;2024&#x2F;07&#x2F;04&#x2F;CRI&#x2F; shim垫片概念  containerd是什么就不说啦架构（理解就好，主要在于如何使用，想要研究可以去">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅解析Containerd">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2024/08/07/Containerd/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="导言最近在集群中遇到了很多containerd的问题，所以不禁思考我真的懂containerd吗？？? 前提本文假设你熟悉了  CRI的概念 &amp;&amp; gRPC &amp;&amp; socket 参考：https:&#x2F;&#x2F;blog.kalyan.life&#x2F;2024&#x2F;07&#x2F;04&#x2F;CRI&#x2F; shim垫片概念  containerd是什么就不说啦架构（理解就好，主要在于如何使用，想要研究可以去">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(93).jpg">
+<meta property="article:published_time" content="2024-08-07T09:51:41.000Z">
+<meta property="article:modified_time" content="2024-08-08T04:31:40.930Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(93).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2024/08/07/Containerd/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '浅解析Containerd',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-08-08 12:31:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">53</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(93).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">浅解析Containerd</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2024-08-07T09:51:41.000Z" title="發表於 2024-08-07 17:51:41">2024-08-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2024-08-08T04:31:40.930Z" title="更新於 2024-08-08 12:31:40">2024-08-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Kubernetes/">Kubernetes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="浅解析Containerd"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="导言"><a href="#导言" class="headerlink" title="导言"></a>导言</h3><p>最近在集群中遇到了很多containerd的问题，所以不禁思考我真的懂containerd吗？？?</p>
+<h3 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h3><p>本文假设你熟悉了</p>
+<ol>
+<li>CRI的概念 &amp;&amp; gRPC &amp;&amp; socket 参考：<a target="_blank" rel="noopener" href="https://blog.kalyan.life/2024/07/04/CRI/">https://blog.kalyan.life/2024/07/04/CRI/</a></li>
+<li>shim垫片概念</li>
+</ol>
+<h3 id="containerd是什么就不说啦"><a href="#containerd是什么就不说啦" class="headerlink" title="containerd是什么就不说啦"></a>containerd是什么就不说啦</h3><h3 id="架构（理解就好，主要在于如何使用，想要研究可以去看源码）"><a href="#架构（理解就好，主要在于如何使用，想要研究可以去看源码）" class="headerlink" title="架构（理解就好，主要在于如何使用，想要研究可以去看源码）"></a>架构（理解就好，主要在于如何使用，想要研究可以去看源码）</h3><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240808100725408.png" alt="image-20240808100725408"></p>
+<h4 id="1-API-层"><a href="#1-API-层" class="headerlink" title="1. API 层"></a>1. API 层</h4><ul>
+<li><strong>gRPC API</strong>: 提供给客户端的 gRPC API，支持包括容器管理、镜像管理、存储管理等操作。</li>
+<li><strong>CRI</strong>: 容器运行时接口，允许 Kubernetes 通过 gRPC API 与 containerd 交互。</li>
+<li><strong>Prometheus</strong>: 用于监控的指标接口，收集和暴露 containerd 的运行时数据。</li>
+</ul>
+<h4 id="2-核心层-Core"><a href="#2-核心层-Core" class="headerlink" title="2. 核心层 (Core)"></a>2. 核心层 (Core)</h4><ul>
+<li><p>Services</p>
+<p>: 包含多种服务，每种服务负责不同的功能模块。</p>
+<ul>
+<li><strong>Containers Service</strong>: 管理容器的生命周期。</li>
+<li><strong>Content Service</strong>: 负责内容管理，处理镜像层的数据。</li>
+<li><strong>Diff Service</strong>: 负责镜像层之间的差异计算。</li>
+<li><strong>Images Service</strong>: 负责镜像的管理。</li>
+<li><strong>Leases Service</strong>: 管理临时资源。</li>
+<li><strong>Namespaces Service</strong>: 提供命名空间支持，隔离不同的容器组。</li>
+<li><strong>Snapshots Service</strong>: 管理快照。</li>
+<li><strong>Tasks Service</strong>: 管理任务的运行。</li>
+</ul>
+</li>
+<li><p>Metadata</p>
+<p>: 提供命名空间支持和元数据管理。</p>
+<ul>
+<li><strong>Containers, Content, Images, Leases, Namespaces, Snapshots</strong>: 各种元数据的管理模块。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-后端层-Backend"><a href="#3-后端层-Backend" class="headerlink" title="3. 后端层 (Backend)"></a>3. 后端层 (Backend)</h4><ul>
+<li><p><strong>Content Store</strong>: 负责存储内容，可以通过插件和本地存储实现。</p>
+</li>
+<li><p>Snapshotter</p>
+<p>: 管理文件系统的快照。</p>
+<ul>
+<li><strong>overlay, btrfs, devmapper, native, windows, plugin</strong>: 支持多种文件系统和快照技术。</li>
+</ul>
+</li>
+<li><p>Runtime</p>
+<p>: 支持容器运行时。</p>
+<ul>
+<li><strong>runc, runhcs, kata, Firecracker, gVisor, shim</strong>: 支持多种运行时，包括 runc、runhcs、kata containers、Firecracker 和 gVisor。</li>
+<li><strong>v2 shim client</strong>: 每个容器都有一个 shim 进程，隔离容器的生命周期管理，确保容器的独立运行。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-系统层-System"><a href="#4-系统层-System" class="headerlink" title="4. 系统层 (System)"></a>4. 系统层 (System)</h4><ul>
+<li>支持多种硬件架构和操作系统，包括 ARM、Intel、Windows、Linux。</li>
+</ul>
+<h3 id="简化版"><a href="#简化版" class="headerlink" title="简化版"></a>简化版</h3><ul>
+<li>分为三⼤块：Storage 管理镜像⽂件的存储；Metadata 管理镜像和容器的元数据；另外由 Task<br>触发运⾏时。对外提供 GRPC ⽅式的 API 以及 Metrics 接⼝。</li>
+</ul>
+<p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240808102354598.png" alt="image-20240808102354598"></p>
+<h3 id="然后我们讲一下重要的配置文件"><a href="#然后我们讲一下重要的配置文件" class="headerlink" title="然后我们讲一下重要的配置文件"></a>然后我们讲一下重要的配置文件</h3><h4 id="config-toml"><a href="#config-toml" class="headerlink" title="config.toml"></a>config.toml</h4><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240808103459459.png" alt="image-20240808103459459"></p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">version</span> <span class="string">=</span> <span class="number">2</span></span><br><span class="line"><span class="comment"># 配置文件版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">root</span> <span class="string">=</span> <span class="string">&quot;/var/lib/containerd&quot;</span></span><br><span class="line"><span class="comment"># containerd 数据存储的根目录</span></span><br><span class="line"></span><br><span class="line"><span class="string">state</span> <span class="string">=</span> <span class="string">&quot;/run/containerd&quot;</span></span><br><span class="line"><span class="comment"># containerd 状态信息存储目录</span></span><br><span class="line"></span><br><span class="line"><span class="string">oom_score</span> <span class="string">=</span> <span class="number">0</span></span><br><span class="line"><span class="comment"># OOM（Out of Memory）分数调整值，用于内存不足时的优先级</span></span><br><span class="line"></span><br><span class="line">[<span class="string">grpc</span>]</span><br><span class="line"><span class="comment"># gRPC 配置部分</span></span><br><span class="line"></span><br><span class="line">  <span class="string">max_recv_message_size</span> <span class="string">=</span> <span class="number">16777216</span></span><br><span class="line">  <span class="comment"># gRPC 最大接收消息大小</span></span><br><span class="line"></span><br><span class="line">  <span class="string">max_send_message_size</span> <span class="string">=</span> <span class="number">16777216</span></span><br><span class="line">  <span class="comment"># gRPC 最大发送消息大小</span></span><br><span class="line"></span><br><span class="line">[<span class="string">debug</span>]</span><br><span class="line"><span class="comment"># 调试配置部分</span></span><br><span class="line"></span><br><span class="line">  <span class="string">level</span> <span class="string">=</span> <span class="string">&quot;info&quot;</span></span><br><span class="line">  <span class="comment"># 日志级别，info 表示信息级别日志</span></span><br><span class="line"></span><br><span class="line">[<span class="string">metrics</span>]</span><br><span class="line"><span class="comment"># 指标配置部分</span></span><br><span class="line"></span><br><span class="line">  <span class="string">address</span> <span class="string">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="comment"># 指标服务监听地址，空表示不启用</span></span><br><span class="line"></span><br><span class="line">  <span class="string">grpc_histogram</span> <span class="string">=</span> <span class="literal">false</span></span><br><span class="line">  <span class="comment"># 是否启用 gRPC 直方图</span></span><br><span class="line"></span><br><span class="line">[<span class="string">plugins</span>]</span><br><span class="line"><span class="comment"># 插件配置部分</span></span><br><span class="line"></span><br><span class="line">  [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;</span>]</span><br><span class="line">  <span class="comment"># CRI 插件配置部分</span></span><br><span class="line"></span><br><span class="line">    <span class="string">sandbox_image</span> <span class="string">=</span> <span class="string">&quot;192.168.154.2/registry.k8s.io/pause:3.9&quot;</span></span><br><span class="line">    <span class="comment"># 沙箱镜像，用于 Pod 的基础镜像</span></span><br><span class="line"></span><br><span class="line">    <span class="string">max_container_log_line_size</span> <span class="string">=</span> <span class="number">-1</span></span><br><span class="line">    <span class="comment"># 容器日志行的最大长度，-1 表示不限制</span></span><br><span class="line"></span><br><span class="line">    <span class="string">enable_unprivileged_ports</span> <span class="string">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># 是否启用非特权端口</span></span><br><span class="line"></span><br><span class="line">    <span class="string">enable_unprivileged_icmp</span> <span class="string">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="comment"># 是否启用非特权 ICMP</span></span><br><span class="line"></span><br><span class="line">    [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd</span>]</span><br><span class="line">    <span class="comment"># containerd 相关配置</span></span><br><span class="line"></span><br><span class="line">      <span class="string">default_runtime_name</span> <span class="string">=</span> <span class="string">&quot;runc&quot;</span></span><br><span class="line">      <span class="comment"># 默认运行时名称</span></span><br><span class="line"></span><br><span class="line">      <span class="string">snapshotter</span> <span class="string">=</span> <span class="string">&quot;overlayfs&quot;</span></span><br><span class="line">      <span class="comment"># 默认使用的快照器类型</span></span><br><span class="line"></span><br><span class="line">      <span class="string">discard_unpacked_layers</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line">      <span class="comment"># 是否丢弃解包的层</span></span><br><span class="line"></span><br><span class="line">    [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd.runtimes</span>]</span><br><span class="line">    <span class="comment"># 容器运行时配置部分</span></span><br><span class="line"></span><br><span class="line">      [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd.runtimes.runc</span>]</span><br><span class="line">      <span class="comment"># runc 运行时配置部分</span></span><br><span class="line"></span><br><span class="line">        <span class="string">runtime_type</span> <span class="string">=</span> <span class="string">&quot;io.containerd.runc.v2&quot;</span></span><br><span class="line">        <span class="comment"># 运行时类型</span></span><br><span class="line"></span><br><span class="line">        <span class="string">runtime_engine</span> <span class="string">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 运行时引擎</span></span><br><span class="line"></span><br><span class="line">        <span class="string">runtime_root</span> <span class="string">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 运行时根目录</span></span><br><span class="line"></span><br><span class="line">        <span class="string">base_runtime_spec</span> <span class="string">=</span> <span class="string">&quot;/etc/containerd/cri-base.json&quot;</span></span><br><span class="line">        <span class="comment"># 基础运行时规格文件</span></span><br><span class="line"></span><br><span class="line">      [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd.runtimes.runc.options</span>]</span><br><span class="line">      <span class="comment"># runc 运行时选项配置部分</span></span><br><span class="line"></span><br><span class="line">        <span class="string">SystemdCgroup</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line">        <span class="comment"># 是否启用 systemd cgroup</span></span><br><span class="line"></span><br><span class="line">        <span class="string">BinaryName</span> <span class="string">=</span> <span class="string">&quot;/usr/local/bin/runc&quot;</span></span><br><span class="line">        <span class="comment"># runc 二进制文件路径</span></span><br><span class="line"></span><br><span class="line">    [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;.registry</span>]</span><br><span class="line">    <span class="comment"># 镜像仓库配置部分</span></span><br><span class="line"></span><br><span class="line">      [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;.registry.mirrors</span>]</span><br><span class="line">      <span class="comment"># 镜像仓库镜像配置部分</span></span><br><span class="line"></span><br><span class="line">        [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;.registry.mirrors.&quot;192.168.154.2&quot;</span>]</span><br><span class="line">        <span class="comment"># 指定的镜像仓库</span></span><br><span class="line">          <span class="string">endpoint</span> <span class="string">=</span> [<span class="string">&quot;https://192.168.154.2&quot;</span>]</span><br><span class="line">          <span class="comment"># 镜像仓库的端点 URL</span></span><br><span class="line"></span><br><span class="line">      [<span class="string">plugins.&quot;io.containerd.grpc.v1.cri&quot;.registry.configs.&quot;192.168.154.2&quot;.tls</span>]</span><br><span class="line">      <span class="comment"># 镜像仓库 TLS 配置部分</span></span><br><span class="line"></span><br><span class="line">        <span class="string">insecure_skip_verify</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line">        <span class="comment"># 是否跳过 TLS 证书验证</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="值得注意的是这里的镜像仓库有两种加载方式-到了2-0版本就可以用"><a href="#值得注意的是这里的镜像仓库有两种加载方式-到了2-0版本就可以用" class="headerlink" title="值得注意的是这里的镜像仓库有两种加载方式,到了2.0版本就可以用"></a>值得注意的是这里的镜像仓库有两种加载方式,到了2.0版本就可以用</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[plugins.<span class="string">&quot;io.containerd.grpc.v1.cri&quot;</span>.registry]</span><br><span class="line">config_path= <span class="string">&quot;/etc/containerd/certs.d&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后再certs.d目录下面添加你的镜像仓库就好了.</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="run-containerd-里面的是什么"><a href="#run-containerd-里面的是什么" class="headerlink" title="/run/containerd/里面的是什么"></a>/run/containerd/里面的是什么</h3><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240808111628400.png" alt="image-20240808111628400"></p>
+<ol>
+<li><strong>containerd.sock</strong>:</li>
+</ol>
+<ul>
+<li>这是 containerd 的主 Unix socket 文件，用于与 containerd 守护进程进行通信。客户端（例如 Docker 或 Kubernetes）通过这个 socket 文件发送管理指令。</li>
+</ul>
+<ol start="2">
+<li><strong>containerd.sock.ttrpc</strong>:</li>
+</ol>
+<ul>
+<li>这是 containerd 用于 ttrpc（Tiny Transport RPC）通信的 socket 文件。ttrpc 是一种轻量级的 RPC 框架，用于在性能敏感的环境中提供高效的进程间通信。</li>
+</ul>
+<ol start="3">
+<li><strong>io.containerd.grpc.v1.cri</strong>:</li>
+</ol>
+<ul>
+<li>这个目录包含与 Kubernetes CRI（Container Runtime Interface）集成相关的 socket 文件和配置。containerd 支持 CRI，使得 Kubernetes 可以直接通过 containerd 来管理容器。</li>
+</ul>
+<ol start="4">
+<li><strong>io.containerd.runtime.v1.linux</strong>:</li>
+</ol>
+<ul>
+<li>这个目录包含与 v1 版本的 containerd 运行时相关的文件和配置，主要用于 Linux 系统上的容器管理。</li>
+</ul>
+<ol start="5">
+<li><strong>io.containerd.runtime.v2.task</strong>:</li>
+</ol>
+<ul>
+<li>这个目录包含与 v2 版本的 containerd 任务管理相关的文件和配置。v2 版本引入了一些新的特性和改进，用于更高效地管理容器任务。</li>
+</ul>
+<ol start="6">
+<li><strong>runc</strong>:</li>
+</ol>
+<ul>
+<li>这是 runc 运行时的目录。runc 是一个 CLI 工具，用于根据 OCI（Open Container Initiative）规范创建和运行容器。containerd 使用 runc 作为默认的容器运行时。</li>
+</ul>
+<ol start="7">
+<li><strong>s</strong>:</li>
+</ol>
+<ul>
+<li>这个目录的具体用途可能需要根据系统的实际配置来确定。它可能是用于存储临时文件、状态文件或特定插件的目录。</li>
+</ul>
+<h3 id="var-lib-containerd-里面的是什么"><a href="#var-lib-containerd-里面的是什么" class="headerlink" title="/var/lib/containerd 里面的是什么"></a>/var/lib/containerd 里面的是什么</h3><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240808113725285.png" alt="image-20240808113725285"></p>
+<ol>
+<li><strong>io.containerd.content.v1.content:</strong></li>
+</ol>
+<ul>
+<li>存储镜像和容器层的内容，包括所有下载的镜像数据。这里的文件通常以内容地址（例如 SHA256 哈希）进行命名和存储。</li>
+</ul>
+<ol start="2">
+<li><strong>io.containerd.snapshotter.v1.overlayfs:</strong></li>
+</ol>
+<ul>
+<li>这是一个与文件系统快照相关的目录，特别是使用 OverlayFS 作为存储后端时。这个目录包含快照和层的数据，用于构建和管理容器的文件系统层。</li>
+</ul>
+<ol start="3">
+<li><strong>io.containerd.snapshotter.v1.btrfs:</strong></li>
+</ol>
+<ul>
+<li>类似于 overlayfs 目录，但用于 Btrfs 文件系统。它存储使用 Btrfs 作为存储后端时的快照和层的数据。</li>
+</ul>
+<ol start="4">
+<li><strong>io.containerd.snapshotter.v1.devmapper:</strong> </li>
+</ol>
+<ul>
+<li>用于 Device Mapper 存储后端的快照数据，存储容器层的信息。</li>
+</ul>
+<ol start="5">
+<li><strong>io.containerd.grpc.v1.cri:</strong></li>
+</ol>
+<ul>
+<li>包含与 Kubernetes CRI 集成相关的数据和配置。Kubernetes 通过这个目录与 containerd 进行通信和数据交换。</li>
+</ul>
+<ol start="6">
+<li><strong>tmpmounts:</strong></li>
+</ol>
+<ul>
+<li>临时挂载点目录，用于存储容器运行时的临时文件和挂载点信息。</li>
+</ul>
+<h3 id="命令工具"><a href="#命令工具" class="headerlink" title="命令工具"></a>命令工具</h3><h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>docker</th>
+<th>ctr</th>
+<th>crictl</th>
+<th>nerdctl</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>显示镜像列表</td>
+<td>显示本地主机上的镜像列表</td>
+<td>docker images</td>
+<td>ctr images list</td>
+<td>crictl images</td>
+<td>nerdctl images list</td>
+</tr>
+<tr>
+<td>下载镜像</td>
+<td>从 registry 中下载指定的镜像</td>
+<td>docker pull</td>
+<td>ctr images pull</td>
+<td>crictl pull</td>
+<td>nerdctl pull</td>
+</tr>
+<tr>
+<td>上传镜像</td>
+<td>将本地的镜像上传到 registry</td>
+<td>docker push</td>
+<td>ctr images push</td>
+<td>不支持</td>
+<td>nerdctl images push</td>
+</tr>
+</tbody></table>
+<h4 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>docker</th>
+<th>ctr</th>
+<th>crictl</th>
+<th>nerdctl</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>删除镜像</td>
+<td>删除指定的镜像</td>
+<td>docker rmi</td>
+<td>ctr images remove/delete</td>
+<td>crictl rmi</td>
+<td>nerdctl rmi</td>
+</tr>
+<tr>
+<td>启动容器</td>
+<td>创建并启动容器</td>
+<td>docker run</td>
+<td>ctr run</td>
+<td>crictl run</td>
+<td>nerdctl run</td>
+</tr>
+<tr>
+<td>显示容器列表</td>
+<td>显示本地主机上的容器列表</td>
+<td>docker ps</td>
+<td>ctr tasks ls</td>
+<td>crictl ps</td>
+<td>nerdctl ps</td>
+</tr>
+<tr>
+<td>显示容器详情</td>
+<td>显示容器的详细信息</td>
+<td>docker inspect</td>
+<td>ctr task info</td>
+<td>crictl inspect</td>
+<td>nerdctl inspect</td>
+</tr>
+<tr>
+<td>停止容器</td>
+<td>停止容器的运行</td>
+<td>docker stop</td>
+<td>ctr task kill</td>
+<td>crictl stop</td>
+<td>nerdctl stop</td>
+</tr>
+<tr>
+<td>删除容器</td>
+<td>删除指定的容器</td>
+<td>docker rm</td>
+<td>ctr task delete</td>
+<td>crictl rm</td>
+<td>nerdctl delete</td>
+</tr>
+<tr>
+<td>进入容器</td>
+<td>进入正在运行的容器</td>
+<td>docker exec</td>
+<td>ctr task exec</td>
+<td>crictl exec</td>
+<td>nerdctl exec</td>
+</tr>
+<tr>
+<td>查看容器日志</td>
+<td>显示容器的日志输出</td>
+<td>docker logs</td>
+<td>ctr task logs</td>
+<td>crictl logs</td>
+<td>nerdctl logs</td>
+</tr>
+<tr>
+<td>导出容器</td>
+<td>导出容器文件系统为 tar 包</td>
+<td>docker export</td>
+<td>ctr task export</td>
+<td>不支持</td>
+<td>nerdctl export</td>
+</tr>
+<tr>
+<td>导入容器</td>
+<td>从导出的 tar 包创建一个新的容器</td>
+<td>docker import</td>
+<td>ctr image import</td>
+<td>不支持</td>
+<td>nerdctl import</td>
+</tr>
+<tr>
+<td>构建镜像</td>
+<td>从 Dockerfile 构建镜像</td>
+<td>docker build</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>nerdctl build</td>
+</tr>
+<tr>
+<td>显示网络列表</td>
+<td>显示本地主机上的网络列表</td>
+<td>docker network ls</td>
+<td>ctr network list</td>
+<td>不支持</td>
+<td>nerdctl network ls</td>
+</tr>
+<tr>
+<td>创建网络</td>
+<td>创建一个新的网络</td>
+<td>docker network create</td>
+<td>ctr network create</td>
+<td>不支持</td>
+<td>nerdctl network create</td>
+</tr>
+<tr>
+<td>删除网络</td>
+<td>删除指定的网络</td>
+<td>docker network rm</td>
+<td>ctr network remove</td>
+<td>不支持</td>
+<td>nerdctl network rm</td>
+</tr>
+</tbody></table>
+<h4 id="Containerd-如何存储镜像和容器。⽬录结构是什么样的。是否⽀持-容量限制"><a href="#Containerd-如何存储镜像和容器。⽬录结构是什么样的。是否⽀持-容量限制" class="headerlink" title="Containerd 如何存储镜像和容器。⽬录结构是什么样的。是否⽀持 容量限制"></a>Containerd 如何存储镜像和容器。⽬录结构是什么样的。是否⽀持 容量限制</h4><p>  Containerd 是⼀个容器运⾏时管理程序，它使⽤ OCI（Open Container Initiative）标准来定义容器和镜像。镜像通常被存储在⼀个容器镜像存储库（Container Image Store）中，例如 Docker Hub，或者本地的 OCI 镜像存储库。Containerd 会从存储库中下载镜像，并在本地存储。容器则是使⽤镜像创建的运⾏实例。Containerd 将容器的元数据存储在称为 “snapshots” 的⽬录中。每个容器都有⼀个独⽴的快照⽬录，其中包含容器的根⽂件系统和元数据。Containerd 还⽀持将容器存储在可移动的磁盘上，这种⽅式称为 “offline snapshots”。Containerd ⽀持容器资源限制，可以设置 CPU 和内存的限制，也可以设置 I/O 和⽹络带宽等限制。这些限制是通过使⽤ Linux 内核的 cgroup 和 namespace 功能来实现的。</p>
+<h4 id="Containerd-如何处理⽇志，是否⽀持轮滚"><a href="#Containerd-如何处理⽇志，是否⽀持轮滚" class="headerlink" title="Containerd 如何处理⽇志，是否⽀持轮滚"></a>Containerd 如何处理⽇志，是否⽀持轮滚</h4><p>  Containerd 本身并不负责处理容器的⽇志，⽽是将⽇志处理交给容器运⾏时，如 runc 或 CRI- O。这些容器运⾏时⽀持使⽤各种不同的⽅式来处理容器的⽇志，如直接输出到控制台、将⽇志写⼊⽂件或使⽤⽇志聚合⼯具，如 Fluentd 或ELK Stack。对于容器的⽇志轮滚，⼀般是由容器运⾏时负责实现。例如，runc 可以通过指定 –log-opt max-size 和 –log-opt max-file 参数来控制容器⽇志的⼤⼩和轮滚。当容器⽇志⽂件⼤⼩达到指定的⼤⼩时，runc 会⾃动创建⼀个新的⽇志⽂件，并将旧的⽇志⽂件压缩和删除。类似地，CRI- O 也⽀持使⽤ –log-max-file 和 –log-max-size 参数来控制容器⽇志的轮滚。</p>
+<h4 id="Containerd-重启，是否会导致容器重启"><a href="#Containerd-重启，是否会导致容器重启" class="headerlink" title="Containerd 重启，是否会导致容器重启"></a>Containerd 重启，是否会导致容器重启</h4><p>  当 Containerd 重启时，已经在运⾏的容器不会⽴即停⽌或重启。这是因为容器本身是由容器运⾏时（例如 runc 或CRI- O）管理的，⽽不是由 Containerd 直接控制。因此，Containerd 重启不会直接影响容器的运⾏状态。当 Containerd 重启后，容器运⾏时会重新连接到新的 Containerd 进程，以便继续管理容器。在此过程中，容器运⾏时可能会暂停⼀段时间，导致容器内的应⽤程序暂时⽆法访问，但通常这个时间⾮常短暂，只会影响到容器内正在进⾏的临时操作。需要注意的是，如果 Containerd 重启导致容器存储被破坏或不可⽤，那么容器本身可能会受到影响，因为容器的根⽂<br>件系统和元数据存储在 Containerd 的快照⽬录中。在这种情况下，容器运⾏时可能会⽆法连接到 Containerd，导致容器⽆法正常运⾏。因此，在重启 Containerd 之前，需要确保容器存储的完整性和可⽤性。</p>
+<h4 id="Containerd-的⽹络命名空间是什么样的，⽆-CNI-下的容器，是否⽀持⽹络"><a href="#Containerd-的⽹络命名空间是什么样的，⽆-CNI-下的容器，是否⽀持⽹络" class="headerlink" title="Containerd 的⽹络命名空间是什么样的，⽆ CNI 下的容器，是否⽀持⽹络"></a>Containerd 的⽹络命名空间是什么样的，⽆ CNI 下的容器，是否⽀持⽹络</h4><p>  Containerd 使⽤ Linux 内核的⽹络命名空间（network namespace）来隔离容器的⽹络栈和⽹络配置，以便容器可以拥有⾃⼰独⽴的⽹络栈和⽹络环境。每个容器都有⾃⼰的⽹络命名空间，并且容器之间默认是隔离的，不能相互访问。在没有 CNI（Container Networking Interface）插件的情况下，Containerd 本身并不提供⽹络功能，需要⼿动配置容器的⽹络。可以使⽤ Linux 的⽹络⼯具，如 ip 和 iptables，来⼿动配置容器的⽹络，例如分配 IP 地址、设置路由和防⽕墙规则等。这种⽅式需要⼿动配置和管理，⽐较繁琐。不过，Containerd 可以与 CNI 插件配合使⽤，以便⾃动化配置容器的⽹络。CNI 插件可以在容器创建时⾃动配置⽹络，例如分配 IP 地址、设置⽹络接⼝和路由等。常⻅的 CNI 插件包括 Flannel、Calico、Weave Net 等，它们可以与Containerd 集成，以提供⾃动化的⽹络配置和管理。</p>
+<h4 id="Containerd-有没有-KMEM-泄露-的问题"><a href="#Containerd-有没有-KMEM-泄露-的问题" class="headerlink" title="Containerd 有没有 KMEM 泄露 的问题"></a>Containerd 有没有 KMEM 泄露 的问题</h4><p>  在早期版本的 Containerd 中曾经存在⼀些 KMEM 泄漏的问题。具体来说，这些问题通常与 Containerd 在处理⾼负载情况下使⽤了⼤量的内核内存（KMEM），导致内存泄漏和系统不稳定。不过，Containerd 的开发团队已经在后续版本中修复了这些问题，并采取了⼀些措施来避免 KMEM 泄漏。例如，Containerd 1.4.0 版本中引⼊了 KMEM 限制和监控功能，以便在 Containerd 使⽤⼤量 KMEM 时⾃动降低容器的资源配额，从⽽避免 KMEM 泄漏和系统不稳定。总的来说，如果您使⽤的是较新版本的 Containerd，并且在运⾏期间遇到了 KMEM 泄漏的问题，建议升级到最新版本并检查您的系统配置，以确保已经正确配置了 KMEM 限制和监控。同时，如果您的系统遇到了 KMEM 泄漏等其他问题，也可以向 Containerd 的开发团队报告问题并寻求技术⽀持。</p>
+<h4 id="Containerd-shim-runc-v1与v2的区别"><a href="#Containerd-shim-runc-v1与v2的区别" class="headerlink" title="Containerd-shim-runc-v1与v2的区别"></a>Containerd-shim-runc-v1与v2的区别</h4><p>  containerd-shim-runc-v1 和 containerd-shim-runc-v2 是 containerd 中使⽤的两个 shim 实现。这两个 shim 实现都是使⽤ runc 来启动和管理容器的。containerd-shim-runc-v1 是 containerd 中旧的 shim 实现，它使⽤进程间通信 (IPC) 来与 containerd 守护进程进⾏通信，通常会使⽤ UNIX 域套接字或 FIFO 进⾏通信。它是在 containerd 1.0 中引⼊的，主要⽤于运⾏ Docker 容器，但现在已经被 containerd-shim-runc-v2 替代。containerd-shim-runc-v2 是 containerd 中新的 shim 实现，它使⽤ gRPC 来与 containerd 守护进程进⾏通信。它是在 containerd 1.1 中引⼊的，其⽬标是提供更好的性能和可靠性，并为后续的扩展提供更好的基础设施。与containerd-shim-runc-v1 相⽐，它更加轻量级，并且可以通过 API 配置各种容器和执⾏参数。总的来说，containerd-shim-runc-v2 是 containerd 中更加现代和⾼效的 shim 实现，它⽐ containerd-shimrunc-v1 更具扩展性和可维护性，因此在使⽤ containerd 时应该尽可能地使⽤ containerd-shim-runc-v2。</p>
+<h4 id="Containerd的grpc⽅法是如何注册的？"><a href="#Containerd的grpc⽅法是如何注册的？" class="headerlink" title="Containerd的grpc⽅法是如何注册的？"></a>Containerd的grpc⽅法是如何注册的？</h4><p>   containerd 的 gRPC ⽅法是通过⽣成的 protobuf ⽂件和相应的代码实现的。protobuf ⽂件描述了 containerd ⽀持的API ⽅法和数据结构，然后使⽤这个⽂件⽣成对应的代码（包括客户端和服务器端代码）。这些⾃动⽣成的代码提供了实现⽅法的框架，开发⼈员可以在其中添加⾃⼰的代码以实现具体功能。在 containerd 中，服务器端的 gRPC ⽅法是在 services ⽬录下实现的。每个服务都实现了⼀个接⼝（在 protobuf⽂件中定义），并提供了⼀些⽅法来处理请求。这些⽅法通常采⽤ context 参数来获取请求上下⽂和取消信号，然后使⽤⾃动⽣成的代码处理 protobuf 消息。在这些⽅法中，使⽤的核⼼实现代码通常在 containers、images 或content 等核⼼ package 中实现。服务注册是通过 init 函数实现的，每个服务都在其对应的包中实现了⼀个名为 Register 的函数，该函数在包被导⼊时⾃动运⾏，将⾃⼰注册到 containerd 的 gRPC 服务器上。在 Register 函数中，使⽤<br>server.RegisterService 函数将⾃⼰的服务实现注册到 containerd 的 gRPC 服务器上，以便客户端可以调⽤。</p>
+<h4 id="Containerd与containerd-shim是如何交互的？"><a href="#Containerd与containerd-shim是如何交互的？" class="headerlink" title="Containerd与containerd-shim是如何交互的？"></a>Containerd与containerd-shim是如何交互的？</h4><p>  在 Containerd 中，containerd-shim 是负责启动容器进程并与 Containerd API 通信的组件。Containerd 通过 gRPC接⼝与 containerd-shim 通信，以便进⾏容器的创建、启动、停⽌、删除等操作。具体⽽⾔，Containerd 与containerd-shim 之间的交互过程如下：</p>
+<ol>
+<li>Containerd 使⽤ gRPC 接⼝向 containerd-shim 发送创建容器的请求，包括容器的 ID、镜像、⽂件系统等参数。</li>
+<li>containerd-shim 接收到创建容器的请求后，会根据请求中的参数启动⼀个新的容器进程，并创建⼀个对应的Linux namespace。</li>
+<li>containerd-shim 将容器的 PID、Stdin、Stdout 和 Stderr 等信息发送回给 Containerd，以便后者能够管理和监控容器的运⾏状态。</li>
+<li>在容器运⾏过程中，Containerd 可以通过 gRPC 接⼝向 containerd-shim 发送信号以启动、停⽌、暂停或恢复容器的运⾏。</li>
+<li>当容器进程退出后，containerd-shim 会向 Containerd 发送容器的退出状态和退出码，Containerd 在接收到这些信息后，会更新容器的状态并删除对应的容器对象。需要注意的是，Containerd 和 containerd-shim 都是独⽴的进程，它们之间通过 gRPC 接⼝通信，因此 Containerd和 containerd-shim 可以在不同的计算机上运⾏，这也为 Containerd 的分布式部署提供了便利。</li>
+</ol>
+<h4 id="Containerd-shim与runc是如何交互的？"><a href="#Containerd-shim与runc是如何交互的？" class="headerlink" title="Containerd-shim与runc是如何交互的？"></a>Containerd-shim与runc是如何交互的？</h4><p>  在容器技术中，runc 是⼀个⽤于启动和管理容器的轻量级⼯具，⽽ containerd-shim 是 containerd ⽤于管理容器⽣命周期的代理。在容器启动的过程中，runc 和 containerd-shim 之间会进⾏以下交互：</p>
+<ol>
+<li>Containerd-shim 通过 Containerd API 向 Containerd 发送创建容器的请求。</li>
+<li>Containerd 接收到请求后，将请求转发给 runc 来创建容器。runc 将通过 system call 创建新的容器进程，并设置容器的隔离环境（⽐如 namespace、cgroups、rootfs）等参数。</li>
+<li>runc 启动新的容器进程并返回 PID 给 Containerd-shim。</li>
+<li>Containerd-shim 接收到容器进程的 PID 后，会将 PID 发送回给 Containerd。Containerd 会继续管理和监控容器的⽣命周期。</li>
+<li>在容器运⾏期间，Containerd 可以通过 Containerd API 向 Containerd-shim 发送命令，⽐如停⽌、暂停、恢复、删除容器等操作。</li>
+<li>当容器进程退出后，runc 将容器的退出状态和退出码发送给 Containerd-shim。Containerd-shim 将这些信息发送回给 Containerd，Containerd 将更新容器的状态并删除对应的容器对象。需要注意的是，runc 是⼀个独⽴的⼯具，它与 containerd-shim 的交互是在容器启动时发⽣的。在容器启动成功后，runc 将直接与容器进程交互，⽽ containerd-shim 的作⽤将逐渐变⼩。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2024/08/07/Containerd/">https://kalyan-zitiu.github.io/2024/08/07/Containerd/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Kubernetes/">Kubernetes</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(93).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/"><img class="next-cover" src="/img/WallPaper%20(90).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Kubernetes-StorageClass实践1</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/2024/07/17/Kubernetes%E6%9C%8D%E5%8A%A1/" title="Kubernetes服务基础"><img class="cover" src="/img/WallPaper%20(76).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-17</div><div class="title">Kubernetes服务基础</div></div></a></div><div><a href="/2024/07/19/Kubernetes_ingress/" title="Kubernetes ingress基础"><img class="cover" src="/img/WallPaper%20(79).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-19</div><div class="title">Kubernetes ingress基础</div></div></a></div><div><a href="/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/" title="Kubernetes服务网格"><img class="cover" src="/img/WallPaper%20(81).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-22</div><div class="title">Kubernetes服务网格</div></div></a></div><div><a href="/2024/07/24/Kind/" title="Kind基础"><img class="cover" src="/img/WallPaper%20(84).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-24</div><div class="title">Kind基础</div></div></a></div><div><a href="/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/" title="Kubernetes-StorageClass实践1"><img class="cover" src="/img/WallPaper%20(90).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-08-01</div><div class="title">Kubernetes-StorageClass实践1</div></div></a></div><div><a href="/2024/07/31/Kubernetes_pki/" title="Kubernetes 证书"><img class="cover" src="/img/WallPaper%20(91).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-31</div><div class="title">Kubernetes 证书</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">65</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">53</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">导言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-number">2.</span> <span class="toc-text">前提</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#containerd%E6%98%AF%E4%BB%80%E4%B9%88%E5%B0%B1%E4%B8%8D%E8%AF%B4%E5%95%A6"><span class="toc-number">3.</span> <span class="toc-text">containerd是什么就不说啦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%EF%BC%88%E7%90%86%E8%A7%A3%E5%B0%B1%E5%A5%BD%EF%BC%8C%E4%B8%BB%E8%A6%81%E5%9C%A8%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%EF%BC%8C%E6%83%B3%E8%A6%81%E7%A0%94%E7%A9%B6%E5%8F%AF%E4%BB%A5%E5%8E%BB%E7%9C%8B%E6%BA%90%E7%A0%81%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">架构（理解就好，主要在于如何使用，想要研究可以去看源码）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-API-%E5%B1%82"><span class="toc-number">4.1.</span> <span class="toc-text">1. API 层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E5%B1%82-Core"><span class="toc-number">4.2.</span> <span class="toc-text">2. 核心层 (Core)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%90%8E%E7%AB%AF%E5%B1%82-Backend"><span class="toc-number">4.3.</span> <span class="toc-text">3. 后端层 (Backend)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E7%B3%BB%E7%BB%9F%E5%B1%82-System"><span class="toc-number">4.4.</span> <span class="toc-text">4. 系统层 (System)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8C%96%E7%89%88"><span class="toc-number">5.</span> <span class="toc-text">简化版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%84%B6%E5%90%8E%E6%88%91%E4%BB%AC%E8%AE%B2%E4%B8%80%E4%B8%8B%E9%87%8D%E8%A6%81%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">然后我们讲一下重要的配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#config-toml"><span class="toc-number">6.1.</span> <span class="toc-text">config.toml</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%80%BC%E5%BE%97%E6%B3%A8%E6%84%8F%E7%9A%84%E6%98%AF%E8%BF%99%E9%87%8C%E7%9A%84%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93%E6%9C%89%E4%B8%A4%E7%A7%8D%E5%8A%A0%E8%BD%BD%E6%96%B9%E5%BC%8F-%E5%88%B0%E4%BA%862-0%E7%89%88%E6%9C%AC%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%94%A8"><span class="toc-number">6.2.</span> <span class="toc-text">值得注意的是这里的镜像仓库有两种加载方式,到了2.0版本就可以用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-containerd-%E9%87%8C%E9%9D%A2%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">7.</span> <span class="toc-text">&#x2F;run&#x2F;containerd&#x2F;里面的是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#var-lib-containerd-%E9%87%8C%E9%9D%A2%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">8.</span> <span class="toc-text">&#x2F;var&#x2F;lib&#x2F;containerd 里面的是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%B7%A5%E5%85%B7"><span class="toc-number">9.</span> <span class="toc-text">命令工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">9.1.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="toc-number">9.2.</span> <span class="toc-text">其他命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd-%E5%A6%82%E4%BD%95%E5%AD%98%E5%82%A8%E9%95%9C%E5%83%8F%E5%92%8C%E5%AE%B9%E5%99%A8%E3%80%82%E2%BD%AC%E5%BD%95%E7%BB%93%E6%9E%84%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E3%80%82%E6%98%AF%E5%90%A6%E2%BD%80%E6%8C%81-%E5%AE%B9%E9%87%8F%E9%99%90%E5%88%B6"><span class="toc-number">9.3.</span> <span class="toc-text">Containerd 如何存储镜像和容器。⽬录结构是什么样的。是否⽀持 容量限制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd-%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E2%BD%87%E5%BF%97%EF%BC%8C%E6%98%AF%E5%90%A6%E2%BD%80%E6%8C%81%E8%BD%AE%E6%BB%9A"><span class="toc-number">9.4.</span> <span class="toc-text">Containerd 如何处理⽇志，是否⽀持轮滚</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd-%E9%87%8D%E5%90%AF%EF%BC%8C%E6%98%AF%E5%90%A6%E4%BC%9A%E5%AF%BC%E8%87%B4%E5%AE%B9%E5%99%A8%E9%87%8D%E5%90%AF"><span class="toc-number">9.5.</span> <span class="toc-text">Containerd 重启，是否会导致容器重启</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd-%E7%9A%84%E2%BD%B9%E7%BB%9C%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%EF%BC%8C%E2%BD%86-CNI-%E4%B8%8B%E7%9A%84%E5%AE%B9%E5%99%A8%EF%BC%8C%E6%98%AF%E5%90%A6%E2%BD%80%E6%8C%81%E2%BD%B9%E7%BB%9C"><span class="toc-number">9.6.</span> <span class="toc-text">Containerd 的⽹络命名空间是什么样的，⽆ CNI 下的容器，是否⽀持⽹络</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd-%E6%9C%89%E6%B2%A1%E6%9C%89-KMEM-%E6%B3%84%E9%9C%B2-%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">9.7.</span> <span class="toc-text">Containerd 有没有 KMEM 泄露 的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd-shim-runc-v1%E4%B8%8Ev2%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">9.8.</span> <span class="toc-text">Containerd-shim-runc-v1与v2的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd%E7%9A%84grpc%E2%BD%85%E6%B3%95%E6%98%AF%E5%A6%82%E4%BD%95%E6%B3%A8%E5%86%8C%E7%9A%84%EF%BC%9F"><span class="toc-number">9.9.</span> <span class="toc-text">Containerd的grpc⽅法是如何注册的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd%E4%B8%8Econtainerd-shim%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A4%E4%BA%92%E7%9A%84%EF%BC%9F"><span class="toc-number">9.10.</span> <span class="toc-text">Containerd与containerd-shim是如何交互的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Containerd-shim%E4%B8%8Erunc%E6%98%AF%E5%A6%82%E4%BD%95%E4%BA%A4%E4%BA%92%E7%9A%84%EF%BC%9F"><span class="toc-number">9.11.</span> <span class="toc-text">Containerd-shim与runc是如何交互的？</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/07/Containerd/" title="浅解析Containerd"><img src="/img/WallPaper%20(93).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅解析Containerd"/></a><div class="content"><a class="title" href="/2024/08/07/Containerd/" title="浅解析Containerd">浅解析Containerd</a><time datetime="2024-08-07T09:51:41.000Z" title="發表於 2024-08-07 17:51:41">2024-08-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/" title="Kubernetes-StorageClass实践1"><img src="/img/WallPaper%20(90).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes-StorageClass实践1"/></a><div class="content"><a class="title" href="/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/" title="Kubernetes-StorageClass实践1">Kubernetes-StorageClass实践1</a><time datetime="2024-08-01T02:16:47.000Z" title="發表於 2024-08-01 10:16:47">2024-08-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/31/Kubernetes_pki/" title="Kubernetes 证书"><img src="/img/WallPaper%20(91).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes 证书"/></a><div class="content"><a class="title" href="/2024/07/31/Kubernetes_pki/" title="Kubernetes 证书">Kubernetes 证书</a><time datetime="2024-07-31T06:58:28.000Z" title="發表於 2024-07-31 14:58:28">2024-07-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/30/Kubernetes%E5%AD%98%E5%82%A8/" title="Kubernetes存储基础"><img src="/img/WallPaper%20(88).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes存储基础"/></a><div class="content"><a class="title" href="/2024/07/30/Kubernetes%E5%AD%98%E5%82%A8/" title="Kubernetes存储基础">Kubernetes存储基础</a><time datetime="2024-07-30T07:42:49.000Z" title="發表於 2024-07-30 15:42:49">2024-07-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/07/26/%E5%9F%BA%E4%BA%8Econtainerd%E7%9A%84kubernetes%E9%9B%86%E7%BE%A4%E5%BB%BA%E8%AE%BE/" title="基于containerd的kubernetes集群建设"><img src="/img/WallPaper%20(87).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于containerd的kubernetes集群建设"/></a><div class="content"><a class="title" href="/2024/07/26/%E5%9F%BA%E4%BA%8Econtainerd%E7%9A%84kubernetes%E9%9B%86%E7%BE%A4%E5%BB%BA%E8%AE%BE/" title="基于containerd的kubernetes集群建设">基于containerd的kubernetes集群建设</a><time datetime="2024-07-26T01:40:58.000Z" title="發表於 2024-07-26 09:40:58">2024-07-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(93).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.twikoo.kalyan.life/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.twikoo.kalyan.life/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
