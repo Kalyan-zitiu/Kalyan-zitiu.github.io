@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Kubernetes-StorageClass实践2 | Kalyan的小书房</title><meta name="keywords" content="Kubernetes"><meta name="author" content="Kalyan,3148862192@qq.com"><meta name="copyright" content="Kalyan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="前提你需要提前了解，hwameistor的组件生命周期管理： 1. LocalDiskManager作用: LocalDiskManager 负责管理节点上的物理磁盘资源。它发现、监控和维护节点的本地磁盘信息，确保系统对可用磁盘资源的了解是最新的。 生命周期管理:  启动: 当 LocalDiskManager 启动时，它扫描节点上的所有可用磁盘，收集磁盘的元数据（例如大小、型号、状态等）。 运行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes-StorageClass实践2">
+<meta property="og:url" content="https://kalyan-zitiu.github.io/2024/08/05/Kubernetes-StorageClass%E5%AE%9E%E8%B7%B52/index.html">
+<meta property="og:site_name" content="Kalyan的小书房">
+<meta property="og:description" content="前提你需要提前了解，hwameistor的组件生命周期管理： 1. LocalDiskManager作用: LocalDiskManager 负责管理节点上的物理磁盘资源。它发现、监控和维护节点的本地磁盘信息，确保系统对可用磁盘资源的了解是最新的。 生命周期管理:  启动: 当 LocalDiskManager 启动时，它扫描节点上的所有可用磁盘，收集磁盘的元数据（例如大小、型号、状态等）。 运行">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(90).jpg">
+<meta property="article:published_time" content="2024-08-05T02:16:48.000Z">
+<meta property="article:modified_time" content="2024-08-08T06:04:57.432Z">
+<meta property="article:author" content="Kalyan">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://kalyan-zitiu.github.io/img/WallPaper%20(90).jpg"><link rel="shortcut icon" href="/img/%E9%A1%B6%E9%83%A8%E6%A0%87%E7%AD%BE(2).jpg"><link rel="canonical" href="https://kalyan-zitiu.github.io/2024/08/05/Kubernetes-StorageClass%E5%AE%9E%E8%B7%B52/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Kubernetes-StorageClass实践2',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-08-08 14:04:57'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Kalyan的小书房" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">載入中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/%E5%A4%B4.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">68</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">41</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">54</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/WallPaper%20(90).jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Kalyan的小书房</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清單</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友鏈</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Kubernetes-StorageClass实践2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2024-08-05T02:16:48.000Z" title="發表於 2024-08-05 10:16:48">2024-08-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2024-08-08T06:04:57.432Z" title="更新於 2024-08-08 14:04:57">2024-08-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Kubernetes/">Kubernetes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Kubernetes-StorageClass实践2"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>你需要提前了解，hwameistor的组件生命周期管理：</p>
+<h3 id="1-LocalDiskManager"><a href="#1-LocalDiskManager" class="headerlink" title="1. LocalDiskManager"></a>1. LocalDiskManager</h3><p><strong>作用</strong>: <code>LocalDiskManager</code> 负责管理节点上的物理磁盘资源。它发现、监控和维护节点的本地磁盘信息，确保系统对可用磁盘资源的了解是最新的。</p>
+<p><strong>生命周期管理</strong>:</p>
+<ul>
+<li><strong>启动</strong>: 当 <code>LocalDiskManager</code> 启动时，它扫描节点上的所有可用磁盘，收集磁盘的元数据（例如大小、型号、状态等）。</li>
+<li><strong>运行中</strong>: 持续监控磁盘状态变化，更新磁盘元数据信息，并根据需要调整磁盘的可用性状态。</li>
+<li><strong>停止</strong>: 在组件停止时，需要确保停止对磁盘的监控，并正确释放资源。</li>
+</ul>
+<h3 id="2-LocalStorage"><a href="#2-LocalStorage" class="headerlink" title="2. LocalStorage"></a>2. LocalStorage</h3><p><strong>作用</strong>: <code>LocalStorage</code> 提供节点级别的存储资源管理。它负责将物理磁盘抽象为可用的存储卷，并执行卷的创建、删除、扩展等操作。</p>
+<p><strong>生命周期管理</strong>:</p>
+<ul>
+<li><strong>启动</strong>: 初始化本地存储卷的管理逻辑，确保节点上的物理磁盘可以被正确识别和使用。</li>
+<li><strong>运行中</strong>: 管理存储卷的生命周期，包括创建、删除、扩展、快照等操作，监控卷的健康状态。</li>
+<li><strong>停止</strong>: 停止管理存储卷，确保所有资源被安全释放。</li>
+</ul>
+<h3 id="3-Scheduler"><a href="#3-Scheduler" class="headerlink" title="3. Scheduler"></a>3. Scheduler</h3><p><strong>作用</strong>: <code>Scheduler</code> 是一个自定义调度器插件，用于优化工作负载调度到具有特定存储要求的节点上。</p>
+<p><strong>生命周期管理</strong>:</p>
+<ul>
+<li><strong>启动</strong>: 注册自定义调度逻辑，将其集成到 Kubernetes 调度流程中。</li>
+<li><strong>运行中</strong>: 根据工作负载的存储需求和节点的存储资源情况，执行优化调度。</li>
+<li><strong>停止</strong>: 取消注册自定义调度逻辑，从 Kubernetes 调度器中安全移除。</li>
+</ul>
+<h3 id="4-AdmissionController"><a href="#4-AdmissionController" class="headerlink" title="4. AdmissionController"></a>4. AdmissionController</h3><p><strong>作用</strong>: <code>AdmissionController</code> 在工作负载被提交到 Kubernetes 集群时，对其进行预处理，确保其符合存储策略和要求。</p>
+<p><strong>生命周期管理</strong>:</p>
+<ul>
+<li><strong>启动</strong>: 注册到 Kubernetes 的准入控制器链中，准备对即将创建的资源进行预处理。</li>
+<li><strong>运行中</strong>: 拦截工作负载请求，根据存储策略进行验证和调整。</li>
+<li><strong>停止</strong>: 从准入控制器链中移除，停止对新请求的拦截和处理。</li>
+</ul>
+<h3 id="5-VolumeEvictor"><a href="#5-VolumeEvictor" class="headerlink" title="5. VolumeEvictor"></a>5. VolumeEvictor</h3><p><strong>作用</strong>: <code>VolumeEvictor</code> 负责在节点维护或失败时，将存储卷从受影响的节点上安全地迁移到其他节点。</p>
+<p><strong>生命周期管理</strong>:</p>
+<ul>
+<li><strong>启动</strong>: 初始化卷迁移逻辑，确保在节点发生问题时，卷可以被安全转移。</li>
+<li><strong>运行中</strong>: 持续监控节点状态和卷的健康状况，执行必要的迁移操作。</li>
+<li><strong>停止</strong>: 停止监控和迁移操作，确保当前迁移过程安全完成。</li>
+</ul>
+<h3 id="6-Exporter"><a href="#6-Exporter" class="headerlink" title="6. Exporter"></a>6. Exporter</h3><p><strong>作用</strong>: <code>Exporter</code> 收集和导出存储系统的监控指标，供外部监控系统（如 Prometheus）使用。</p>
+<p><strong>生命周期管理</strong>:</p>
+<ul>
+<li><strong>启动</strong>: 初始化监控指标的收集和导出逻辑。</li>
+<li><strong>运行中</strong>: 持续收集系统指标，提供给监控系统进行实时监控和分析。</li>
+<li><strong>停止</strong>: 停止指标的收集和导出，释放相关资源。</li>
+</ul>
+<h3 id="7-Apiserver"><a href="#7-Apiserver" class="headerlink" title="7. Apiserver"></a>7. Apiserver</h3><p><strong>作用</strong>: <code>Apiserver</code> 提供对 HwameiStor 的管理接口，使用户能够通过 RESTful API 进行操作。</p>
+<p><strong>生命周期管理</strong>:</p>
+<ul>
+<li><strong>启动</strong>: 初始化 API 服务，注册可用的接口端点。</li>
+<li><strong>运行中</strong>: 处理用户请求，执行存储管理操作。</li>
+<li><strong>停止</strong>: 停止 API 服务，确保当前请求被正确处理完成。</li>
+</ul>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>手速StorageClass用hwameistor的方式进行pvc申领动态制备PV</p>
+<h2 id="简要步骤"><a href="#简要步骤" class="headerlink" title="简要步骤"></a>简要步骤</h2><ol>
+<li>保证helm存在</li>
+<li>添加 hwameistor-operator Helm Repo</li>
+<li>通过hwameistor-operator部署HwameiStor</li>
+</ol>
+<h2 id="amp-amp-实战开始"><a href="#amp-amp-实战开始" class="headerlink" title="@&amp;^%!*&amp;@$实战开始"></a>@&amp;^%!*&amp;@$实战开始</h2><h3 id="检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试"><a href="#检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试" class="headerlink" title="检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试"></a>检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试</h3><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240805105748731.png" alt="image-20240805105748731"></p>
+<h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><p>其实这个步骤是挺简单的，全都是自动创建，所以建议就是最后需要了解一下改csi驱动的特点。比如分布式以及自动搜盘。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">helm repo add hwameistor-operator https://hwameistor.io/hwameistor-operator</span><br><span class="line">helm repo update hwameistor-operator</span><br></pre></td></tr></table></figure>
+<h3 id="通过hwameistor-operator进行部署HwameiStor"><a href="#通过hwameistor-operator进行部署HwameiStor" class="headerlink" title="通过hwameistor-operator进行部署HwameiStor"></a>通过hwameistor-operator进行部署HwameiStor</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">helm install hwameistor-operator hwameistor-operator/hwameistor-operator -n hwameistor --create-namespace</span><br></pre></td></tr></table></figure>
+
+<p>ps:HwameiStor默认会把所有干净的磁盘纳入到LSD的存储池里面，但是也可以预留，通过helm的values来设置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">--<span class="built_in">set</span> diskReserve\[0\].nodeName=node1 \</span><br><span class="line">--<span class="built_in">set</span> diskReserve\[0\].devices=&#123;/dev/sdc\,/dev/sdd&#125; \</span><br><span class="line">--<span class="built_in">set</span> diskReserve\[1\].nodeName=node2 \</span><br><span class="line">--<span class="built_in">set</span> diskReserve\[1\].devices=&#123;/dev/sdc\,/dev/sde&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -f diskReserve.yaml</span></span><br><span class="line"><span class="comment"># diskReserve.yaml 如下</span></span><br><span class="line"><span class="attr">diskReserve:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">nodeName:</span> <span class="string">node1</span></span><br><span class="line">  <span class="attr">devices:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/dev/sdc</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/dev/sdd</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">nodeName:</span> <span class="string">node2</span></span><br><span class="line">  <span class="attr">devices:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/dev/sdc</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/dev/sde</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>理论来说，镜像拉取没有问题的话，就基本都可以了，HwameiStor就是这么的nb，可以自己做完所有事情。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io">Kalyan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章連結: </span><span class="post-copyright-info"><a href="https://kalyan-zitiu.github.io/2024/08/05/Kubernetes-StorageClass%E5%AE%9E%E8%B7%B52/">https://kalyan-zitiu.github.io/2024/08/05/Kubernetes-StorageClass%E5%AE%9E%E8%B7%B52/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版權聲明: </span><span class="post-copyright-info">本部落格所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 許可協議。轉載請註明來自 <a href="https://kalyan-zitiu.github.io" target="_blank">Kalyan的小书房</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Kubernetes/">Kubernetes</a></div><div class="post_share"><div class="social-share" data-image="/img/WallPaper%20(90).jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/08/07/Containerd/"><img class="prev-cover" src="/img/WallPaper%20(93).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">浅解析Containerd</div></div></a></div><div class="next-post pull-right"><a href="/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/"><img class="next-cover" src="/img/WallPaper%20(90).jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Kubernetes-StorageClass实践1</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/2024/07/17/Kubernetes%E6%9C%8D%E5%8A%A1/" title="Kubernetes服务基础"><img class="cover" src="/img/WallPaper%20(76).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-17</div><div class="title">Kubernetes服务基础</div></div></a></div><div><a href="/2024/07/19/Kubernetes_ingress/" title="Kubernetes ingress基础"><img class="cover" src="/img/WallPaper%20(79).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-19</div><div class="title">Kubernetes ingress基础</div></div></a></div><div><a href="/2024/07/22/Kubernetes%E6%9C%8D%E5%8A%A1%E7%BD%91%E6%A0%BC/" title="Kubernetes服务网格"><img class="cover" src="/img/WallPaper%20(81).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-22</div><div class="title">Kubernetes服务网格</div></div></a></div><div><a href="/2024/07/24/Kind/" title="Kind基础"><img class="cover" src="/img/WallPaper%20(84).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-24</div><div class="title">Kind基础</div></div></a></div><div><a href="/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/" title="Kubernetes-StorageClass实践1"><img class="cover" src="/img/WallPaper%20(90).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-08-01</div><div class="title">Kubernetes-StorageClass实践1</div></div></a></div><div><a href="/2024/07/31/Kubernetes_pki/" title="Kubernetes 证书"><img class="cover" src="/img/WallPaper%20(91).jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-31</div><div class="title">Kubernetes 证书</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/%E5%A4%B4.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Kalyan</div><div class="author-info__description">晚来天欲雪，能饮一杯无</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">68</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">41</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">54</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Kalyan-zitiu"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.douyin.com/user/MS4wLjABAAAA7q-IFMvdT163sFGcjg26o0XaCDYW4pJOLWdkgoDUz10" target="_blank" title="TikTok"><i class="fa-brands fa-tiktok"></i></a><a class="social-icon" href="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/202211122041246.jpg" target="_blank" title=""><i class="fa-regular fa-user"></i></a><a class="social-icon" href="https://chat.zitiu.top/" target="_blank" title="ChatGPT"><i class="fa-solid fa-robot"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Everybody pay attention, I'm the boss</div><timing></timing></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E6%8F%90"><span class="toc-number">1.</span> <span class="toc-text">前提</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-LocalDiskManager"><span class="toc-number">1.1.</span> <span class="toc-text">1. LocalDiskManager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-LocalStorage"><span class="toc-number">1.2.</span> <span class="toc-text">2. LocalStorage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Scheduler"><span class="toc-number">1.3.</span> <span class="toc-text">3. Scheduler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-AdmissionController"><span class="toc-number">1.4.</span> <span class="toc-text">4. AdmissionController</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-VolumeEvictor"><span class="toc-number">1.5.</span> <span class="toc-text">5. VolumeEvictor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Exporter"><span class="toc-number">1.6.</span> <span class="toc-text">6. Exporter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-Apiserver"><span class="toc-number">1.7.</span> <span class="toc-text">7. Apiserver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-number">2.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E8%A6%81%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.</span> <span class="toc-text">简要步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#amp-amp-%E5%AE%9E%E6%88%98%E5%BC%80%E5%A7%8B"><span class="toc-number">4.</span> <span class="toc-text">@&amp;^%!*&amp;@$实战开始</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E6%98%AF%E5%90%A6%E6%9C%89%E7%A9%BA%E7%9B%98%EF%BC%8C%E8%87%B3%E4%BA%8Ehwameistor%E6%98%AF%E5%90%A6%E8%83%BD%E5%86%8D%E6%97%A0%E7%A9%BA%E7%9B%98%E6%83%85%E5%86%B5%E4%B8%8B%E4%B8%AD%E6%96%AD%E5%AE%89%E8%A3%85%E5%90%8E%E7%BB%AD%E5%86%8D%E5%B0%9D%E8%AF%95"><span class="toc-number">4.1.</span> <span class="toc-text">检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%BA%90"><span class="toc-number">4.2.</span> <span class="toc-text">添加源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87hwameistor-operator%E8%BF%9B%E8%A1%8C%E9%83%A8%E7%BD%B2HwameiStor"><span class="toc-number">4.3.</span> <span class="toc-text">通过hwameistor-operator进行部署HwameiStor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F"><span class="toc-number">4.4.</span> <span class="toc-text">结束</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/08/%E6%B5%85%E8%81%8A%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-rocketmq/" title="浅聊消息队列中间件-rocketmq"><img src="/img/WallPaper%20(95).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅聊消息队列中间件-rocketmq"/></a><div class="content"><a class="title" href="/2024/08/08/%E6%B5%85%E8%81%8A%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-rocketmq/" title="浅聊消息队列中间件-rocketmq">浅聊消息队列中间件-rocketmq</a><time datetime="2024-08-08T08:40:52.000Z" title="發表於 2024-08-08 16:40:52">2024-08-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/08/%E6%B5%85%E8%81%8A%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-kafka/" title="浅聊消息队列中间件-kafka"><img src="/img/WallPaper%20(94).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅聊消息队列中间件-kafka"/></a><div class="content"><a class="title" href="/2024/08/08/%E6%B5%85%E8%81%8A%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-kafka/" title="浅聊消息队列中间件-kafka">浅聊消息队列中间件-kafka</a><time datetime="2024-08-08T06:02:57.000Z" title="發表於 2024-08-08 14:02:57">2024-08-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/07/Containerd/" title="浅解析Containerd"><img src="/img/WallPaper%20(93).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="浅解析Containerd"/></a><div class="content"><a class="title" href="/2024/08/07/Containerd/" title="浅解析Containerd">浅解析Containerd</a><time datetime="2024-08-07T09:51:41.000Z" title="發表於 2024-08-07 17:51:41">2024-08-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/05/Kubernetes-StorageClass%E5%AE%9E%E8%B7%B52/" title="Kubernetes-StorageClass实践2"><img src="/img/WallPaper%20(90).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes-StorageClass实践2"/></a><div class="content"><a class="title" href="/2024/08/05/Kubernetes-StorageClass%E5%AE%9E%E8%B7%B52/" title="Kubernetes-StorageClass实践2">Kubernetes-StorageClass实践2</a><time datetime="2024-08-05T02:16:48.000Z" title="發表於 2024-08-05 10:16:48">2024-08-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/" title="Kubernetes-StorageClass实践1"><img src="/img/WallPaper%20(90).jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Kubernetes-StorageClass实践1"/></a><div class="content"><a class="title" href="/2024/08/01/Kubernetes%E5%AD%98%E5%82%A8%E5%AE%9E%E6%88%98/" title="Kubernetes-StorageClass实践1">Kubernetes-StorageClass实践1</a><time datetime="2024-08-01T02:16:47.000Z" title="發表於 2024-08-01 10:16:47">2024-08-01</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/WallPaper%20(90).jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Kalyan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://www.twikoo.kalyan.life/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://www.twikoo.kalyan.life/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="https://cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

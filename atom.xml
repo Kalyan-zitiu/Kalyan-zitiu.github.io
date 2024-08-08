@@ -6,7 +6,7 @@
   <link href="https://kalyan-zitiu.github.io/atom.xml" rel="self"/>
   
   <link href="https://kalyan-zitiu.github.io/"/>
-  <updated>2024-08-08T04:31:40.930Z</updated>
+  <updated>2024-08-08T09:31:28.153Z</updated>
   <id>https://kalyan-zitiu.github.io/</id>
   
   <author>
@@ -15,6 +15,55 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浅聊消息队列中间件-rocketmq</title>
+    <link href="https://kalyan-zitiu.github.io/2024/08/08/%E6%B5%85%E8%81%8A%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-rocketmq/"/>
+    <id>https://kalyan-zitiu.github.io/2024/08/08/%E6%B5%85%E8%81%8A%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-rocketmq/</id>
+    <published>2024-08-08T08:40:52.000Z</published>
+    <updated>2024-08-08T09:31:28.153Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="消息队列RocketMQ"><a href="#消息队列RocketMQ" class="headerlink" title="消息队列RocketMQ"></a>消息队列RocketMQ</h3><ul><li>为什么有了Kafka还是会有其他的的消息队列中间件呢，是因为KafKa不好用吗，并不是的，其实RocketMQ是有参考KafKa进行开发的，总的一句话说就是在<strong>架构上做减法，在功能上做加法</strong></li></ul><h3 id="减法"><a href="#减法" class="headerlink" title="减法"></a>减法</h3><ul><li>RcketMQ在KafKa的架构上除去了过重的Zookeeper分布式协调服务的组件，选择使用了更轻量级的nameserver。为什么要舍弃Zookeeper呢，主要是Zookeeper的功能多样而且强大，在KafKa中使用太过了。后续KafKa的新版本中也舍弃了Zookeeper选择使用了Raft一致性算法进行数据的统一协调。为什么新版本后还是有很多人选择使用RocketMQ呢，第一是新的东西总是有坑，第二就是RocketMQ还有不同KafKa的过人之处。</li></ul><h3 id="相似"><a href="#相似" class="headerlink" title="相似"></a>相似</h3><ul><li>RocketMQ还是和KafKa一样，在不同topic上分不同的Partition，接着就是Broker进行高可用和高扩展，只是不一样的是RocketMQ把partition改名成了Queue</li></ul><h3 id="不同"><a href="#不同" class="headerlink" title="不同"></a>不同</h3><h4 id="消息体的存储位置"><a href="#消息体的存储位置" class="headerlink" title="消息体的存储位置"></a>消息体的存储位置</h4><ul><li>和KafKa不同的是，KafKa在partition中存储的是完整的消息题，而RocketMQ则是在Queue中只存储简要的信息，用来堆消息进行导向，比如offset。而实际的消息体会放在一个commitLog上面进行存储，通过offset来堆消息体进行定位获取。</li></ul><p>@ 小白debug<br><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240808171332666.png" alt="image-20240808171332666"></p><h4 id="持久化磁盘的区别"><a href="#持久化磁盘的区别" class="headerlink" title="持久化磁盘的区别"></a>持久化磁盘的区别</h4><p>因为RocketMQ的消息体是放在一个commitLog里面，自然在写入磁盘时候也是顺序写入，非常通畅</p><h4 id="备份简化"><a href="#备份简化" class="headerlink" title="备份简化"></a>备份简化</h4><ul><li>RocketMQ为了不拆分commitLog干脆把主从副本升级成为了broker的级别，这样就不需要再多个Broker维护主从副本，直接改成了主从Broker。</li></ul><h3 id="加法"><a href="#加法" class="headerlink" title="加法"></a>加法</h3><h4 id="细分类"><a href="#细分类" class="headerlink" title="细分类"></a>细分类</h4><p>RocketMQ做的加法其实就是再Queue再进行细分类上打上tag的标签，比如，我在Queue中的索引某个消息打上vip的标签这样消费者就能够直接获取标签上的offset来获取vip标签。而KafKa则需要再一个partition里面进行筛选最终选出消息体给出消息。</p><h4 id="加入延时队列"><a href="#加入延时队列" class="headerlink" title="加入延时队列"></a>加入延时队列</h4><ul><li>RocketMQ能够使用延时队列，顾名思义就是能够延迟被消费者进行消费的队列消息。</li></ul><h4 id="加入死信队列"><a href="#加入死信队列" class="headerlink" title="加入死信队列"></a>加入死信队列</h4><ul><li>RockerMQ会对重复失败处理的消息放入，专门处理失败的独立Queue队列也就是死信队列。</li></ul><h3 id="附上总图-小白debug"><a href="#附上总图-小白debug" class="headerlink" title="附上总图 @ 小白debug"></a>附上总图 @ 小白debug</h3><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240808171926411.png" alt="image-20240808171926411"></p><h3 id="sum"><a href="#sum" class="headerlink" title="sum"></a>sum</h3><p>看似RocketMQ在KafKa的基础上做了如此多的优化，其实性能却远不及KafKa这又是为什么呢？？？</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;消息队列RocketMQ&quot;&gt;&lt;a href=&quot;#消息队列RocketMQ&quot; class=&quot;headerlink&quot; title=&quot;消息队列RocketMQ&quot;&gt;&lt;/a&gt;消息队列RocketMQ&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;为什么有了Kafka还是会有其他的的消息队列中间</summary>
+      
+    
+    
+    
+    <category term="中间件" scheme="https://kalyan-zitiu.github.io/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+    
+    <category term="中间件" scheme="https://kalyan-zitiu.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浅聊消息队列中间件-kafka</title>
+    <link href="https://kalyan-zitiu.github.io/2024/08/08/%E6%B5%85%E8%81%8A%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-kafka/"/>
+    <id>https://kalyan-zitiu.github.io/2024/08/08/%E6%B5%85%E8%81%8A%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%AD%E9%97%B4%E4%BB%B6-kafka/</id>
+    <published>2024-08-08T06:02:57.000Z</published>
+    <updated>2024-08-08T08:48:02.310Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="为什么需要中间件消息队列"><a href="#为什么需要中间件消息队列" class="headerlink" title="为什么需要中间件消息队列"></a>为什么需要中间件消息队列</h3><p>  假设你有两台服务器，服务器A不断地发送需要处理的消息给服务器B，但是处理的速度赶不上发送的速度，就会导致消息堆积以至于是服务器B负载升高。要是服务B宕机了存储在内存里面的需要处理的消息就消失了，服务A又不知道导致各种消息没有得到处理后的回应，于是就有了消息队列kafka的诞生，没有什么是不能增加一个中间件解决不了的。</p><h3 id="什么是KafKa"><a href="#什么是KafKa" class="headerlink" title="什么是KafKa"></a>什么是KafKa</h3><p>一种分布式流处理平台，主要用途是构建实时数据流应用和数据管道。</p><h3 id="KafKa的架构"><a href="#KafKa的架构" class="headerlink" title="KafKa的架构"></a>KafKa的架构</h3><ul><li>首先既然是一个中间件，它要是单独的跑一个消息队列进行消息的存储，当消息过多也会造成中间件的崩溃，所以需要一个高性能，高可用，有备份的中间件是必要的。</li></ul><h3 id="KafKa是怎么实现高性能的。"><a href="#KafKa是怎么实现高性能的。" class="headerlink" title="KafKa是怎么实现高性能的。"></a>KafKa是怎么实现高性能的。</h3><ul><li>我们把对参与消息的分为Producer和Consumer，意思就是生产者和消费者，更简单点就是发布消息者和订阅消息者。按自己理解来。</li><li>KafKa是通过消息的分类和分组的方式来区分不同类型的消息，我们管它叫<strong>Topic</strong></li><li>在每一个Topic它又会分为多个Partition，每个Partition能过够被Consumer独立消费</li></ul><p>ps：到以上能够解决了KafKa的性能问题，那么这多的partition在一节点上，要是节点炸了，那么消息一样全没了，所以又引导出高扩展的问题</p><h3 id="KafKa是怎么实现高扩展的"><a href="#KafKa是怎么实现高扩展的" class="headerlink" title="KafKa是怎么实现高扩展的"></a>KafKa是怎么实现高扩展的</h3><ul><li>大佬们是这么解决的，是通过服务器节点，我们把它叫<strong>Broker</strong>，Broker里面可以放不同数量的Partition，所以能够通过添加Broker节点来达到增加Partition，从何提高Topic的性能情况下，减少所有Partition放在同一个节点的方式的高负荷问题，那么要是就算某一个Broker还是因为高负荷坏了，该怎么解决，那么又能引发出高可用的问题</li></ul><h3 id="KafKa是怎么实现高可用"><a href="#KafKa是怎么实现高可用" class="headerlink" title="KafKa是怎么实现高可用"></a>KafKa是怎么实现高可用</h3><ul><li>KafKa是通过子不同的Borker里面存放副本进行高可用的实现，这些副本分为主从，若是主副本的Broker宕机了，那么从副本就会升级为主副本被Consumer消费。现在问题又来了，怎么保证他们每一个Broker之间的通信呢。</li></ul><h3 id="KafKa怎么解决组件之间通信的"><a href="#KafKa怎么解决组件之间通信的" class="headerlink" title="KafKa怎么解决组件之间通信的"></a>KafKa怎么解决组件之间通信的</h3><ul><li>KafKa最后处理组件一致性和通信问题是用了Zookeeper，Zookeeper有着服务发现的功能，能够很好的协调KafKa集群的分布式服务。通信问题解决了。要是在很极端的情况下，所有的高性能高可用以及高扩展出来的东西，还是因为负载过高而全部宕机呢。那么就需要考虑到持久化存储，既然放在内存里面的消息如此不稳定。那么我们就持久化到磁盘里面。</li></ul><h3 id="KafKa的底层存储"><a href="#KafKa的底层存储" class="headerlink" title="KafKa的底层存储"></a>KafKa的底层存储</h3><ul><li>KafKa是对每一个Partiton分区进行顺序写入的操作，Partiton分区下面是实际上是一堆堆segment，顺序写入Partition实际上是顺序把消息写入segment里面。然后再<strong>随机</strong>写入磁盘中，这里为什么要注意随机呢。</li></ul><h4 id="KafKa的持久化存储为什么最终是随机写入磁盘"><a href="#KafKa的持久化存储为什么最终是随机写入磁盘" class="headerlink" title="KafKa的持久化存储为什么最终是随机写入磁盘"></a>KafKa的持久化存储为什么最终是随机写入磁盘</h4><ul><li>众所周知顺序写入磁盘会比随机写入要快很多，那么为什么KafKa明明是对segment顺序写入的，最终还是成为随机呢。</li><li>因为每一堆segment是partition下面的，既然你那么多的partition，所以就会有很多份segment，对于sgement本身虽然是顺序写入，但是对于每一份segment确实随机写入。</li></ul><h3 id="最终附上up：小白debug的总图"><a href="#最终附上up：小白debug的总图" class="headerlink" title="最终附上up：小白debug的总图"></a>最终附上up：小白debug的总图</h3><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240808164328969.png" alt="image-20240808164328969"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;为什么需要中间件消息队列&quot;&gt;&lt;a href=&quot;#为什么需要中间件消息队列&quot; class=&quot;headerlink&quot; title=&quot;为什么需要中间件消息队列&quot;&gt;&lt;/a&gt;为什么需要中间件消息队列&lt;/h3&gt;&lt;p&gt;  假设你有两台服务器，服务器A不断地发送需要处理的消息给服</summary>
+      
+    
+    
+    
+    <category term="中间件" scheme="https://kalyan-zitiu.github.io/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+    
+    <category term="中间件" scheme="https://kalyan-zitiu.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>浅解析Containerd</title>
@@ -30,6 +79,31 @@
       
     <summary type="html">&lt;h3 id=&quot;导言&quot;&gt;&lt;a href=&quot;#导言&quot; class=&quot;headerlink&quot; title=&quot;导言&quot;&gt;&lt;/a&gt;导言&lt;/h3&gt;&lt;p&gt;最近在集群中遇到了很多containerd的问题，所以不禁思考我真的懂containerd吗？？?&lt;/p&gt;
 &lt;h3 id=&quot;前提&quot;&gt;&lt;a h</summary>
+      
+    
+    
+    
+    <category term="Kubernetes" scheme="https://kalyan-zitiu.github.io/categories/Kubernetes/"/>
+    
+    
+    <category term="Kubernetes" scheme="https://kalyan-zitiu.github.io/tags/Kubernetes/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetes-StorageClass实践2</title>
+    <link href="https://kalyan-zitiu.github.io/2024/08/05/Kubernetes-StorageClass%E5%AE%9E%E8%B7%B52/"/>
+    <id>https://kalyan-zitiu.github.io/2024/08/05/Kubernetes-StorageClass%E5%AE%9E%E8%B7%B52/</id>
+    <published>2024-08-05T02:16:48.000Z</published>
+    <updated>2024-08-08T06:04:57.432Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>你需要提前了解，hwameistor的组件生命周期管理：</p><h3 id="1-LocalDiskManager"><a href="#1-LocalDiskManager" class="headerlink" title="1. LocalDiskManager"></a>1. LocalDiskManager</h3><p><strong>作用</strong>: <code>LocalDiskManager</code> 负责管理节点上的物理磁盘资源。它发现、监控和维护节点的本地磁盘信息，确保系统对可用磁盘资源的了解是最新的。</p><p><strong>生命周期管理</strong>:</p><ul><li><strong>启动</strong>: 当 <code>LocalDiskManager</code> 启动时，它扫描节点上的所有可用磁盘，收集磁盘的元数据（例如大小、型号、状态等）。</li><li><strong>运行中</strong>: 持续监控磁盘状态变化，更新磁盘元数据信息，并根据需要调整磁盘的可用性状态。</li><li><strong>停止</strong>: 在组件停止时，需要确保停止对磁盘的监控，并正确释放资源。</li></ul><h3 id="2-LocalStorage"><a href="#2-LocalStorage" class="headerlink" title="2. LocalStorage"></a>2. LocalStorage</h3><p><strong>作用</strong>: <code>LocalStorage</code> 提供节点级别的存储资源管理。它负责将物理磁盘抽象为可用的存储卷，并执行卷的创建、删除、扩展等操作。</p><p><strong>生命周期管理</strong>:</p><ul><li><strong>启动</strong>: 初始化本地存储卷的管理逻辑，确保节点上的物理磁盘可以被正确识别和使用。</li><li><strong>运行中</strong>: 管理存储卷的生命周期，包括创建、删除、扩展、快照等操作，监控卷的健康状态。</li><li><strong>停止</strong>: 停止管理存储卷，确保所有资源被安全释放。</li></ul><h3 id="3-Scheduler"><a href="#3-Scheduler" class="headerlink" title="3. Scheduler"></a>3. Scheduler</h3><p><strong>作用</strong>: <code>Scheduler</code> 是一个自定义调度器插件，用于优化工作负载调度到具有特定存储要求的节点上。</p><p><strong>生命周期管理</strong>:</p><ul><li><strong>启动</strong>: 注册自定义调度逻辑，将其集成到 Kubernetes 调度流程中。</li><li><strong>运行中</strong>: 根据工作负载的存储需求和节点的存储资源情况，执行优化调度。</li><li><strong>停止</strong>: 取消注册自定义调度逻辑，从 Kubernetes 调度器中安全移除。</li></ul><h3 id="4-AdmissionController"><a href="#4-AdmissionController" class="headerlink" title="4. AdmissionController"></a>4. AdmissionController</h3><p><strong>作用</strong>: <code>AdmissionController</code> 在工作负载被提交到 Kubernetes 集群时，对其进行预处理，确保其符合存储策略和要求。</p><p><strong>生命周期管理</strong>:</p><ul><li><strong>启动</strong>: 注册到 Kubernetes 的准入控制器链中，准备对即将创建的资源进行预处理。</li><li><strong>运行中</strong>: 拦截工作负载请求，根据存储策略进行验证和调整。</li><li><strong>停止</strong>: 从准入控制器链中移除，停止对新请求的拦截和处理。</li></ul><h3 id="5-VolumeEvictor"><a href="#5-VolumeEvictor" class="headerlink" title="5. VolumeEvictor"></a>5. VolumeEvictor</h3><p><strong>作用</strong>: <code>VolumeEvictor</code> 负责在节点维护或失败时，将存储卷从受影响的节点上安全地迁移到其他节点。</p><p><strong>生命周期管理</strong>:</p><ul><li><strong>启动</strong>: 初始化卷迁移逻辑，确保在节点发生问题时，卷可以被安全转移。</li><li><strong>运行中</strong>: 持续监控节点状态和卷的健康状况，执行必要的迁移操作。</li><li><strong>停止</strong>: 停止监控和迁移操作，确保当前迁移过程安全完成。</li></ul><h3 id="6-Exporter"><a href="#6-Exporter" class="headerlink" title="6. Exporter"></a>6. Exporter</h3><p><strong>作用</strong>: <code>Exporter</code> 收集和导出存储系统的监控指标，供外部监控系统（如 Prometheus）使用。</p><p><strong>生命周期管理</strong>:</p><ul><li><strong>启动</strong>: 初始化监控指标的收集和导出逻辑。</li><li><strong>运行中</strong>: 持续收集系统指标，提供给监控系统进行实时监控和分析。</li><li><strong>停止</strong>: 停止指标的收集和导出，释放相关资源。</li></ul><h3 id="7-Apiserver"><a href="#7-Apiserver" class="headerlink" title="7. Apiserver"></a>7. Apiserver</h3><p><strong>作用</strong>: <code>Apiserver</code> 提供对 HwameiStor 的管理接口，使用户能够通过 RESTful API 进行操作。</p><p><strong>生命周期管理</strong>:</p><ul><li><strong>启动</strong>: 初始化 API 服务，注册可用的接口端点。</li><li><strong>运行中</strong>: 处理用户请求，执行存储管理操作。</li><li><strong>停止</strong>: 停止 API 服务，确保当前请求被正确处理完成。</li></ul><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>手速StorageClass用hwameistor的方式进行pvc申领动态制备PV</p><h2 id="简要步骤"><a href="#简要步骤" class="headerlink" title="简要步骤"></a>简要步骤</h2><ol><li>保证helm存在</li><li>添加 hwameistor-operator Helm Repo</li><li>通过hwameistor-operator部署HwameiStor</li></ol><h2 id="amp-amp-实战开始"><a href="#amp-amp-实战开始" class="headerlink" title="@&amp;^%!*&amp;@$实战开始"></a>@&amp;^%!*&amp;@$实战开始</h2><h3 id="检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试"><a href="#检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试" class="headerlink" title="检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试"></a>检查是否有空盘，至于hwameistor是否能再无空盘情况下中断安装后续再尝试</h3><p><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/image-20240805105748731.png" alt="image-20240805105748731"></p><h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><p>其实这个步骤是挺简单的，全都是自动创建，所以建议就是最后需要了解一下改csi驱动的特点。比如分布式以及自动搜盘。</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">helm repo add hwameistor-operator https://hwameistor.io/hwameistor-operator</span><br><span class="line">helm repo update hwameistor-operator</span><br></pre></td></tr></table></figure><h3 id="通过hwameistor-operator进行部署HwameiStor"><a href="#通过hwameistor-operator进行部署HwameiStor" class="headerlink" title="通过hwameistor-operator进行部署HwameiStor"></a>通过hwameistor-operator进行部署HwameiStor</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">helm install hwameistor-operator hwameistor-operator/hwameistor-operator -n hwameistor --create-namespace</span><br></pre></td></tr></table></figure><p>ps:HwameiStor默认会把所有干净的磁盘纳入到LSD的存储池里面，但是也可以预留，通过helm的values来设置</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">--<span class="built_in">set</span> diskReserve\[0\].nodeName=node1 \</span><br><span class="line">--<span class="built_in">set</span> diskReserve\[0\].devices=&#123;/dev/sdc\,/dev/sdd&#125; \</span><br><span class="line">--<span class="built_in">set</span> diskReserve\[1\].nodeName=node2 \</span><br><span class="line">--<span class="built_in">set</span> diskReserve\[1\].devices=&#123;/dev/sdc\,/dev/sde&#125;</span><br></pre></td></tr></table></figure><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -f diskReserve.yaml</span></span><br><span class="line"><span class="comment"># diskReserve.yaml 如下</span></span><br><span class="line"><span class="attr">diskReserve:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">nodeName:</span> <span class="string">node1</span></span><br><span class="line">  <span class="attr">devices:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/dev/sdc</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/dev/sdd</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">nodeName:</span> <span class="string">node2</span></span><br><span class="line">  <span class="attr">devices:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/dev/sdc</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/dev/sde</span></span><br></pre></td></tr></table></figure><h3 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h3><p>理论来说，镜像拉取没有问题的话，就基本都可以了，HwameiStor就是这么的nb，可以自己做完所有事情。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;前提&quot;&gt;&lt;a href=&quot;#前提&quot; class=&quot;headerlink&quot; title=&quot;前提&quot;&gt;&lt;/a&gt;前提&lt;/h2&gt;&lt;p&gt;你需要提前了解，hwameistor的组件生命周期管理：&lt;/p&gt;
+&lt;h3 id=&quot;1-LocalDiskManager&quot;&gt;&lt;a href=&quot;</summary>
       
     
     
@@ -423,79 +497,6 @@
     
     
     <category term="虚拟化" scheme="https://kalyan-zitiu.github.io/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CNI</title>
-    <link href="https://kalyan-zitiu.github.io/2024/07/05/CNI/"/>
-    <id>https://kalyan-zitiu.github.io/2024/07/05/CNI/</id>
-    <published>2024-07-05T01:51:24.000Z</published>
-    <updated>2024-07-05T03:01:35.474Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="CNI"><a href="#CNI" class="headerlink" title="CNI"></a>CNI</h1><p>定义容器运行时，如何配置网络接口，以便容器可以网络通信。</p><h2 id="主要作用"><a href="#主要作用" class="headerlink" title="主要作用"></a>主要作用</h2><ul><li>关注网络连接和网络解除连接</li><li>支持各种不同的网络配置要求</li><li>通过各种不同的网络解决方案解决网络配置。</li></ul><h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>当一个Pod被创建时，k8s调用CNI插件来为pod配置网络，通常包括分配IP地址，设置网络路由和创建网络接口等任务。CNI插件负责把pod连接到一个预先的环境，保证pod之间的网络通信。</p><h2 id="常见的-CNI-插件："><a href="#常见的-CNI-插件：" class="headerlink" title="常见的 CNI 插件："></a>常见的 CNI 插件：</h2><ul><li><strong>Calico</strong>：提供高性能的网络和网络策略，支持跨主机的网络隔离。</li><li><strong>Flannel</strong>：简单易用，主要用于创建一个覆盖网络，允许 Pod 跨节点通信。</li><li><strong>Weave Net</strong>：提供一个强大的网络和网络策略，支持自动发现和网络隔离。</li><li><strong>Cilium</strong>：使用 BPF（Berkeley Packet Filter）来提供网络安全、策略执行和负载均衡功能。</li></ul><h3 id="1-Calico"><a href="#1-Calico" class="headerlink" title="1. Calico"></a>1. <strong>Calico</strong></h3><p><strong>特点</strong>:</p><ul><li><strong>高性能</strong>：Calico 使用 BGP（边界网关协议）进行路由，避免了封装和解封装的开销，从而提供高性能的网络连接。</li><li><strong>网络策略</strong>：Calico 提供强大的网络策略功能，允许用户定义细粒度的访问控制规则。</li><li><strong>可扩展性</strong>：适用于大规模集群，能够处理成千上万的节点和 Pod。</li><li><strong>安全性</strong>：支持网络隔离和加密，确保数据在传输过程中安全。</li></ul><p><strong>使用场景</strong>:</p><ul><li><strong>大规模生产环境</strong>：由于其高性能和可扩展性，Calico 非常适合大规模生产环境。</li><li><strong>需要严格网络策略的环境</strong>：如果需要细粒度的网络访问控制和安全策略，Calico 是一个理想的选择。</li></ul><h3 id="2-Flannel"><a href="#2-Flannel" class="headerlink" title="2. Flannel"></a>2. <strong>Flannel</strong></h3><p><strong>特点</strong>:</p><ul><li><strong>简单易用</strong>：Flannel 设计简单，易于部署和管理。</li><li><strong>覆盖网络</strong>：主要提供覆盖网络，使用 UDP、VXLAN 或 host-gw 模式来封装跨主机的容器流量。</li><li><strong>轻量级</strong>：适合中小规模的集群，不需要复杂的配置。</li></ul><p><strong>使用场景</strong>:</p><ul><li><strong>中小规模集群</strong>：由于其简单性和轻量级特性，Flannel 适用于中小规模的 Kubernetes 集群。</li><li><strong>快速部署</strong>：如果需要快速部署一个 Kubernetes 集群，Flannel 是一个不错的选择。</li></ul><h3 id="3-Weave-Net"><a href="#3-Weave-Net" class="headerlink" title="3. Weave Net"></a>3. <strong>Weave Net</strong></h3><p><strong>特点</strong>:</p><ul><li><strong>自发现网络</strong>：Weave Net 能够自动发现和管理网络配置，简化了网络管理。</li><li><strong>网络加密</strong>：支持网络流量加密，确保数据在传输过程中的安全性。</li><li><strong>多云支持</strong>：能够跨多个云提供商和本地数据中心创建统一的网络。</li></ul><p><strong>使用场景</strong>:</p><ul><li><strong>多云环境</strong>：Weave Net 非常适合需要跨多个云提供商和本地数据中心的环境。</li><li><strong>需要网络加密的环境</strong>：如果需要确保网络流量的安全性，Weave Net 是一个理想的选择。</li></ul><h3 id="4-Cilium"><a href="#4-Cilium" class="headerlink" title="4. Cilium"></a>4. <strong>Cilium</strong></h3><p><strong>特点</strong>:</p><ul><li><strong>基于 BPF</strong>：Cilium 使用 Linux 内核的 BPF 技术来实现高性能和可扩展的网络功能。</li><li><strong>Layer 7 支持</strong>：支持 HTTP/HTTPS、gRPC 等 Layer 7 协议的负载均衡和安全策略。</li><li><strong>可见性和监控</strong>：提供丰富的网络可见性和监控功能，帮助用户了解网络流量和性能。</li></ul><p><strong>使用场景</strong>:</p><ul><li><strong>需要高级网络功能的环境</strong>：Cilium 非常适合需要高级网络功能和安全策略的环境。</li><li><strong>微服务架构</strong>：由于其对 Layer 7 协议的支持，Cilium 非常适合微服务架构。</li></ul><h3 id="5-Canal"><a href="#5-Canal" class="headerlink" title="5. Canal"></a>5. <strong>Canal</strong></h3><p><strong>特点</strong>:</p><ul><li><strong>结合了 Flannel 和 Calico</strong>：Canal 将 Flannel 的简单性和 Calico 的网络策略功能结合在一起。</li><li><strong>灵活性</strong>：提供了 Flannel 的覆盖网络和 Calico 的网络策略，适用于多种场景。</li></ul><p><strong>使用场景</strong>:</p><ul><li><strong>需要简单网络和策略控制的环境</strong>：Canal 适用于需要简单网络配置和基本网络策略控制的环境。</li><li><strong>中小规模集群</strong>：由于其灵活性和简单性，Canal 适用于中小规模的 Kubernetes 集群。</li></ul><h3 id="6-Kube-Router"><a href="#6-Kube-Router" class="headerlink" title="6. Kube-Router"></a>6. <strong>Kube-Router</strong></h3><p><strong>特点</strong>:</p><ul><li><strong>综合功能</strong>：Kube-Router 提供网络路由、网络策略和服务代理功能。</li><li><strong>高性能</strong>：使用 BGP 进行路由，提供高性能的网络连接。</li><li><strong>易于部署</strong>：集成了多个网络功能，简化了部署和管理。</li></ul><p><strong>使用场景</strong>:</p><ul><li><strong>需要综合网络功能的环境</strong>：Kube-Router 适用于需要综合网络功能（如路由、策略和服务代理）的环境。</li><li><strong>高性能需求</strong>：由于其高性能特性，Kube-Router 适用于对网络性能有较高要求的环境。</li></ul><h3 id="7-Multus"><a href="#7-Multus" class="headerlink" title="7. Multus"></a>7. <strong>Multus</strong></h3><p><strong>特点</strong>:</p><ul><li><strong>多网络支持</strong>：Multus 允许一个 Pod 连接到多个网络，支持多种 CNI 插件的组合使用。</li><li><strong>灵活性</strong>：提供了极大的灵活性，适用于复杂的网络需求。</li></ul><p><strong>使用场景</strong>:</p><ul><li><strong>复杂网络需求</strong>：Multus 适用于需要多个网络接口和复杂网络配置的环境。</li><li><strong>多 CNI 插件组合</strong>：如果需要同时使用多个 CNI 插件，Multus 是一个理想的选择。</li></ul>]]></content>
-    
-    
-    <summary type="html">容器网络接口</summary>
-    
-    
-    
-    <category term="K8s" scheme="https://kalyan-zitiu.github.io/categories/K8s/"/>
-    
-    <category term="CNI" scheme="https://kalyan-zitiu.github.io/categories/K8s/CNI/"/>
-    
-    
-    <category term="Kubernets" scheme="https://kalyan-zitiu.github.io/tags/Kubernets/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CRI容器运行时接口</title>
-    <link href="https://kalyan-zitiu.github.io/2024/07/04/CRI/"/>
-    <id>https://kalyan-zitiu.github.io/2024/07/04/CRI/</id>
-    <published>2024-07-04T08:22:37.000Z</published>
-    <updated>2024-07-22T01:26:10.948Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="CRI-容器运行时接口"><a href="#CRI-容器运行时接口" class="headerlink" title="CRI (容器运行时接口)"></a>CRI (容器运行时接口)</h1><p>了解CRI之前，我们先了解一下什么是RPC</p><h2 id="什么是RPC"><a href="#什么是RPC" class="headerlink" title="什么是RPC"></a>什么是RPC</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>  一种常用的通信机制，运行程序调用位于远程计算机上的行数或方法，就像调用本地对象一眼。RPC抽象了底层的网络通信细节，使得开发者可以更加专注与业务逻辑的开发，不必过多担心网络相关性的复杂性。</p><h3 id="RPC工作原理"><a href="#RPC工作原理" class="headerlink" title="RPC工作原理"></a>RPC工作原理</h3><h4 id="客户端调用过程"><a href="#客户端调用过程" class="headerlink" title="客户端调用过程"></a>客户端调用过程</h4><ol><li>客户端程序调用一个本地的存根（stub）函数，这个存根代表远程函数</li><li>存根将函数调用的参数打包成一个消息，通过网络发送给服务端</li><li>客户端等待服务端响应</li></ol><h4 id="服务端处理过程"><a href="#服务端处理过程" class="headerlink" title="服务端处理过程"></a>服务端处理过程</h4><ol><li>服务器收到消息，解包得到调用参数。</li><li>服务端调用本地实际函数，执行必要的处理。</li><li>处理完毕后，服务端将结果打包并发送回客户端。<h4 id="客户端接收过程"><a href="#客户端接收过程" class="headerlink" title="客户端接收过程"></a>客户端接收过程</h4></li><li>客户端存根收到响应消息，解包得到结果</li><li>客户端的调用像本地执行一样，得到从远程服务器返回的结果。</li></ol><h3 id="RPC特点"><a href="#RPC特点" class="headerlink" title="RPC特点"></a>RPC特点</h3><ul><li>封装:隐藏网络通信细节，开发者无需直接处理socket编程或其他通信协议细节</li><li>同步:默认同步，即客户端调用一个远程方法时候，回阻塞知道得到结果，尽管如此，许多现代RPC框架支持异步调用。</li><li>透明:</li></ul><h3 id="常见的RPC框架"><a href="#常见的RPC框架" class="headerlink" title="常见的RPC框架"></a>常见的RPC框架</h3><ul><li><p>Finagle：一个构建高并发，分布式系统的异步RPC库，用Scala语言编写，但可以与其他JVM语言一起使用，适合用于高扩展，弹性和容错（异步编程模型，有效地处理大量并发请求，不会阻塞线程，支持多种协议，内置负载均衡）</p></li><li><p>gRPC：由Google开发，基于HTTP/2协议，支持多种语言，能够提供高性能的通信。gRPC使用Protocol Buffers作为其接口定义语言和消息序列化格式。</p></li><li><p>Apache Thrift：由Facebook开发，支持跨语言服务的开发，使用自定义的IDL (Interface Definition Language) 来定义数据类型和服务接口。</p></li><li><p>JSON-RPC和XML-RPC：这些是较轻量级的RPC实现，使用JSON和XML格式分别进行数据序列化，易于与Web技术集成。</p></li></ul><h3 id="RPC应用场景"><a href="#RPC应用场景" class="headerlink" title="RPC应用场景"></a>RPC应用场景</h3><ul><li><p>微服务架构：在微服务架构中，各个服务组件常常需要进行网络通信，RPC提供了一种高效的方式来实现服务间的调用。</p></li><li><p>分布式计算：在需要多个节点共同完成计算任务的场景中，RPC可以用来协调各个节点之间的工作。</p></li></ul><p>让我再在了解CRI之前，先清楚什么是容器的执行以及生命周期</p><h2 id="容器执行和生命周期"><a href="#容器执行和生命周期" class="headerlink" title="容器执行和生命周期"></a>容器执行和生命周期</h2><p>容器的执行和生命周期是指容器从创建到终止的整个过程，涉及到创建，启动，运行，停止和删除。</p><ul><li>创建（Pre-production/Planning）：<br>就像电影制作前的筹备阶段，需要确定剧本、演员、场地等。在 Kubernetes 中，创建容器涉及配置容器的环境，如定义容器的镜像、资源限制（CPU、内存）、网络设置等。</li><li>启动（Production/Shooting）：<br>类似于电影开始拍摄。容器的启动阶段是指实际上将容器镜像运行起来。在这个阶段，容器内部的应用开始执行其预定任务，比如启动一个 Web 服务器、数据库服务等。</li><li>运行（Release/Screening）：<br>就像电影的放映过程。容器成功启动后，它会进入运行状态。在这个阶段，容器内的应用对外提供服务，如处理网络请求、执行数据处理等。</li><li>停止（Ending）：<br>类似于电影放映结束。当容器需要更新或不再需要时，它会被停止。停止容器通常意味着停止容器内部的应用进程。</li><li>删除（Post-production/Cleanup）：<br>就像电影拍摄后的清理阶段。在容器的生命周期的最后阶段，容器会被彻底删除，包括其在节点上的所有数据。这确保了不会留下无用的资源或数据。</li></ul><h3 id="生命周期钩子"><a href="#生命周期钩子" class="headerlink" title="生命周期钩子"></a>生命周期钩子</h3><p>允许用户在容器的特殊阶段进行自定义操作。</p><h4 id="PostStart"><a href="#PostStart" class="headerlink" title="PostStart"></a>PostStart</h4><p><code>PostSrart</code>是在容器创建并启动后立即执行的钩子，这个钩子的执行时间是容器入口命令开始执行之后，但是并不保证是容器的应用程序完全启动之后再再执行。</p><p>ps：若是PostStart钩子启动失败，那么容器不会被杀死或者重启，钩子启动失败的记录会写入日志中。</p><h4 id="PreStop"><a href="#PreStop" class="headerlink" title="PreStop"></a>PreStop</h4><p><code>PreStop</code>是容器被终止钱执行的钩子。当k8s需要停止容器时，首先调用PreStop钩子，然后才会执行容器的终止过程。经常用于优雅的关闭应用程序，保存状态，执行清理任务。</p><p>ps：钩子是会延迟容器的终止过程的，因为k8s会等待钩子执行完成后才会发送SIGTERM信号停止容器。</p><h2 id="CRI是什么"><a href="#CRI是什么" class="headerlink" title="CRI是什么"></a>CRI是什么</h2><p>简单理解的话可以理解成一个适配器，就是为了管理不同容器运行时进行交互的一套标准接口。主要的作用是为了解决k8s直接依赖特定容器运行时的问题。主要是启动停止容器，拉取容器镜像，查询容器状态，管理容器生命周期。</p><ol><li>统一接口是通过RPC内gRPC框架实现的。</li><li>解耦合，完成了k8s与docker直接集成的紧密耦合关系。</li><li>可以让开发者通过自我需求或喜爱来选择合适的容器进行时。</li></ol><h3 id="为什么使用gRPC"><a href="#为什么使用gRPC" class="headerlink" title="为什么使用gRPC"></a>为什么使用gRPC</h3><ul><li>首先是使用了能够适应高并发低延迟的通信的HTTP/2，再头部压缩和多路复用请求等高效传输机制。</li><li>gRPC支持双向流，允许服务器和客户端再长连接中实时发送和接受消息。</li></ul><p>只有了解这么多了，gRPC还有很多有用的功能，适用场景也比较广，可能日后碰上这种场景后再继续了解。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;CRI-容器运行时接口&quot;&gt;&lt;a href=&quot;#CRI-容器运行时接口&quot; class=&quot;headerlink&quot; title=&quot;CRI (容器运行时接口)&quot;&gt;&lt;/a&gt;CRI (容器运行时接口)&lt;/h1&gt;&lt;p&gt;了解CRI之前，我们先了解一下什么是RPC&lt;/p&gt;
-&lt;h2 </summary>
-      
-    
-    
-    
-    <category term="K8s" scheme="https://kalyan-zitiu.github.io/categories/K8s/"/>
-    
-    <category term="CRI" scheme="https://kalyan-zitiu.github.io/categories/K8s/CRI/"/>
-    
-    
-    <category term="CRI" scheme="https://kalyan-zitiu.github.io/tags/CRI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux从核心到边缘</title>
-    <link href="https://kalyan-zitiu.github.io/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
-    <id>https://kalyan-zitiu.github.io/2024/07/01/linux%E4%B8%8D%E5%90%8C%E5%8F%91%E8%A1%8C%E7%89%88%E7%9A%84%E5%8C%BA%E5%88%AB/</id>
-    <published>2024-07-01T15:42:37.000Z</published>
-    <updated>2024-07-26T06:21:05.519Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Linux从核心到边缘"><a href="#Linux从核心到边缘" class="headerlink" title="Linux从核心到边缘"></a>Linux从核心到边缘</h1><h2 id="导言"><a href="#导言" class="headerlink" title="导言"></a>导言</h2><p>  今天有面试一家专注云原生产品的企业，有问到一个问题，就是你还有用过其他的Linux发行版吗，突然顿时觉得很惭愧，而且有一些基础的Linux问题居然发现我忘记了没有回答出来。而且仔细思考了一下，确实在大学期间仅仅只了解过Ubuntu偏向新手和私人开发的linux发行版，而且在命令上似乎只是停留在一些基础的操作（甚至有一些基础命令还忘记了），并没有深入的了解过Linux的内核。而且今天面试官说了一句话，就是从需求出发的科技探索更有利于我们进步。有的时候确实会把某些技术当作工具，但事实上确实是工具，作为一名希望在IT行业继续深耕的我，似乎越来越缺乏对技术美的欣赏，在大学没有多少生活压力的时期最应该体验这种美感的时候，却好像被一些<strong>保姆级</strong>教学一步步蒙蔽了眼睛。结果虽然出来了，但是可能对过程保留不多的记忆或者理解。只能说有时候学习的结果并不重要，重要的是一些有容错的过程。</p><h2 id="内核概念"><a href="#内核概念" class="headerlink" title="内核概念"></a>内核概念</h2><ul><li>内核类似一个资源的管理程序，负载资源调度到需要的系统进程，我看有些理解可以把内核理解成一个库，有了一组面向系统命令，系统调用应用程序来说，就像调用普通函数一样。其实内核也可以理解成一个桥梁，能够练习硬件和上层应用点的桥梁。一涉及到底层的东西就越来越抽象，还是能够用一些比喻理解比较好。</li><li><img src="https://gcore.jsdelivr.net/gh/Kalyan-zitiu/TyporaIMG/img/3435502-20240507214431792-1257148225.png" alt="img"></li></ul><h2 id="内核的角色"><a href="#内核的角色" class="headerlink" title="内核的角色"></a>内核的角色</h2><ul><li>内核是管理计算机的硬件资源的重要角色，就比如CPU，内存，存储设备和输入输出的设别。</li><li>内核主要威威上层提供了抽象的操作接口，让我们不需要关心硬件的细节。</li><li>内核维护不同程序和用户之间的安全界限，确保学习通的稳定和安全。</li></ul><h2 id="常见的内核参数"><a href="#常见的内核参数" class="headerlink" title="常见的内核参数"></a>常见的内核参数</h2><table><thead><tr><th>参数</th><th>说明</th><th>示例值</th></tr></thead><tbody><tr><td><strong>内存管理相关参数</strong></td><td></td><td></td></tr><tr><td>vm.swappiness</td><td>控制内核将进程内存交换到交换分区的倾向</td><td>10</td></tr><tr><td>vm.dirty_ratio</td><td>系统内存中可写缓存占总内存的百分比，超过该值将触发写回磁盘</td><td>20</td></tr><tr><td>vm.overcommit_memory</td><td>控制内存分配策略，0表示启用内存过量使用检查，1表示允许过量使用，2表示严格模式</td><td>1</td></tr><tr><td>vm.min_free_kbytes</td><td>系统保持的最小空闲内存量，防止内存完全用完导致系统崩溃</td><td></td></tr><tr><td><strong>网络相关参数</strong></td><td></td><td></td></tr><tr><td>net.ipv4.ip_forward</td><td>启用或禁用IP转发</td><td>1</td></tr><tr><td>net.ipv4.conf.all.rp_filter</td><td>启用反向路径过滤，防止IP欺骗攻击</td><td></td></tr><tr><td>net.ipv4.tcp_syncookies</td><td>启用SYN cookies，防止SYN泛洪攻击</td><td>1</td></tr><tr><td>net.core.somaxconn</td><td>定义系统中每个端口最大的监听队列长度</td><td>1024</td></tr><tr><td>net.ipv4.tcp_max_syn_backlog</td><td>控制TCP协议栈中SYN请求的最大队列长度</td><td></td></tr><tr><td><strong>文件系统相关参数</strong></td><td></td><td></td></tr><tr><td>fs.file-max</td><td>系统级别的文件句柄数量限制</td><td>100000</td></tr><tr><td>fs.inotify.max_user_watches</td><td>单个用户可以创建的inotify监视数量</td><td>524288</td></tr><tr><td>fs.aio-max-nr</td><td>系统级别的异步I/O请求最大数量</td><td></td></tr><tr><td><strong>安全相关参数</strong></td><td></td><td></td></tr><tr><td>kernel.randomize_va_space</td><td>控制地址空间布局随机化（ASLR），提高系统安全性</td><td>2</td></tr><tr><td>kernel.sysrq</td><td>控制SysRq键的功能，提供低级别的系统控制和调试功能</td><td>0</td></tr><tr><td>kernel.panic</td><td>设置内核崩溃后重新启动系统的时间（秒）</td><td>10</td></tr><tr><td><strong>调度器相关参数</strong></td><td></td><td></td></tr><tr><td>kernel.sched_migration_cost_ns</td><td>定义任务迁移的代价，用于调度器的决策</td><td>500000</td></tr><tr><td>kernel.sched_min_granularity_ns</td><td>定义调度器分配时间片的最小粒度</td><td>1000000</td></tr></tbody></table><h2 id="内核的主要组成部分"><a href="#内核的主要组成部分" class="headerlink" title="内核的主要组成部分"></a>内核的主要组成部分</h2><h3 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h3><h4 id="进程调度："><a href="#进程调度：" class="headerlink" title="进程调度："></a>进程调度：</h4><ul><li>Linux内核使用多种调度算法，决定那个进程获得CPU时间，确保各个进程公平使用CPU资源。<h4 id="进程同步："><a href="#进程同步：" class="headerlink" title="进程同步："></a>进程同步：</h4></li><li>内核提供了多种机制，处理进程或线程之间的同步，防止数据争抢，确保线程安全。</li></ul><h4 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h4><ul><li>支持多种进程间通信IPC方法，包括信号，管道，消息队列，共享内存和套接字。</li></ul><h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><ul><li>虚拟内存：程序使用比实际物理内存更多的地址空间，通过使用分页/分段来实现</li><li>内存分配：内核提供多级分配框架，包括页分配器，slab分配器（说实话有够抽象的。）</li><li>交换空间：当物理内存不足时，内核可以将内存页移动到磁盘上的交换控件，以来释放内存。<h3 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h3></li><li>支持ext4，XFS，Btrfs，NFS和更多，以适应不同的存储需求和性能特点。</li><li>虚拟文件系统，VFS提供一个统一接口来访问不同文件系统</li><li>文件操作，内核提供系统调用，open，read，write，close。<h3 id="设备驱动"><a href="#设备驱动" class="headerlink" title="设备驱动"></a>设备驱动</h3></li><li>字符设备和块设备：Linux区分字符设备，键盘鼠标和块设备硬盘驱动器。</li><li>模块化驱动：Linux支持动态加载和卸载设备驱动模块，这允许不重启系统的情况下添加或更新驱动程序。<h3 id="网络栈"><a href="#网络栈" class="headerlink" title="网络栈"></a>网络栈</h3></li><li>协议实现：内核实现了各种网络协议，IP，TCP，UDP和ICMP</li><li>网络接口：通过网络接口与各种网络硬件进行交互，如以太网卡，无限适配</li><li>网络数据处理：内核处理数据包路由，转发，过滤，支持高级网络功能，如虚拟网络，网络安全规则等。</li></ul><h2 id="linux防火墙"><a href="#linux防火墙" class="headerlink" title="linux防火墙"></a>linux防火墙</h2><ul><li>防火墙系统主要基于iptable，以及比较新的nftables系统，运行管理员配置规则，控制进出网络接口的数据包。</li></ul><ol><li>iptables是一个广泛使用防火墙工具，使用一组表来组织规则，每个表包含多个链，链中包含具体规则，主要有 filter默认表，nat网络地址转换（处理进出接口的地址和端口转换），mangle用来修改数据包的内容，raw配置免除连接跟踪机制的数据包。</li></ol><h2 id="APT包管理"><a href="#APT包管理" class="headerlink" title="APT包管理"></a>APT包管理</h2><ul><li>使用的是.deb包格式，通过apt源来管理和安装软件包。</li><li>一般是使用的linux发行版有Ubuntu，Debian，Linux Mint等</li></ul><h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><p>  一般可以通过编辑/etc/apt/sourcer.list文件或者在sources.list.d目录下面，创建一个新的源。然后通过更新apt索引的方式。deb标识这是一个二进制的源，一般都会需要导入公钥，验证软件包的真实性，APT使用的是PGP签名，如果你源头是签名的，你需要的导入并信任该公钥，通常，源提供者会提供公钥和相应的导入命令。一般都是会直接把源echo进去，比较快捷。</p><h4 id="sources-list文件结构"><a href="#sources-list文件结构" class="headerlink" title="sources.list文件结构"></a>sources.list文件结构</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type uri suite &#123;component&#125;</span><br><span class="line">deb http://us.archive.ubuntu.com/ubuntu/ focal main restricted</span><br></pre></td></tr></table></figure><ul><li>type:源的类型，通常是 <code>deb</code> 用于二进制包，或 <code>deb-src</code> 用于源代码包</li><li>uri:源的URI</li><li>suite:发行版的代号,buster,bullseye,focal,bionic</li><li>component:可选，指定源中的区域或分区 </li></ul><h2 id="YUM-DNF包管理"><a href="#YUM-DNF包管理" class="headerlink" title="YUM,DNF包管理"></a>YUM,DNF包管理</h2><ul><li>基于RPM的Linux发行版，使用.repo文件来定义软件仓库。</li><li>一般是使用的linux发行版有Fedora，CentOS和RHEL等</li></ul><h3 id="添加源-1"><a href="#添加源-1" class="headerlink" title="添加源"></a>添加源</h3><p>一般添加源可以创建一个新的文件或者编辑指定现有文件，这个和apt包管理的添源方式类似。但是他们的文件结构格式大不相同</p><figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 仓库的唯一标识符。这个ID在 .repo 文件中必须是唯一的</span></span><br><span class="line"><span class="section">[docker-ce-stable]</span></span><br><span class="line"><span class="comment"># 仓库的描述性名称</span></span><br><span class="line"><span class="attr">name</span>=Docker CE Stable - <span class="variable">$basearch</span> </span><br><span class="line"><span class="comment"># 仓库的基本URL，指向包含RPM包的目录</span></span><br><span class="line"><span class="attr">baseurl</span>=https://download.docker.com/linux/centos/<span class="number">7</span>/<span class="variable">$basearch</span>/stable</span><br><span class="line"><span class="comment"># 定是否启用该仓库。设置为 1 表示启用，0 表示禁用</span></span><br><span class="line"><span class="attr">enabled</span>=<span class="number">1</span></span><br><span class="line"><span class="comment"># 指定是否检查GPG签名。设置为 1 表示启用GPG签名检查</span></span><br><span class="line"><span class="attr">gpgcheck</span>=<span class="number">1</span></span><br><span class="line"><span class="comment"># 指向GPG公钥文件的路径，用于验证包的签名。</span></span><br><span class="line"><span class="attr">gpgkey</span>=https://download.docker.com/linux/centos/gpg</span><br></pre></td></tr></table></figure><h3 id="更新方式也和apt管理不同"><a href="#更新方式也和apt管理不同" class="headerlink" title="更新方式也和apt管理不同"></a>更新方式也和apt管理不同</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo yum(dnf) makecache fast</span><br></pre></td></tr></table></figure><h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>到这里为止，我依然觉得我还是不够了解Linux内核，总感觉没有想象的那么简单。可能过几天忙过了可以开始了解和学习一下KVM可能那里会给我一些答案。希望自己也能开始重新拾取对知识的渴望和动力吧。</p>]]></content>
-    
-    
-    <summary type="html">一次对Linux的探讨以及自我端正</summary>
-    
-    
-    
-    <category term="Linux" scheme="https://kalyan-zitiu.github.io/categories/Linux/"/>
-    
-    
-    <category term="Linux" scheme="https://kalyan-zitiu.github.io/tags/Linux/"/>
-    
-    <category term="内核" scheme="https://kalyan-zitiu.github.io/tags/%E5%86%85%E6%A0%B8/"/>
     
   </entry>
   
