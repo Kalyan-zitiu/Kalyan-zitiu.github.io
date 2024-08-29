@@ -2,6 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://kalyan-zitiu.github.io/2024/08/29/ES/</loc>
+    
+    <lastmod>2024-08-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/2024/08/29/CM%EF%BC%8CSercet,DeployMent/</loc>
+    
+    <lastmod>2024-08-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/2024/08/29/hwameistor%E6%93%8D%E7%9B%98%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</loc>
+    
+    <lastmod>2024-08-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/2024/08/29/%E5%8E%9F%E7%94%9FKubernetes%E9%83%A8%E7%BD%B2Prometheus/</loc>
+    
+    <lastmod>2024-08-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://kalyan-zitiu.github.io/2024/08/29/Gitlab+jenkins+k8s_CICD/</loc>
     
     <lastmod>2024-08-29</lastmod>
@@ -977,6 +1013,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://kalyan-zitiu.github.io/tags/ES/</loc>
+    <lastmod>2024-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/tags/hwameistor/</loc>
+    <lastmod>2024-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -1366,6 +1416,27 @@
   
   <url>
     <loc>https://kalyan-zitiu.github.io/categories/DevOps/</loc>
+    <lastmod>2024-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/ES/</loc>
+    <lastmod>2024-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/hwameistor/</loc>
+    <lastmod>2024-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://kalyan-zitiu.github.io/categories/Prometheus/</loc>
     <lastmod>2024-08-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
