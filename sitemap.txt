@@ -1,3 +1,4 @@
+https://kalyan-zitiu.github.io/2024/08/26/%E6%90%AD%E5%BB%BAETCD%E9%9B%86%E7%BE%A4/
 https://kalyan-zitiu.github.io/2024/08/29/ES/
 https://kalyan-zitiu.github.io/2024/08/29/CM%EF%BC%8CSercet,DeployMent/
 https://kalyan-zitiu.github.io/2024/08/29/hwameistor%E6%93%8D%E7%9B%98%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/
@@ -122,6 +123,7 @@ https://kalyan-zitiu.github.io/tags/Mysql/
 https://kalyan-zitiu.github.io/tags/DevOps/
 https://kalyan-zitiu.github.io/tags/ES/
 https://kalyan-zitiu.github.io/tags/hwameistor/
+https://kalyan-zitiu.github.io/tags/etcd/
 https://kalyan-zitiu.github.io/categories/Exercises/
 https://kalyan-zitiu.github.io/categories/Cloud-Konwleage/
 https://kalyan-zitiu.github.io/categories/%E6%9D%82%E8%B0%88/
@@ -181,3 +183,4 @@ https://kalyan-zitiu.github.io/categories/DevOps/
 https://kalyan-zitiu.github.io/categories/ES/
 https://kalyan-zitiu.github.io/categories/hwameistor/
 https://kalyan-zitiu.github.io/categories/Prometheus/
+https://kalyan-zitiu.github.io/categories/kubernetes/etcd/
